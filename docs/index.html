@@ -72,6 +72,52 @@
             align-items: center;
         }
         
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.15);
+            padding: 8px 15px;
+            border-radius: 25px;
+            margin-right: 10px;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            overflow: hidden;
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-size: 0.95em;
+            font-weight: 600;
+            color: white;
+            line-height: 1.2;
+        }
+        
+        .user-status {
+            font-size: 0.75em;
+            opacity: 0.8;
+            color: white;
+        }
+        
         .contact-btn {
             width: 44px;
             height: 44px;
@@ -127,6 +173,15 @@
             
             .header .subtitle {
                 font-size: 0.85em;
+            }
+            
+            .user-profile {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .header-buttons {
+                justify-content: center;
             }
         }
         
@@ -318,6 +373,15 @@
                 <div class="subtitle">Доставка продуктов правильного питания</div>
             </div>
             <div class="header-buttons">
+                <div class="user-profile" id="userProfile" style="display: none;">
+                    <div class="user-avatar" id="userAvatar">
+                        👤
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Пользователь</div>
+                        <div class="user-status">Авторизован</div>
+                    </div>
+                </div>
                 <a href="https://t.me/MariaZeynalova" target="_blank" class="contact-btn telegram-btn" title="Написать в Telegram">
                     📱
                 </a>
@@ -478,10 +542,44 @@
         tg.setHeaderColor('#2d5016');
         tg.setBackgroundColor('#f5f5f5');
         
-        // Получаем данные пользователя
+        // Автоматическая авторизация через Telegram
         const user = tg.initDataUnsafe?.user;
+        const userProfile = document.getElementById('userProfile');
+        const userName = document.getElementById('userName');
+        const userAvatar = document.getElementById('userAvatar');
+        
         if (user) {
-            console.log('Пользователь:', user.first_name);
+            // Показываем профиль пользователя
+            userProfile.style.display = 'flex';
+            
+            // Устанавливаем имя
+            const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ') || user.first_name || 'Пользователь';
+            userName.textContent = fullName;
+            
+            // Устанавливаем аватар
+            if (user.photo_url) {
+                userAvatar.innerHTML = `<img src="${user.photo_url}" alt="${fullName}">`;
+            } else {
+                // Если нет фото, показываем первую букву имени
+                const firstLetter = user.first_name ? user.first_name.charAt(0).toUpperCase() : '👤';
+                userAvatar.textContent = firstLetter;
+            }
+            
+            // Сохраняем данные пользователя для использования
+            window.userData = {
+                id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                username: user.username,
+                languageCode: user.language_code,
+                photoUrl: user.photo_url
+            };
+            
+            console.log('Пользователь авторизован:', window.userData);
+        } else {
+            // Если открыто не из Telegram, скрываем профиль
+            userProfile.style.display = 'none';
+            console.log('Открыто не из Telegram, авторизация недоступна');
         }
         
         // Кнопка "Назад"
