@@ -2,10 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Меню - Наша Продукция</title>
-    <!-- Telegram Web App SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
             margin: 0;
@@ -163,47 +161,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        // Инициализация Telegram Web App
-        const tg = window.Telegram.WebApp;
-        
-        // Расширяем приложение на весь экран
-        tg.expand();
-        
-        // Настройка цветов (опционально)
-        tg.setHeaderColor('#667eea');
-        tg.setBackgroundColor('#667eea');
-        
-        // Получаем данные пользователя (если открыто из Telegram)
-        const user = tg.initDataUnsafe?.user;
-        
-        // Можно использовать данные пользователя
-        if (user) {
-            console.log('Пользователь:', user.first_name, user.last_name);
-            // Можно показать приветствие с именем пользователя
-            // document.querySelector('h1').textContent = `🍽️ Добро пожаловать, ${user.first_name}!`;
-        }
-        
-        // Кнопка "Назад" в Telegram
-        tg.BackButton.show();
-        tg.BackButton.onClick(() => {
-            tg.close();
-        });
-        
-        // Обработка нажатий на товары (пример)
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const itemName = this.querySelector('h3').textContent;
-                const itemPrice = this.querySelector('.price').textContent;
-                
-                // Можно отправить данные обратно в бот
-                tg.showAlert(`Вы выбрали: ${itemName} - ${itemPrice}`);
-                
-                // Или отправить данные в бот через sendData
-                // tg.sendData(JSON.stringify({item: itemName, price: itemPrice}));
-            });
-        });
-    </script>
 </body>
 </html>

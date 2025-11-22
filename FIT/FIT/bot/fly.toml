@@ -1,0 +1,18 @@
+# fly.toml для бота
+app = "telegram-bot"
+primary_region = "fra"
+
+[build]
+
+[env]
+  BOT_TOKEN = ""
+  WEB_URL = ""
+
+[processes]
+  app = "python main.py"
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 256
+
