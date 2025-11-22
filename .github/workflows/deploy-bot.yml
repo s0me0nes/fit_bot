@@ -1,0 +1,25 @@
+name: Deploy Bot to Render
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'bot/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Deploy to Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_BOT_SERVICE_ID }}
+        run: |
+          echo "Bot deployment triggered"
+          # Render автоматически деплоит при push в GitHub
+

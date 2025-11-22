@@ -1,0 +1,10 @@
+language = "python3"
+run = "python main.py"
+
+[env]
+BOT_TOKEN = ""
+WEB_URL = ""
+
+[deploy]
+run = ["sh", "-c", "python main.py"]
+

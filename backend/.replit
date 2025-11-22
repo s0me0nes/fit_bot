@@ -1,0 +1,9 @@
+language = "python3"
+run = "python main.py"
+
+[env]
+PORT = "8000"
+
+[deploy]
+run = ["sh", "-c", "python main.py"]
+
