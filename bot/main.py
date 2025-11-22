@@ -9,16 +9,34 @@ from telegram import Update, WebAppInfo
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
-# Загружаем переменные окружения из .env файла
-env_path = Path(__file__).parent.parent / '.env'
-load_dotenv(env_path)
-
-# Настройка логирования
+# Настройка логирования (сначала, чтобы можно было использовать logger)
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
 logger = logging.getLogger(__name__)
+
+# Загружаем переменные окружения из .env файла
+# Пробуем несколько путей
+env_paths = [
+    Path(__file__).parent.parent / '.env',  # В корне проекта
+    Path(__file__).parent / '.env',  # В папке bot
+    Path.cwd().parent / '.env',  # Родительская папка от текущей
+    Path.cwd() / '.env',  # Текущая папка
+]
+
+env_loaded = False
+for env_path in env_paths:
+    if env_path.exists():
+        load_dotenv(env_path)
+        env_loaded = True
+        logger.info(f"Загружен .env из: {env_path}")
+        break
+
+if not env_loaded:
+    # Пробуем загрузить без указания пути (из текущей директории)
+    load_dotenv()
+    logger.warning(".env файл не найден, используем переменные окружения системы")
 
 # Токен бота (получаем из переменных окружения)
 BOT_TOKEN = os.getenv('BOT_TOKEN', '')
