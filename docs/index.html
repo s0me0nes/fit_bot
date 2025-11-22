@@ -136,8 +136,8 @@
         }
         
         .contact-btn img {
-            width: 120px;
-            height: 120px;
+            width: 40px;
+            height: 40px;
             object-fit: contain;
             padding: 0;
         }
@@ -502,10 +502,10 @@
                     </div>
                 </div>
                 <a href="https://t.me/MariaZeynalova" target="_blank" class="contact-btn telegram-btn" title="Написать в Telegram">
-                    <img src="images/telegram.png" alt="Telegram" style="width: 120px; height: 120px;">
+                    <img src="images/telegram.png" alt="Telegram" style="width: 40px; height: 40px;">
                 </a>
                 <a href="https://wa.me/79085550658" target="_blank" class="contact-btn whatsapp-btn" title="Написать в WhatsApp">
-                    <img src="images/whatsapp.png" alt="WhatsApp" style="width: 120px; height: 120px;">
+                    <img src="images/whatsapp.png" alt="WhatsApp" style="width: 40px; height: 40px;">
                 </a>
             </div>
         </div>
@@ -542,149 +542,6 @@
             <span class="slider-dot" onclick="goToSlide(3)"></span>
             <span class="slider-dot" onclick="goToSlide(4)"></span>
             <span class="slider-dot" onclick="goToSlide(5)"></span>
-        </div>
-    </div>
-    
-    <div class="categories">
-        <button class="category-btn active" data-category="all">Все</button>
-        <button class="category-btn" data-category="vegetables">Овощи</button>
-        <button class="category-btn" data-category="fruits">Фрукты</button>
-        <button class="category-btn" data-category="greens">Зелень</button>
-        <button class="category-btn" data-category="berries">Ягоды</button>
-        <button class="category-btn" data-category="herbs">Травы</button>
-    </div>
-    
-    <div class="container">
-        <div class="products-grid" id="productsGrid">
-            <!-- Продукт 1 -->
-            <div class="product-card" data-category="vegetables">
-                <div class="product-image">🥕</div>
-                <div class="product-info">
-                    <div class="product-name">Морковь свежая</div>
-                    <div class="product-description">Органическая морковь, выращенная без химии</div>
-                    <div class="product-footer">
-                        <div class="product-price">150 ₽</div>
-                        <button class="add-btn">+</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Продукт 2 -->
-            <div class="product-card" data-category="fruits">
-                <div class="product-image">🍎</div>
-                <div class="product-info">
-                    <div class="product-name">Яблоки красные</div>
-                    <div class="product-description">Сладкие яблоки из собственного сада</div>
-                    <div class="product-footer">
-                        <div class="product-price">200 ₽</div>
-                        <button class="add-btn">+</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Продукт 3 -->
-            <div class="product-card" data-category="greens">
-                <div class="product-image">🥬</div>
-                <div class="product-info">
-                    <div class="product-name">Салат листовой</div>
-                    <div class="product-description">Свежий салат, срезанный сегодня</div>
-                    <div class="product-footer">
-                        <div class="product-price">180 ₽</div>
-                        <button class="add-btn">+</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Продукт 4 -->
-            <div class="product-card" data-category="vegetables">
-                <div class="product-image">🍅</div>
-                <div class="product-info">
-                    <div class="product-name">Помидоры черри</div>
-                    <div class="product-description">Сладкие помидоры черри, только с грядки</div>
-                    <div class="product-footer">
-                        <div class="product-price">250 ₽</div>
-                        <button class="add-btn">+</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Продукт 5 -->
-            <div class="product-card" data-category="fruits">
-                <div class="product-image">🍓</div>
-                <div class="product-info">
-                    <div class="product-name">Клубника</div>
-                    <div class="product-description">Свежая клубника, собранная утром</div>
-                    <div class="product-footer">
-                        <div class="product-price">350 ₽</div>
-                        <button class="add-btn">+</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Продукт 6 -->
-            <div class="product-card" data-category="greens">
-                <div class="product-image">🥒</div>
-                <div class="product-info">
-                    <div class="product-name">Огурцы</div>
-                    <div class="product-description">Хрустящие огурцы, выращенные на открытом грунте</div>
-                    <div class="product-footer">
-                        <div class="product-price">120 ₽</div>
-                        <button class="add-btn">+</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Продукт 7 -->
-            <div class="product-card" data-category="herbs">
-                <div class="product-image">🌿</div>
-                <div class="product-info">
-                    <div class="product-name">Базилик</div>
-                    <div class="product-description">Ароматный базилик, идеален для салатов</div>
-                    <div class="product-footer">
-                        <div class="product-price">100 ₽</div>
-                        <button class="add-btn">+</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Продукт 8 -->
-            <div class="product-card" data-category="berries">
-                <div class="product-image">🫐</div>
-                <div class="product-info">
-                    <div class="product-name">Черника</div>
-                    <div class="product-description">Свежая черника, богатая антиоксидантами</div>
-                    <div class="product-footer">
-                        <div class="product-price">400 ₽</div>
-                        <button class="add-btn">+</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Продукт 9 -->
-            <div class="product-card" data-category="vegetables">
-                <div class="product-image">🥔</div>
-                <div class="product-info">
-                    <div class="product-name">Картофель молодой</div>
-                    <div class="product-description">Молодой картофель, только выкопанный</div>
-                    <div class="product-footer">
-                        <div class="product-price">80 ₽</div>
-                        <button class="add-btn">+</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Продукт 10 -->
-            <div class="product-card" data-category="fruits">
-                <div class="product-image">🍊</div>
-                <div class="product-info">
-                    <div class="product-name">Апельсины</div>
-                    <div class="product-description">Сочные апельсины, полные витамина C</div>
-                    <div class="product-footer">
-                        <div class="product-price">220 ₽</div>
-                        <button class="add-btn">+</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -739,63 +596,6 @@
         tg.BackButton.show();
         tg.BackButton.onClick(() => {
             tg.close();
-        });
-        
-        // Фильтрация по категориям
-        const categoryButtons = document.querySelectorAll('.category-btn');
-        const productCards = document.querySelectorAll('.product-card');
-        
-        categoryButtons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Убираем активный класс у всех кнопок
-                categoryButtons.forEach(b => b.classList.remove('active'));
-                // Добавляем активный класс к нажатой кнопке
-                this.classList.add('active');
-                
-                const category = this.getAttribute('data-category');
-                
-                // Показываем/скрываем товары
-                productCards.forEach(card => {
-                    if (category === 'all' || card.getAttribute('data-category') === category) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-        
-        // Обработка добавления в корзину
-        document.querySelectorAll('.add-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const card = this.closest('.product-card');
-                const name = card.querySelector('.product-name').textContent;
-                const price = card.querySelector('.product-price').textContent;
-                
-                // Анимация
-                this.style.transform = 'scale(0.9)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 150);
-                
-                // Показываем уведомление
-                tg.showAlert(`${name} добавлен в корзину за ${price}`);
-                
-                // Можно отправить данные в бот
-                // tg.sendData(JSON.stringify({action: 'add', name: name, price: price}));
-            });
-        });
-        
-        // Обработка клика на карточку товара
-        productCards.forEach(card => {
-            card.addEventListener('click', function() {
-                const name = this.querySelector('.product-name').textContent;
-                const price = this.querySelector('.product-price').textContent;
-                const description = this.querySelector('.product-description').textContent;
-                
-                tg.showAlert(`${name}\n${description}\n\nЦена: ${price}`);
-            });
         });
         
         // Слайдер блюд
