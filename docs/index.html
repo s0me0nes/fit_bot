@@ -378,11 +378,42 @@
             }
         }
         
+        /* Контейнер для слайдера и текста */
+        .slider-section {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .info-text {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .info-text h3 {
+            color: #2d5016;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .info-text p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 1em;
+        }
+        
         /* Слайдер блюд */
         .dishes-slider {
             width: 100%;
-            max-width: 300px;
-            margin: 20px auto;
+            max-width: 600px;
+            margin: 0 auto;
             position: relative;
             overflow: hidden;
             border-radius: 15px;
@@ -466,6 +497,15 @@
         }
         
         @media (max-width: 768px) {
+            .slider-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .dishes-slider {
+                max-width: 100%;
+            }
+            
             .slider-arrow {
                 width: 35px;
                 height: 35px;
@@ -512,37 +552,54 @@
         </div>
     </div>
     
-    <!-- Слайдер блюд -->
-    <div class="dishes-slider">
-        <div class="slider-container" id="sliderContainer">
-            <div class="slide">
-                <img src="images/pit1.png" alt="Блюдо 1">
+    <!-- Слайдер блюд с текстом -->
+    <div class="slider-section">
+        <!-- Текст слева - о пользе правильного питания -->
+        <div class="info-text">
+            <h3>🌱 Польза правильного питания</h3>
+            <p>Правильное питание - это основа здоровья и энергии. Наша продукция помогает вам поддерживать баланс витаминов и минералов, необходимых для активной жизни.</p>
+            <p>Свежие, натуральные продукты без химических добавок укрепляют иммунитет и улучшают самочувствие каждый день.</p>
+        </div>
+        
+        <!-- Слайдер блюд -->
+        <div class="dishes-slider">
+            <div class="slider-container" id="sliderContainer">
+                <div class="slide">
+                    <img src="images/pit1.png" alt="Блюдо 1">
+                </div>
+                <div class="slide">
+                    <img src="images/pit2.png" alt="Блюдо 2">
+                </div>
+                <div class="slide">
+                    <img src="images/pit3.png" alt="Блюдо 3">
+                </div>
+                <div class="slide">
+                    <img src="images/pit4.png" alt="Блюдо 4">
+                </div>
+                <div class="slide">
+                    <img src="images/pit5.png" alt="Блюдо 5">
+                </div>
+                <div class="slide">
+                    <img src="images/pit6.png" alt="Блюдо 6">
+                </div>
             </div>
-            <div class="slide">
-                <img src="images/pit2.png" alt="Блюдо 2">
-            </div>
-            <div class="slide">
-                <img src="images/pit3.png" alt="Блюдо 3">
-            </div>
-            <div class="slide">
-                <img src="images/pit4.png" alt="Блюдо 4">
-            </div>
-            <div class="slide">
-                <img src="images/pit5.png" alt="Блюдо 5">
-            </div>
-            <div class="slide">
-                <img src="images/pit6.png" alt="Блюдо 6">
+            <button class="slider-arrow prev" onclick="changeSlide(-1)">‹</button>
+            <button class="slider-arrow next" onclick="changeSlide(1)">›</button>
+            <div class="slider-controls">
+                <span class="slider-dot active" onclick="goToSlide(0)"></span>
+                <span class="slider-dot" onclick="goToSlide(1)"></span>
+                <span class="slider-dot" onclick="goToSlide(2)"></span>
+                <span class="slider-dot" onclick="goToSlide(3)"></span>
+                <span class="slider-dot" onclick="goToSlide(4)"></span>
+                <span class="slider-dot" onclick="goToSlide(5)"></span>
             </div>
         </div>
-        <button class="slider-arrow prev" onclick="changeSlide(-1)">‹</button>
-        <button class="slider-arrow next" onclick="changeSlide(1)">›</button>
-        <div class="slider-controls">
-            <span class="slider-dot active" onclick="goToSlide(0)"></span>
-            <span class="slider-dot" onclick="goToSlide(1)"></span>
-            <span class="slider-dot" onclick="goToSlide(2)"></span>
-            <span class="slider-dot" onclick="goToSlide(3)"></span>
-            <span class="slider-dot" onclick="goToSlide(4)"></span>
-            <span class="slider-dot" onclick="goToSlide(5)"></span>
+        
+        <!-- Текст справа - о доставке и продукции -->
+        <div class="info-text">
+            <h3>🚚 Доставка и качество</h3>
+            <p>Мы предлагаем быструю и надежную доставку свежих продуктов прямо к вашему дому. Все блюда готовятся из домашней продукции высочайшего качества.</p>
+            <p>Наша продукция выращивается с заботой и вниманием к деталям, без использования вредных добавок. Только натуральные ингредиенты для вашего здоровья.</p>
         </div>
     </div>
 
