@@ -21,26 +21,113 @@
         }
         
         .header {
-            background: #2d5016;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2a 100%);
             color: white;
             padding: 20px;
-            text-align: center;
             position: sticky;
             top: 0;
             z-index: 100;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .header-text {
+            flex: 1;
+            min-width: 200px;
+        }
+        
         .header h1 {
-            font-size: 1.8em;
+            font-size: 2em;
+            font-weight: 700;
+            margin: 0 0 5px 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header .city {
+            font-size: 1.5em;
             font-weight: 600;
-            margin: 0;
+            margin: 0 0 8px 0;
+            color: #fff;
         }
         
         .header .subtitle {
-            font-size: 0.9em;
-            opacity: 0.9;
-            margin-top: 5px;
+            font-size: 0.95em;
+            opacity: 0.95;
+            margin: 0;
+            font-weight: 400;
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .contact-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-size: 1.5em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .contact-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .telegram-btn {
+            background: #0088cc;
+            color: white;
+        }
+        
+        .telegram-btn:hover {
+            background: #006ba3;
+            box-shadow: 0 4px 12px rgba(0,136,204,0.4);
+        }
+        
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+        }
+        
+        .whatsapp-btn:hover {
+            background: #1da851;
+            box-shadow: 0 4px 12px rgba(37,211,102,0.4);
+        }
+        
+        @media (max-width: 480px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .header .city {
+                font-size: 1.3em;
+            }
+            
+            .header .subtitle {
+                font-size: 0.85em;
+            }
         }
         
         .categories {
@@ -225,8 +312,20 @@
 </head>
 <body>
     <div class="header">
-        <h1>🌱 GrowFood</h1>
-        <div class="subtitle">Свежие продукты каждый день</div>
+        <div class="header-content">
+            <div class="header-text">
+                <div class="city">📍 Саратов</div>
+                <div class="subtitle">Доставка продуктов правильного питания</div>
+            </div>
+            <div class="header-buttons">
+                <a href="https://t.me/MariaZeynalova" target="_blank" class="contact-btn telegram-btn" title="Написать в Telegram">
+                    📱
+                </a>
+                <a href="https://wa.me/79085550658" target="_blank" class="contact-btn whatsapp-btn" title="Написать в WhatsApp">
+                    💬
+                </a>
+            </div>
+        </div>
     </div>
     
     <div class="categories">
