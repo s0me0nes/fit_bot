@@ -532,11 +532,64 @@
             border: 1px solid rgba(76,175,80,0.12);
         }
 
+        .plan-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
         .plan-header h2 {
-            margin: 0 0 18px 0;
+            margin: 0;
             font-size: 1.6em;
             color: #2d5016;
-            text-align: center;
+        }
+
+        .plan-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .plan-control {
+            border: 1px solid rgba(76,175,80,0.3);
+            background: white;
+            border-radius: 999px;
+            padding: 10px 20px;
+            font-size: 0.95em;
+            color: #2d5016;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .plan-control:hover {
+            border-color: #4caf50;
+            box-shadow: 0 4px 12px rgba(76,175,80,0.2);
+        }
+
+        .plan-control .icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            background: #4caf50;
+            display: inline-block;
+            position: relative;
+        }
+
+        .plan-control .icon::before,
+        .plan-control .icon::after {
+            content: "";
+            position: absolute;
+            background: white;
+            top: 7px;
+            left: 3px;
+            right: 3px;
+            height: 2px;
         }
 
         .plan-days {
@@ -545,6 +598,7 @@
             gap: 18px;
             margin-bottom: 25px;
             font-weight: 500;
+            justify-content: center;
         }
 
         .plan-day {
@@ -560,16 +614,6 @@
             padding: 4px 14px;
         }
 
-        .plan-day.highlight::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: -4px;
-            height: 3px;
-            border-radius: 999px;
-            background: #f7b731;
-        }
 
         .plan-cards {
             display: grid;
@@ -768,16 +812,20 @@
     <section class="plan-preview">
         <div class="plan-header">
             <h2>Похудение и поддержание формы</h2>
+            <div class="plan-controls">
+                <button class="plan-control">Доставка: 25 ноя, вт ▾</button>
+                <button class="plan-control"><span class="icon"></span> Настроить меню</button>
+            </div>
         </div>
         <div class="plan-days">
-            <span class="plan-day active">Чт 27.11</span>
-            <span class="plan-day">Пт 28.11</span>
-            <span class="plan-day highlight">Сб 29.11</span>
-            <span class="plan-day">Вс 30.11</span>
-            <span class="plan-day highlight">Пн 01.12</span>
-            <span class="plan-day">Вт 02.12</span>
+            <span class="plan-day active" data-day="0">Чт 27.11</span>
+            <span class="plan-day" data-day="1">Пт 28.11</span>
+            <span class="plan-day" data-day="2">Сб 29.11</span>
+            <span class="plan-day" data-day="3">Вс 30.11</span>
+            <span class="plan-day" data-day="4">Пн 01.12</span>
+            <span class="plan-day" data-day="5">Вт 02.12</span>
         </div>
-        <div class="plan-cards">
+        <div class="plan-cards" id="planCards">
             <div class="plan-card">
                 <small>Завтрак</small>
                 <img src="images/pit1.png" alt="Нежный крем с брусникой">
@@ -927,6 +975,78 @@
                 changeSlide(-1);
             }
         }
+        
+        // Данные продуктов для каждого дня недели
+        const dayProducts = [
+            // Чт 27.11
+            [
+                { meal: 'Завтрак', image: 'pit1.png', name: 'Нежный крем с брусникой', calories: '268 Ккал · 300 г' },
+                { meal: 'Обед', image: 'pit2.png', name: 'Курица с соусом и эларджи', calories: '636 Ккал · 340 г' },
+                { meal: 'Ужин', image: 'pit3.png', name: 'Мясной соус с орзо', calories: '494 Ккал · 360 г' }
+            ],
+            // Пт 28.11
+            [
+                { meal: 'Завтрак', image: 'pit4.png', name: 'Овсяная каша с ягодами', calories: '285 Ккал · 280 г' },
+                { meal: 'Обед', image: 'pit5.png', name: 'Рыба на пару с овощами', calories: '420 Ккал · 320 г' },
+                { meal: 'Ужин', image: 'pit6.png', name: 'Салат с курицей и авокадо', calories: '380 Ккал · 350 г' }
+            ],
+            // Сб 29.11
+            [
+                { meal: 'Завтрак', image: 'pit2.png', name: 'Творожная запеканка', calories: '320 Ккал · 290 г' },
+                { meal: 'Обед', image: 'pit3.png', name: 'Гречка с индейкой', calories: '550 Ккал · 380 г' },
+                { meal: 'Ужин', image: 'pit4.png', name: 'Овощное рагу', calories: '290 Ккал · 340 г' }
+            ],
+            // Вс 30.11
+            [
+                { meal: 'Завтрак', image: 'pit5.png', name: 'Омлет с овощами', calories: '310 Ккал · 270 г' },
+                { meal: 'Обед', image: 'pit6.png', name: 'Куриная грудка с рисом', calories: '480 Ккал · 360 г' },
+                { meal: 'Ужин', image: 'pit1.png', name: 'Творог с медом', calories: '250 Ккал · 300 г' }
+            ],
+            // Пн 01.12
+            [
+                { meal: 'Завтрак', image: 'pit3.png', name: 'Гречневая каша с молоком', calories: '275 Ккал · 310 г' },
+                { meal: 'Обед', image: 'pit4.png', name: 'Рыбные котлеты с овощами', calories: '450 Ккал · 350 г' },
+                { meal: 'Ужин', image: 'pit5.png', name: 'Салат из свежих овощей', calories: '180 Ккал · 280 г' }
+            ],
+            // Вт 02.12
+            [
+                { meal: 'Завтрак', image: 'pit6.png', name: 'Йогурт с мюсли', calories: '295 Ккал · 300 г' },
+                { meal: 'Обед', image: 'pit1.png', name: 'Индейка с булгуром', calories: '520 Ккал · 370 г' },
+                { meal: 'Ужин', image: 'pit2.png', name: 'Овощной суп', calories: '220 Ккал · 320 г' }
+            ]
+        ];
+        
+        // Обработка кликов на дни недели
+        const planDays = document.querySelectorAll('.plan-day');
+        const planCards = document.getElementById('planCards');
+        
+        function updateProducts(dayIndex) {
+            const products = dayProducts[dayIndex];
+            planCards.innerHTML = '';
+            
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'plan-card';
+                card.innerHTML = `
+                    <small>${product.meal}</small>
+                    <img src="images/${product.image}" alt="${product.name}">
+                    <h4>${product.name}</h4>
+                    <span>${product.calories}</span>
+                `;
+                planCards.appendChild(card);
+            });
+        }
+        
+        planDays.forEach((day, index) => {
+            day.addEventListener('click', () => {
+                // Убираем активный класс со всех дней
+                planDays.forEach(d => d.classList.remove('active'));
+                // Добавляем активный класс к выбранному дню
+                day.classList.add('active');
+                // Обновляем продукты
+                updateProducts(index);
+            });
+        });
     </script>
 </body>
 </html>
