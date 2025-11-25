@@ -21,6 +21,7 @@
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-color: #f5f5f5;
+            scroll-behavior: smooth;
         }
         
         body {
@@ -34,6 +35,17 @@
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
+        }
+        
+        [data-animate] {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        
+        [data-animate].visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .header {
@@ -143,7 +155,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: transform 0.2s ease, opacity 0.2s ease;
             text-decoration: none;
             box-shadow: none;
             overflow: visible;
@@ -159,7 +171,8 @@
         }
         
         .contact-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.9);
+            opacity: 0.8;
         }
         
         .telegram-btn {
@@ -237,13 +250,18 @@
             font-size: 0.9em;
             white-space: nowrap;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
             color: #333;
         }
         
         .category-btn.active {
             background: #4a7c2a;
             color: white;
+            box-shadow: 0 8px 18px rgba(74,124,42,0.35);
+        }
+
+        .category-btn:hover {
+            transform: translateY(-2px);
         }
         
         .container {
@@ -393,22 +411,17 @@
             }
         }
         
-        /* Контейнер для слайдера и текста */
-        .slider-section {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: 1fr 2fr 1fr;
-            gap: 30px;
-            align-items: center;
-        }
-        
         .info-text {
             background: rgba(255, 255, 255, 0.7);
             padding: 25px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-text:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
         
         .info-text h3 {
@@ -424,116 +437,13 @@
             font-size: 1em;
         }
         
-        /* Слайдер блюд */
-        .dishes-slider {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .slider-container {
-            display: flex;
-            transition: transform 0.5s ease;
-            width: 600%;
-        }
-        
-        .slide {
-            min-width: 16.666%;
-            width: 16.666%;
-        }
-        
-        .slide img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-        }
-        
-        .slider-controls {
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 10;
-        }
-        
-        .slider-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.5);
-            border: 2px solid white;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .slider-dot.active {
-            background: white;
-            width: 30px;
-            border-radius: 5px;
-        }
-        
-        .slider-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255,255,255,0.8);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            transition: all 0.3s;
-            color: #333;
-        }
-        
-        .slider-arrow:hover {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-        
-        .slider-arrow.prev {
-            left: 10px;
-        }
-        
-        .slider-arrow.next {
-            right: 10px;
-        }
-        
-        @media (max-width: 768px) {
-            .slider-section {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .dishes-slider {
-                max-width: 100%;
-            }
-            
-            .slider-arrow {
-                width: 35px;
-                height: 35px;
-                font-size: 1.2em;
-            }
-            
-            .slider-arrow.prev {
-                left: 5px;
-            }
-            
-            .slider-arrow.next {
-                right: 5px;
-            }
+        .info-section {
+            max-width: 1200px;
+            margin: 40px auto 20px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
         }
 
         /* План питания */
@@ -619,6 +529,7 @@
             color: #555;
             position: relative;
             cursor: pointer;
+            transition: color 0.2s ease, transform 0.2s ease, background 0.2s ease;
         }
 
         .plan-day.active {
@@ -626,6 +537,16 @@
             background: #22c55e;
             border-radius: 999px;
             padding: 4px 14px;
+            box-shadow: 0 8px 20px rgba(34,197,94,0.35);
+        }
+
+        .plan-day:hover {
+            transform: translateY(-2px);
+            color: #1b4728;
+        }
+
+        .plan-day:active {
+            transform: scale(0.95);
         }
 
 
@@ -647,6 +568,10 @@
         .plan-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 18px 35px rgba(0,0,0,0.12);
+        }
+
+        .plan-card:active {
+            transform: scale(0.97);
         }
 
         .plan-card img {
@@ -691,8 +616,7 @@
             border: 1px solid rgba(76, 175, 80, 0.15);
             position: relative;
             overflow: hidden;
-            animation: fadeInUp 0.8s ease forwards;
-            opacity: 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .highlight-card::after {
@@ -725,9 +649,10 @@
             margin-bottom: 12px;
         }
 
-        .highlight-card:nth-child(1) { animation-delay: 0.1s; }
-        .highlight-card:nth-child(2) { animation-delay: 0.25s; }
-        .highlight-card:nth-child(3) { animation-delay: 0.4s; }
+        .highlight-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.18);
+        }
 
         @keyframes fadeInUp {
             from {
@@ -771,59 +696,8 @@
         </div>
     </div>
     
-    <!-- Слайдер блюд с текстом -->
-    <div class="slider-section">
-        <!-- Текст слева - о пользе правильного питания -->
-        <div class="info-text">
-            <h3>🌱 Польза правильного питания</h3>
-            <p>Правильное питание — это основа здоровья и энергии. Домашние блюда помогают поддерживать баланс витаминов и минералов, необходимых для активной жизни.</p>
-            <p>Свежие продукты без лишних добавок укрепляют иммунитет и улучшают самочувствие каждый день.</p>
-        </div>
-        
-        <!-- Слайдер блюд -->
-        <div class="dishes-slider">
-            <div class="slider-container" id="sliderContainer">
-                <div class="slide">
-                    <img src="images/pit1.png" alt="Блюдо 1">
-                </div>
-                <div class="slide">
-                    <img src="images/pit2.png" alt="Блюдо 2">
-                </div>
-                <div class="slide">
-                    <img src="images/pit3.png" alt="Блюдо 3">
-                </div>
-                <div class="slide">
-                    <img src="images/pit4.png" alt="Блюдо 4">
-                </div>
-                <div class="slide">
-                    <img src="images/pit5.png" alt="Блюдо 5">
-                </div>
-                <div class="slide">
-                    <img src="images/pit6.png" alt="Блюдо 6">
-                </div>
-            </div>
-            <button class="slider-arrow prev" onclick="changeSlide(-1)">‹</button>
-            <button class="slider-arrow next" onclick="changeSlide(1)">›</button>
-            <div class="slider-controls">
-                <span class="slider-dot active" onclick="goToSlide(0)"></span>
-                <span class="slider-dot" onclick="goToSlide(1)"></span>
-                <span class="slider-dot" onclick="goToSlide(2)"></span>
-                <span class="slider-dot" onclick="goToSlide(3)"></span>
-                <span class="slider-dot" onclick="goToSlide(4)"></span>
-                <span class="slider-dot" onclick="goToSlide(5)"></span>
-            </div>
-        </div>
-        
-        <!-- Текст справа - о доставке и продукции -->
-        <div class="info-text">
-            <h3>🚚 Доставка и качество</h3>
-            <p>Мы предлагаем быструю и надежную доставку свежих продуктов прямо к вашему дому. Все блюда готовятся из домашней продукции высочайшего качества.</p>
-            <p>Наша продукция выращивается с заботой и вниманием к деталям, без использования вредных добавок. Только натуральные ингредиенты для вашего здоровья.</p>
-        </div>
-    </div>
-    
     <!-- Превью меню -->
-    <section class="plan-preview">
+    <section class="plan-preview" data-animate>
         <div class="plan-header">
             <h2>Расписание</h2>
         </div>
@@ -836,19 +710,19 @@
             <span class="plan-day" data-day="5">Вт 02.12</span>
         </div>
         <div class="plan-cards" id="planCards">
-            <div class="plan-card">
+            <div class="plan-card" data-animate>
                 <small>Завтрак</small>
                 <img src="images/pit1.png" alt="Нежный крем с брусникой">
                 <h4>Нежный крем с брусникой</h4>
                 <span>268 Ккал · 300 г</span>
             </div>
-            <div class="plan-card">
+            <div class="plan-card" data-animate>
                 <small>Обед</small>
                 <img src="images/pit2.png" alt="Курица с соусом и эларджи">
                 <h4>Курица с соусом и эларджи</h4>
                 <span>636 Ккал · 340 г</span>
             </div>
-            <div class="plan-card">
+            <div class="plan-card" data-animate>
                 <small>Ужин</small>
                 <img src="images/pit3.png" alt="Мясной соус с орзо">
                 <h4>Мясной соус с орзо</h4>
@@ -858,21 +732,35 @@
     </section>
 
     <!-- Блок с преимуществами -->
-    <section class="highlights-section">
-        <div class="highlight-card">
+    <section class="highlights-section" data-animate>
+        <div class="highlight-card" data-animate>
             <span class="badge">Сбалансированные рационы</span>
             <h3>Продуманные меню на каждый день</h3>
             <p>Мы готовим дома и продумываем каждую порцию: идеальное соотношение белков, жиров и углеводов, только свежие ингредиенты и честные порции.</p>
         </div>
-        <div class="highlight-card">
+        <div class="highlight-card" data-animate>
             <span class="badge">10 лет опыта</span>
             <h3>Готовим как для себя</h3>
             <p>У нас более 10 лет домашнего опыта: мы готовили для себя и семьи, а теперь делимся этим с вами. Никакого ресторанного пафоса — только забота и тепло.</p>
         </div>
-        <div class="highlight-card">
+        <div class="highlight-card" data-animate>
             <span class="badge">Разнообразие вкусов</span>
             <h3>Домашняя еда, которая вдохновляет</h3>
             <p>Меняем меню каждую неделю, используем только свежие продукты и готовим без полуфабрикатов. Всегда вкусно, по-домашнему и без компромиссов по качеству.</p>
+        </div>
+    </section>
+
+    <!-- Информационные тексты -->
+    <section class="info-section" data-animate>
+        <div class="info-text" data-animate>
+            <h3>🌱 Польза правильного питания</h3>
+            <p>Правильное питание — это основа здоровья и энергии. Домашние блюда помогают поддерживать баланс витаминов и минералов, необходимых для активной жизни.</p>
+            <p>Свежие продукты без лишних добавок укрепляют иммунитет и улучшают самочувствие каждый день.</p>
+        </div>
+        <div class="info-text" data-animate>
+            <h3>🚚 Доставка и качество</h3>
+            <p>Мы предлагаем быструю и надежную доставку свежих продуктов прямо к вашему дому. Все блюда готовятся из домашней продукции высочайшего качества.</p>
+            <p>Наша продукция выращивается с заботой и вниманием к деталям, без использования вредных добавок. Только натуральные ингредиенты для вашего здоровья.</p>
         </div>
     </section>
 
@@ -929,62 +817,6 @@
             tg.close();
         });
         
-        // Слайдер блюд
-        let currentSlide = 0;
-        const totalSlides = 6;
-        const sliderContainer = document.getElementById('sliderContainer');
-        const dots = document.querySelectorAll('.slider-dot');
-        
-        function updateSlider() {
-            sliderContainer.style.transform = `translateX(-${currentSlide * 16.666}%)`;
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
-            });
-        }
-        
-        function changeSlide(direction) {
-            currentSlide += direction;
-            if (currentSlide < 0) {
-                currentSlide = totalSlides - 1;
-            } else if (currentSlide >= totalSlides) {
-                currentSlide = 0;
-            }
-            updateSlider();
-        }
-        
-        function goToSlide(index) {
-            currentSlide = index;
-            updateSlider();
-        }
-        
-        // Автоматическая прокрутка слайдера
-        setInterval(() => {
-            changeSlide(1);
-        }, 4000);
-        
-        // Свайп для мобильных устройств
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        const slider = document.querySelector('.dishes-slider');
-        
-        slider.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-        
-        slider.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-        
-        function handleSwipe() {
-            if (touchEndX < touchStartX - 50) {
-                changeSlide(1);
-            }
-            if (touchEndX > touchStartX + 50) {
-                changeSlide(-1);
-            }
-        }
         
         // Данные продуктов для каждого дня недели
         const dayProducts = [
@@ -1029,22 +861,44 @@
         // Обработка кликов на дни недели
         const planDays = document.querySelectorAll('.plan-day');
         const planCards = document.getElementById('planCards');
+        const animatedObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
+        
+        function observeAnimatedElements(scope = document) {
+            scope.querySelectorAll('[data-animate]').forEach(el => {
+                if (!el.classList.contains('visible')) {
+                    animatedObserver.observe(el);
+                }
+            });
+        }
+        
+        observeAnimatedElements();
         
         function updateProducts(dayIndex) {
             const products = dayProducts[dayIndex];
             planCards.innerHTML = '';
             
-            products.forEach(product => {
+            products.forEach((product, index) => {
                 const card = document.createElement('div');
                 card.className = 'plan-card';
+                card.setAttribute('data-animate', '');
                 card.innerHTML = `
                     <small>${product.meal}</small>
                     <img src="images/${product.image}" alt="${product.name}">
                     <h4>${product.name}</h4>
                     <span>${product.calories}</span>
                 `;
+                card.style.transitionDelay = `${index * 0.05}s`;
                 planCards.appendChild(card);
             });
+
+            observeAnimatedElements(planCards);
         }
         
         planDays.forEach((day, index) => {
