@@ -532,64 +532,11 @@
             border: 1px solid rgba(76,175,80,0.12);
         }
 
-        .plan-header {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
         .plan-header h2 {
-            margin: 0;
+            margin: 0 0 18px 0;
             font-size: 1.6em;
             color: #2d5016;
-        }
-
-        .plan-controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .plan-control {
-            border: 1px solid rgba(76,175,80,0.3);
-            background: white;
-            border-radius: 999px;
-            padding: 10px 20px;
-            font-size: 0.95em;
-            color: #2d5016;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .plan-control:hover {
-            border-color: #4caf50;
-            box-shadow: 0 4px 12px rgba(76,175,80,0.2);
-        }
-
-        .plan-control .icon {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
-            background: #4caf50;
-            display: inline-block;
-            position: relative;
-        }
-
-        .plan-control .icon::before,
-        .plan-control .icon::after {
-            content: "";
-            position: absolute;
-            background: white;
-            top: 7px;
-            left: 3px;
-            right: 3px;
-            height: 2px;
+            text-align: center;
         }
 
         .plan-days {
@@ -821,10 +768,6 @@
     <section class="plan-preview">
         <div class="plan-header">
             <h2>Похудение и поддержание формы</h2>
-            <div class="plan-controls">
-                <button class="plan-control">Доставка: 25 ноя, вт ▾</button>
-                <button class="plan-control"><span class="icon"></span> Настроить меню</button>
-            </div>
         </div>
         <div class="plan-days">
             <span class="plan-day active">Чт 27.11</span>
