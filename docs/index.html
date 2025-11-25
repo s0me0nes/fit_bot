@@ -654,6 +654,169 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.18);
         }
 
+        /* Отзывы клиентов */
+        .reviews-section {
+            max-width: 1200px;
+            margin: 40px auto 60px auto;
+            padding: 0 20px;
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .reviews-header h3 {
+            font-size: 1.6em;
+            color: #1f2933;
+        }
+
+        .review-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .review-nav {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(34, 197, 94, 0.15);
+            color: #1b4728;
+            font-size: 1.4em;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .review-nav:hover {
+            transform: translateY(-2px);
+            background: rgba(34, 197, 94, 0.3);
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.75);
+            border-radius: 22px;
+            padding: 28px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+            min-height: 230px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 30px 55px rgba(0, 0, 0, 0.12);
+        }
+
+        .review-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            gap: 12px;
+        }
+
+        .review-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .review-avatar {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(76, 175, 80, 0.35);
+        }
+
+        .review-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .review-meta h4 {
+            margin: 0;
+            font-size: 1.1em;
+            color: #1f2933;
+        }
+
+        .review-meta span {
+            font-size: 0.9em;
+            color: #7a8a9d;
+        }
+
+        .review-stars {
+            color: #facc15;
+            font-size: 1.1em;
+        }
+
+        .review-text {
+            font-size: 1.05em;
+            color: #1f2933;
+            line-height: 1.7;
+        }
+
+        .review-thumbnails {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .review-thumbnail {
+            flex: 1;
+            min-width: 120px;
+            background: rgba(255,255,255,0.65);
+            border: 1px solid transparent;
+            border-radius: 16px;
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: border 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: left;
+        }
+
+        .review-thumbnail.active {
+            border-color: rgba(34, 197, 94, 0.6);
+            box-shadow: 0 12px 25px rgba(34,197,94,0.2);
+            transform: translateY(-2px);
+        }
+
+        .review-thumbnail strong {
+            display: block;
+            font-size: 0.9em;
+            color: #1f2933;
+        }
+
+        .review-thumbnail span {
+            font-size: 0.8em;
+            color: #7a8a9d;
+        }
+
+        @media (max-width: 640px) {
+            .review-controls {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .review-card {
+                padding: 20px;
+            }
+
+            .review-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .review-thumbnail {
+                flex: 1 1 45%;
+            }
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -762,6 +925,22 @@
             <p>Мы предлагаем быструю и надежную доставку свежих продуктов прямо к вашему дому. Все блюда готовятся из домашней продукции высочайшего качества.</p>
             <p>Наша продукция выращивается с заботой и вниманием к деталям, без использования вредных добавок. Только натуральные ингредиенты для вашего здоровья.</p>
         </div>
+    </section>
+
+    <!-- Отзывы клиентов -->
+    <section class="reviews-section" data-animate>
+        <div class="reviews-header">
+            <div>
+                <span class="badge">Опыт клиентов</span>
+                <h3>Отзывы постоянных гостей</h3>
+            </div>
+            <div class="review-controls">
+                <button class="review-nav" id="reviewPrev" aria-label="Предыдущий отзыв">‹</button>
+                <button class="review-nav" id="reviewNext" aria-label="Следующий отзыв">›</button>
+            </div>
+        </div>
+        <div class="review-card" id="activeReview" data-animate></div>
+        <div class="review-thumbnails" id="reviewThumbnails"></div>
     </section>
 
     <script>
@@ -911,6 +1090,114 @@
                 updateProducts(index);
             });
         });
+
+        // Секция отзывов
+        const reviewsData = [
+            {
+                name: 'Алина К.',
+                handle: '@healthy_alina',
+                city: 'Саратов',
+                avatar: 'images/pit1.png',
+                rating: 5,
+                text: 'Заказываю уже третий месяц. Всегда ощущение домашней еды: свежие продукты, аккуратная упаковка и очень понятное расписание доставок.'
+            },
+            {
+                name: 'Михаил Т.',
+                handle: '@mikhail_fit',
+                city: 'Энгельс',
+                avatar: 'images/pit2.png',
+                rating: 5,
+                text: 'Приятно, что можно подобрать меню под тренировочный план. Ребята гибко меняют блюда, если предупреждать заранее, и всегда вовремя привозят.'
+            },
+            {
+                name: 'Виктория С.',
+                handle: '@vika_wellness',
+                city: 'Саратов',
+                avatar: 'images/pit3.png',
+                rating: 4,
+                text: 'Люблю разнообразие в рационе. Здесь каждую неделю новое меню и при этом стабильный вкус. Оценка 4 только потому, что хочется ещё больше десертов 😊'
+            },
+            {
+                name: 'Илья П.',
+                handle: '@ilya_runner',
+                city: 'Саратов',
+                avatar: 'images/pit4.png',
+                rating: 5,
+                text: 'Поддерживаю форму для марафонов и ценю продуманное БЖУ. Ребята присылают полную информацию по каждому блюду — удобно контролировать результат.'
+            }
+        ];
+
+        const reviewCard = document.getElementById('activeReview');
+        const reviewThumbnails = document.getElementById('reviewThumbnails');
+        const reviewPrev = document.getElementById('reviewPrev');
+        const reviewNext = document.getElementById('reviewNext');
+        let currentReview = 0;
+        let reviewInterval;
+
+        function getStars(rating) {
+            return Array.from({ length: 5 }, (_, i) => i < rating ? '★' : '☆').join('');
+        }
+
+        function renderReview(index) {
+            const review = reviewsData[index];
+            reviewCard.innerHTML = `
+                <div class="review-top">
+                    <div class="review-user">
+                        <div class="review-avatar">
+                            <img src="${review.avatar}" alt="${review.name}">
+                        </div>
+                        <div class="review-meta">
+                            <h4>${review.name}</h4>
+                            <span>${review.handle} · ${review.city}</span>
+                        </div>
+                    </div>
+                    <div class="review-stars">${getStars(review.rating)}</div>
+                </div>
+                <p class="review-text">“${review.text}”</p>
+            `;
+
+            reviewThumbnails.innerHTML = reviewsData.map((item, i) => `
+                <button class="review-thumbnail ${i === index ? 'active' : ''}" data-index="${i}">
+                    <strong>${item.name}</strong>
+                    <span>${item.city}</span>
+                </button>
+            `).join('');
+
+            observeAnimatedElements(reviewCard.parentElement);
+        }
+
+        function changeReview(step) {
+            currentReview = (currentReview + step + reviewsData.length) % reviewsData.length;
+            renderReview(currentReview);
+        }
+
+        function startReviewRotation() {
+            clearInterval(reviewInterval);
+            reviewInterval = setInterval(() => changeReview(1), 6000);
+        }
+
+        reviewPrev.addEventListener('click', () => {
+            changeReview(-1);
+            startReviewRotation();
+        });
+
+        reviewNext.addEventListener('click', () => {
+            changeReview(1);
+            startReviewRotation();
+        });
+
+        reviewThumbnails.addEventListener('click', (event) => {
+            const button = event.target.closest('.review-thumbnail');
+            if (button) {
+                const index = Number(button.dataset.index);
+                currentReview = index;
+                renderReview(currentReview);
+                startReviewRotation();
+            }
+        });
+
+        renderReview(currentReview);
+        startReviewRotation();
     </script>
 </body>
 </html>
