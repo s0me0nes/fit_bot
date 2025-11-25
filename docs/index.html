@@ -521,6 +521,153 @@
             }
         }
 
+        /* План питания */
+        .plan-preview {
+            max-width: 1200px;
+            margin: 20px auto 10px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            border: 1px solid rgba(76,175,80,0.12);
+        }
+
+        .plan-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .plan-header h2 {
+            margin: 0;
+            font-size: 1.6em;
+            color: #2d5016;
+        }
+
+        .plan-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .plan-control {
+            border: 1px solid rgba(76,175,80,0.3);
+            background: white;
+            border-radius: 999px;
+            padding: 10px 20px;
+            font-size: 0.95em;
+            color: #2d5016;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .plan-control:hover {
+            border-color: #4caf50;
+            box-shadow: 0 4px 12px rgba(76,175,80,0.2);
+        }
+
+        .plan-control .icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            background: #4caf50;
+            display: inline-block;
+            position: relative;
+        }
+
+        .plan-control .icon::before,
+        .plan-control .icon::after {
+            content: "";
+            position: absolute;
+            background: white;
+            top: 7px;
+            left: 3px;
+            right: 3px;
+            height: 2px;
+        }
+
+        .plan-days {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .plan-day {
+            color: #555;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .plan-day.active {
+            color: white;
+            background: #22c55e;
+            border-radius: 999px;
+            padding: 4px 14px;
+        }
+
+        .plan-day.highlight::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -4px;
+            height: 3px;
+            border-radius: 999px;
+            background: #f7b731;
+        }
+
+        .plan-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 22px;
+            padding: 18px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 35px rgba(0,0,0,0.12);
+        }
+
+        .plan-card img {
+            width: 100%;
+            border-radius: 16px;
+            margin-bottom: 12px;
+        }
+
+        .plan-card small {
+            color: #999;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .plan-card h4 {
+            margin: 8px 0 4px 0;
+            font-size: 1.1em;
+            color: #1f2933;
+        }
+
+        .plan-card span {
+            color: #94a3b8;
+            font-size: 0.9em;
+        }
+
         /* Секция преимуществ */
         .highlights-section {
             max-width: 1200px;
@@ -618,6 +765,45 @@
             </div>
         </div>
     </div>
+    
+    <!-- Превью меню -->
+    <section class="plan-preview">
+        <div class="plan-header">
+            <h2>Похудение и поддержание формы</h2>
+            <div class="plan-controls">
+                <button class="plan-control">Доставка: 25 ноя, вт ▾</button>
+                <button class="plan-control"><span class="icon"></span> Настроить меню</button>
+            </div>
+        </div>
+        <div class="plan-days">
+            <span class="plan-day active">Чт 27.11</span>
+            <span class="plan-day">Пт 28.11</span>
+            <span class="plan-day highlight">Сб 29.11</span>
+            <span class="plan-day">Вс 30.11</span>
+            <span class="plan-day highlight">Пн 01.12</span>
+            <span class="plan-day">Вт 02.12</span>
+        </div>
+        <div class="plan-cards">
+            <div class="plan-card">
+                <small>Завтрак</small>
+                <img src="images/pit1.png" alt="Нежный крем с брусникой">
+                <h4>Нежный крем с брусникой</h4>
+                <span>268 Ккал · 300 г</span>
+            </div>
+            <div class="plan-card">
+                <small>Обед</small>
+                <img src="images/pit2.png" alt="Курица с соусом и эларджи">
+                <h4>Курица с соусом и эларджи</h4>
+                <span>636 Ккал · 340 г</span>
+            </div>
+            <div class="plan-card">
+                <small>Ужин</small>
+                <img src="images/pit3.png" alt="Мясной соус с орзо">
+                <h4>Мясной соус с орзо</h4>
+                <span>494 Ккал · 360 г</span>
+            </div>
+        </div>
+    </section>
     
     <!-- Слайдер блюд с текстом -->
     <div class="slider-section">
