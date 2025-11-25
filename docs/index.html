@@ -944,57 +944,67 @@
     </section>
 
     <script>
-        // Инициализация Telegram Web App
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.setHeaderColor('#2d5016');
-        tg.setBackgroundColor('#f5f5f5');
-        
-        // Автоматическая авторизация через Telegram
-        const user = tg.initDataUnsafe?.user;
-        const userProfile = document.getElementById('userProfile');
-        const userName = document.getElementById('userName');
-        const userAvatar = document.getElementById('userAvatar');
-        
-        if (user) {
-            // Показываем профиль пользователя
-            userProfile.style.display = 'flex';
+        // Инициализация Telegram Web App (только если доступен)
+        let tg = null;
+        if (window.Telegram && window.Telegram.WebApp) {
+            tg = window.Telegram.WebApp;
+            tg.expand();
+            tg.setHeaderColor('#2d5016');
+            tg.setBackgroundColor('#f5f5f5');
             
-            // Устанавливаем имя
-            const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ') || user.first_name || 'Пользователь';
-            userName.textContent = fullName;
+            // Автоматическая авторизация через Telegram
+            const user = tg.initDataUnsafe?.user;
+            const userProfile = document.getElementById('userProfile');
+            const userName = document.getElementById('userName');
+            const userAvatar = document.getElementById('userAvatar');
             
-            // Устанавливаем аватар
-            if (user.photo_url) {
-                userAvatar.innerHTML = `<img src="${user.photo_url}" alt="${fullName}">`;
+            if (user) {
+                // Показываем профиль пользователя
+                userProfile.style.display = 'flex';
+                
+                // Устанавливаем имя
+                const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ') || user.first_name || 'Пользователь';
+                userName.textContent = fullName;
+                
+                // Устанавливаем аватар
+                if (user.photo_url) {
+                    userAvatar.innerHTML = `<img src="${user.photo_url}" alt="${fullName}">`;
+                } else {
+                    // Если нет фото, показываем первую букву имени
+                    const firstLetter = user.first_name ? user.first_name.charAt(0).toUpperCase() : '👤';
+                    userAvatar.textContent = firstLetter;
+                }
+                
+                // Сохраняем данные пользователя для использования
+                window.userData = {
+                    id: user.id,
+                    firstName: user.first_name,
+                    lastName: user.last_name,
+                    username: user.username,
+                    languageCode: user.language_code,
+                    photoUrl: user.photo_url
+                };
+                
+                console.log('Пользователь авторизован:', window.userData);
             } else {
-                // Если нет фото, показываем первую букву имени
-                const firstLetter = user.first_name ? user.first_name.charAt(0).toUpperCase() : '👤';
-                userAvatar.textContent = firstLetter;
+                // Если открыто не из Telegram, скрываем профиль
+                userProfile.style.display = 'none';
+                console.log('Открыто не из Telegram, авторизация недоступна');
             }
             
-            // Сохраняем данные пользователя для использования
-            window.userData = {
-                id: user.id,
-                firstName: user.first_name,
-                lastName: user.last_name,
-                username: user.username,
-                languageCode: user.language_code,
-                photoUrl: user.photo_url
-            };
-            
-            console.log('Пользователь авторизован:', window.userData);
+            // Кнопка "Назад"
+            tg.BackButton.show();
+            tg.BackButton.onClick(() => {
+                tg.close();
+            });
         } else {
             // Если открыто не из Telegram, скрываем профиль
-            userProfile.style.display = 'none';
-            console.log('Открыто не из Telegram, авторизация недоступна');
+            const userProfile = document.getElementById('userProfile');
+            if (userProfile) {
+                userProfile.style.display = 'none';
+            }
+            console.log('Открыто не из Telegram, Web App SDK недоступен');
         }
-        
-        // Кнопка "Назад"
-        tg.BackButton.show();
-        tg.BackButton.onClick(() => {
-            tg.close();
-        });
         
         
         // Данные продуктов для каждого дня недели
@@ -1127,77 +1137,81 @@
             }
         ];
 
+        // Инициализация отзывов
         const reviewCard = document.getElementById('activeReview');
         const reviewThumbnails = document.getElementById('reviewThumbnails');
         const reviewPrev = document.getElementById('reviewPrev');
         const reviewNext = document.getElementById('reviewNext');
-        let currentReview = 0;
-        let reviewInterval;
+        
+        if (reviewCard && reviewThumbnails && reviewPrev && reviewNext) {
+            let currentReview = 0;
+            let reviewInterval;
 
-        function getStars(rating) {
-            return Array.from({ length: 5 }, (_, i) => i < rating ? '★' : '☆').join('');
-        }
-
-        function renderReview(index) {
-            const review = reviewsData[index];
-            reviewCard.innerHTML = `
-                <div class="review-top">
-                    <div class="review-user">
-                        <div class="review-avatar">
-                            <img src="${review.avatar}" alt="${review.name}">
-                        </div>
-                        <div class="review-meta">
-                            <h4>${review.name}</h4>
-                            <span>${review.handle} · ${review.city}</span>
-                        </div>
-                    </div>
-                    <div class="review-stars">${getStars(review.rating)}</div>
-                </div>
-                <p class="review-text">“${review.text}”</p>
-            `;
-
-            reviewThumbnails.innerHTML = reviewsData.map((item, i) => `
-                <button class="review-thumbnail ${i === index ? 'active' : ''}" data-index="${i}">
-                    <strong>${item.name}</strong>
-                    <span>${item.city}</span>
-                </button>
-            `).join('');
-
-            observeAnimatedElements(reviewCard.parentElement);
-        }
-
-        function changeReview(step) {
-            currentReview = (currentReview + step + reviewsData.length) % reviewsData.length;
-            renderReview(currentReview);
-        }
-
-        function startReviewRotation() {
-            clearInterval(reviewInterval);
-            reviewInterval = setInterval(() => changeReview(1), 6000);
-        }
-
-        reviewPrev.addEventListener('click', () => {
-            changeReview(-1);
-            startReviewRotation();
-        });
-
-        reviewNext.addEventListener('click', () => {
-            changeReview(1);
-            startReviewRotation();
-        });
-
-        reviewThumbnails.addEventListener('click', (event) => {
-            const button = event.target.closest('.review-thumbnail');
-            if (button) {
-                const index = Number(button.dataset.index);
-                currentReview = index;
-                renderReview(currentReview);
-                startReviewRotation();
+            function getStars(rating) {
+                return Array.from({ length: 5 }, (_, i) => i < rating ? '★' : '☆').join('');
             }
-        });
 
-        renderReview(currentReview);
-        startReviewRotation();
+            function renderReview(index) {
+                const review = reviewsData[index];
+                reviewCard.innerHTML = `
+                    <div class="review-top">
+                        <div class="review-user">
+                            <div class="review-avatar">
+                                <img src="${review.avatar}" alt="${review.name}">
+                            </div>
+                            <div class="review-meta">
+                                <h4>${review.name}</h4>
+                                <span>${review.handle} · ${review.city}</span>
+                            </div>
+                        </div>
+                        <div class="review-stars">${getStars(review.rating)}</div>
+                    </div>
+                    <p class="review-text">"${review.text}"</p>
+                `;
+
+                reviewThumbnails.innerHTML = reviewsData.map((item, i) => `
+                    <button class="review-thumbnail ${i === index ? 'active' : ''}" data-index="${i}">
+                        <strong>${item.name}</strong>
+                        <span>${item.city}</span>
+                    </button>
+                `).join('');
+
+                observeAnimatedElements(reviewCard.parentElement);
+            }
+
+            function changeReview(step) {
+                currentReview = (currentReview + step + reviewsData.length) % reviewsData.length;
+                renderReview(currentReview);
+            }
+
+            function startReviewRotation() {
+                clearInterval(reviewInterval);
+                reviewInterval = setInterval(() => changeReview(1), 6000);
+            }
+
+            reviewPrev.addEventListener('click', () => {
+                changeReview(-1);
+                startReviewRotation();
+            });
+
+            reviewNext.addEventListener('click', () => {
+                changeReview(1);
+                startReviewRotation();
+            });
+
+            reviewThumbnails.addEventListener('click', (event) => {
+                const button = event.target.closest('.review-thumbnail');
+                if (button) {
+                    const index = Number(button.dataset.index);
+                    currentReview = index;
+                    renderReview(currentReview);
+                    startReviewRotation();
+                }
+            });
+
+            renderReview(currentReview);
+            startReviewRotation();
+        }
     </script>
 </body>
 </html>
