@@ -24,7 +24,7 @@
         .header {
             background: linear-gradient(135deg, #2d5016 0%, #4a7c2a 100%);
             color: white;
-            padding: 20px;
+            padding: 10px 15px;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -520,6 +520,73 @@
                 right: 5px;
             }
         }
+
+        /* Секция преимуществ */
+        .highlights-section {
+            max-width: 1200px;
+            margin: 40px auto 60px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .highlight-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            border: 1px solid rgba(76, 175, 80, 0.15);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        .highlight-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(76, 175, 80, 0.15), transparent 45%);
+            pointer-events: none;
+        }
+
+        .highlight-card h3 {
+            color: #2d5016;
+            font-size: 1.3em;
+            margin-bottom: 12px;
+        }
+
+        .highlight-card p {
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .highlight-card .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #2d5016;
+            background: rgba(76, 175, 80, 0.15);
+            margin-bottom: 12px;
+        }
+
+        .highlight-card:nth-child(1) { animation-delay: 0.1s; }
+        .highlight-card:nth-child(2) { animation-delay: 0.25s; }
+        .highlight-card:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
@@ -602,6 +669,25 @@
             <p>Наша продукция выращивается с заботой и вниманием к деталям, без использования вредных добавок. Только натуральные ингредиенты для вашего здоровья.</p>
         </div>
     </div>
+
+    <!-- Блок с преимуществами -->
+    <section class="highlights-section">
+        <div class="highlight-card">
+            <span class="badge">Сбалансированные рационы</span>
+            <h3>Продуманные меню на каждый день</h3>
+            <p>Каждый рацион составлен диетологами и шеф-поварами: идеальное соотношение белков, жиров и углеводов, свежие ингредиенты и точные порции.</p>
+        </div>
+        <div class="highlight-card">
+            <span class="badge">10 лет опыта</span>
+            <h3>Мы знаем, что такое забота о вас</h3>
+            <p>Более десяти лет мы готовим для жителей Саратова домашнюю еду, которую хочется есть каждый день. Отлаженная логистика и искренний сервис.</p>
+        </div>
+        <div class="highlight-card">
+            <span class="badge">Разнообразие вкусов</span>
+            <h3>Домашняя еда, которая вдохновляет</h3>
+            <p>Меняем меню каждую неделю, используем сезонные продукты и авторские соусы. Всегда вкусно, по-домашнему и без компромиссов по качеству.</p>
+        </div>
+    </section>
 
     <script>
         // Инициализация Telegram Web App
