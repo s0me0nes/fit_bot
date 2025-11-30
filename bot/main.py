@@ -44,67 +44,131 @@ BOT_TOKEN = os.getenv('BOT_TOKEN', '')
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Обработчик команды /start"""
-    web_url = os.getenv('WEB_URL', 'https://your-username.github.io/FIT/')
-    
-    # Создаем кнопку для открытия Mini App
-    keyboard = [
-        [InlineKeyboardButton(
-            text="🍽️ Открыть меню",
-            web_app=WebAppInfo(url=web_url)
-        )]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    
-    await update.message.reply_text(
-        'Привет! Я телеграм-бот с меню.\n\n'
-        'Нажмите кнопку ниже, чтобы открыть меню:',
-        reply_markup=reply_markup
-    )
+    try:
+        # Проверяем, что update.message существует
+        if not update.message:
+            logger.error("update.message is None в команде /start")
+            return
+        
+        logger.info(f"Получена команда /start от пользователя {update.message.from_user.id}")
+        
+        web_url = os.getenv('WEB_URL', 'https://your-username.github.io/FIT/')
+        
+        # Создаем красивое меню с тремя кнопками
+        keyboard = [
+            [InlineKeyboardButton(
+                text="🌐 Открыть сайт",
+                web_app=WebAppInfo(url=web_url)
+            )],
+            [InlineKeyboardButton(
+                text="📞 Связь для заказа",
+                url="https://t.me/MariaZeynalova"
+            )],
+            [InlineKeyboardButton(
+                text="🚚 Связь с курьером",
+                url="https://t.me/Nill_Kafri"
+            )]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        
+        welcome_text = (
+            "👋 Добро пожаловать!\n\n"
+            "Выберите нужный раздел:\n\n"
+            "🌐 <b>Открыть сайт</b> - просмотр меню и оформление заказа\n"
+            "📞 <b>Связь для заказа</b> - связь с менеджером\n"
+            "🚚 <b>Связь с курьером</b> - связь с курьером"
+        )
+        
+        await update.message.reply_text(
+            welcome_text,
+            reply_markup=reply_markup,
+            parse_mode='HTML'
+        )
+        logger.info("Ответ на /start отправлен успешно")
+    except Exception as e:
+        logger.error(f"Ошибка в обработчике /start: {e}", exc_info=True)
+        if update.message:
+            try:
+                await update.message.reply_text(
+                    'Произошла ошибка при обработке команды. Попробуйте позже.'
+                )
+            except:
+                pass
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Обработчик команды /help"""
-    web_url = os.getenv('WEB_URL', 'https://your-username.github.io/FIT/')
-    
-    keyboard = [
-        [InlineKeyboardButton(
-            text="🍽️ Открыть меню",
-            web_app=WebAppInfo(url=web_url)
-        )]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    
-    await update.message.reply_text(
-        'Доступные команды:\n'
-        '/start - Начать работу\n'
-        '/help - Показать эту справку\n'
-        '/menu - Открыть меню\n\n'
-        'Или нажмите кнопку ниже:',
-        reply_markup=reply_markup
-    )
+    try:
+        if not update.message:
+            logger.error("update.message is None в команде /help")
+            return
+        
+        web_url = os.getenv('WEB_URL', 'https://your-username.github.io/FIT/')
+        
+        keyboard = [
+            [InlineKeyboardButton(
+                text="🍽️ Открыть меню",
+                web_app=WebAppInfo(url=web_url)
+            )]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        
+        await update.message.reply_text(
+            'Доступные команды:\n'
+            '/start - Начать работу\n'
+            '/help - Показать эту справку\n'
+            '/menu - Открыть меню\n\n'
+            'Или нажмите кнопку ниже:',
+            reply_markup=reply_markup
+        )
+    except Exception as e:
+        logger.error(f"Ошибка в обработчике /help: {e}", exc_info=True)
 
 
 async def menu_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Открывает меню через Mini App"""
-    web_url = os.getenv('WEB_URL', 'https://your-username.github.io/FIT/')
-    
-    keyboard = [
-        [InlineKeyboardButton(
-            text="🍽️ Открыть меню",
-            web_app=WebAppInfo(url=web_url)
-        )]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    
-    await update.message.reply_text(
-        'Нажмите кнопку, чтобы открыть меню:',
-        reply_markup=reply_markup
-    )
+    try:
+        if not update.message:
+            logger.error("update.message is None в команде /menu")
+            return
+        
+        web_url = os.getenv('WEB_URL', 'https://your-username.github.io/FIT/')
+        
+        keyboard = [
+            [InlineKeyboardButton(
+                text="🍽️ Открыть меню",
+                web_app=WebAppInfo(url=web_url)
+            )]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        
+        await update.message.reply_text(
+            'Нажмите кнопку, чтобы открыть меню:',
+            reply_markup=reply_markup
+        )
+    except Exception as e:
+        logger.error(f"Ошибка в обработчике /menu: {e}", exc_info=True)
 
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Эхо-обработчик для текстовых сообщений"""
-    await update.message.reply_text(update.message.text)
+    try:
+        if update.message:
+            await update.message.reply_text(update.message.text)
+    except Exception as e:
+        logger.error(f"Ошибка в обработчике echo: {e}", exc_info=True)
+
+
+async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обработчик ошибок"""
+    logger.error(f"Ошибка при обработке обновления: {context.error}", exc_info=True)
+    if update and update.message:
+        try:
+            await update.message.reply_text(
+                'Произошла ошибка. Попробуйте позже или используйте /help для справки.'
+            )
+        except:
+            pass
 
 
 def main():
@@ -122,8 +186,12 @@ def main():
     application.add_handler(CommandHandler("menu", menu_command))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
     
+    # Регистрируем обработчик ошибок
+    application.add_error_handler(error_handler)
+    
     # Запускаем бота
     logger.info("Бот запущен...")
+    logger.info(f"BOT_TOKEN установлен: {'Да' if BOT_TOKEN else 'Нет'}")
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
