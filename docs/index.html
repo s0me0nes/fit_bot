@@ -2013,22 +2013,32 @@
             }
         ];
         
-        // Загружаем отзывы из localStorage или используем базовые
-        try {
-            const savedReviews = localStorage.getItem('userReviews');
-            if (savedReviews) {
-                reviewsData = JSON.parse(savedReviews);
-                // Убеждаемся, что есть хотя бы базовые отзывы
-                if (reviewsData.length === 0) {
-                    reviewsData = [...defaultReviewsData];
+        // Загружаем отзывы с сервера или из localStorage
+        async function loadReviewsFromServer() {
+            try {
+                const backendUrl = getBackendUrl();
+                const response = await fetch(`${backendUrl}/api/reviews`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.reviews && data.reviews.length > 0) {
+                        reviewsData = data.reviews;
+                        // Сохраняем в localStorage для офлайн-доступа
+                        try {
+                            localStorage.setItem('userReviews', JSON.stringify(reviewsData));
+                        } catch (e) {
+                            console.warn('Не удалось сохранить в localStorage:', e);
+                        }
+                        return true;
+                    }
                 }
-            } else {
-                reviewsData = [...defaultReviewsData];
+            } catch (error) {
+                console.warn('Не удалось загрузить отзывы с сервера:', error);
             }
-        } catch (e) {
-            console.warn('Ошибка при загрузке отзывов из localStorage:', e);
-            reviewsData = [...defaultReviewsData];
+            return false;
         }
+        
+        // Инициализация отзывов будет вызвана после определения всех функций
         
         // Проверка прав администратора
         function isAdmin() {
@@ -2045,15 +2055,78 @@
             return false;
         }
         
+        // Получаем URL бэкенда
+        function getBackendUrl() {
+            // Пробуем получить из переменных окружения или используем относительный путь
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                return 'http://localhost:8000';
+            }
+            
+            // Пробуем получить из Telegram Web App initData
+            if (window.Telegram && window.Telegram.WebApp) {
+                const initData = window.Telegram.WebApp.initDataUnsafe;
+                // Можно передать URL бэкенда через initData или использовать дефолтный
+            }
+            
+            // Для GitHub Pages - нужно указать URL вашего бэкенда
+            // Замените на реальный URL вашего бэкенда (Railway, Render и т.д.)
+            const backendUrl = window.BACKEND_URL || 'https://your-backend.railway.app';
+            
+            return backendUrl;
+        }
+        
         // Глобальная функция удаления отзыва
-        window.deleteReview = function(index) {
+        window.deleteReview = async function(index) {
             if (!isAdmin()) {
                 alert('У вас нет прав для удаления отзывов');
                 return;
             }
             
-            if (confirm('Вы уверены, что хотите удалить этот отзыв?')) {
+            if (!confirm('Вы уверены, что хотите удалить этот отзыв?')) {
+                return;
+            }
+            
+            // Получаем username для проверки прав
+            let username = null;
+            if (window.userData && window.userData.username) {
+                username = window.userData.username;
+            } else if (window.Telegram && window.Telegram.WebApp) {
+                const user = window.Telegram.WebApp.initDataUnsafe?.user;
+                if (user && user.username) {
+                    username = user.username;
+                }
+            }
+            
+            if (username !== 'Nill_Kafri') {
+                alert('У вас нет прав для удаления отзывов');
+                return;
+            }
+            
+            try {
+                const backendUrl = getBackendUrl();
+                const response = await fetch(`${backendUrl}/api/reviews/${index}?username=${username}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Ошибка при удалении отзыва');
+                }
+                
+                const result = await response.json();
+                
+                // Обновляем локальные данные
                 reviewsData.splice(index, 1);
+                
+                // Обновляем localStorage
+                try {
+                    localStorage.setItem('userReviews', JSON.stringify(reviewsData));
+                } catch (e) {
+                    console.warn('Не удалось обновить localStorage:', e);
+                }
                 
                 // Если удалили текущий отзыв, переходим на предыдущий или следующий
                 if (currentReview >= reviewsData.length) {
@@ -2076,6 +2149,25 @@
                 
                 renderReview(currentReview);
                 startReviewRotation();
+                
+                console.log('Отзыв успешно удален с сервера');
+            } catch (error) {
+                console.error('Ошибка при удалении отзыва:', error);
+                // Показываем ошибку, но все равно удаляем локально (fallback)
+                alert('Ошибка при удалении отзыва на сервере: ' + error.message + '\nОтзыв удален локально.');
+                
+                // Удаляем локально в любом случае
+                reviewsData.splice(index, 1);
+                if (currentReview >= reviewsData.length) {
+                    currentReview = reviewsData.length - 1;
+                }
+                if (currentReview < 0) {
+                    currentReview = 0;
+                }
+                if (reviewsData.length > 0) {
+                    renderReview(currentReview);
+                    startReviewRotation();
+                }
             }
         };
         
@@ -2167,8 +2259,35 @@
                 }
             });
 
-            renderReview(currentReview);
-            startReviewRotation();
+            // Инициализируем отзывы перед первым рендером
+            (async function initReviews() {
+                // Сначала пробуем загрузить с сервера
+                const loaded = await loadReviewsFromServer();
+                
+                if (!loaded) {
+                    // Если не удалось, загружаем из localStorage или используем базовые
+                    try {
+                        const savedReviews = localStorage.getItem('userReviews');
+                        if (savedReviews) {
+                            reviewsData = JSON.parse(savedReviews);
+                            if (reviewsData.length === 0) {
+                                reviewsData = [...defaultReviewsData];
+                            }
+                        } else {
+                            reviewsData = [...defaultReviewsData];
+                        }
+                    } catch (e) {
+                        console.warn('Ошибка при загрузке отзывов из localStorage:', e);
+                        reviewsData = [...defaultReviewsData];
+                    }
+                }
+                
+                // Инициализируем отображение отзывов после загрузки
+                if (reviewsData.length > 0) {
+                    renderReview(currentReview);
+                    startReviewRotation();
+                }
+            })();
         }
         
         // Управление подсказкой для прокрутки вниз
@@ -2374,24 +2493,58 @@
                     text: text
                 };
                 
-                // Добавляем отзыв в начало массива
-                reviewsData.unshift(newReview);
-                
-                // Сохраняем отзывы в localStorage (для сохранения между сессиями)
+                // Отправляем отзыв на сервер
                 try {
-                    localStorage.setItem('userReviews', JSON.stringify(reviewsData));
-                } catch (e) {
-                    console.warn('Не удалось сохранить отзывы в localStorage:', e);
+                    const backendUrl = getBackendUrl();
+                    const response = await fetch(`${backendUrl}/api/reviews`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(newReview)
+                    });
+                    
+                    if (response.ok) {
+                        // Добавляем отзыв в начало массива
+                        reviewsData.unshift(newReview);
+                        
+                        // Сохраняем отзывы в localStorage (для офлайн-доступа)
+                        try {
+                            localStorage.setItem('userReviews', JSON.stringify(reviewsData));
+                        } catch (e) {
+                            console.warn('Не удалось сохранить отзывы в localStorage:', e);
+                        }
+                        
+                        // Обновляем отображение отзывов
+                        currentReview = 0;
+                        if (reviewCard && reviewThumbnails) {
+                            renderReview(0);
+                            startReviewRotation();
+                        }
+                        
+                        showMessage('Спасибо за ваш отзыв! Он добавлен и отображается на сайте.', 'success');
+                    } else {
+                        throw new Error('Ошибка при сохранении на сервере');
+                    }
+                } catch (error) {
+                    console.error('Ошибка при отправке отзыва на сервер:', error);
+                    // Fallback: сохраняем локально
+                    reviewsData.unshift(newReview);
+                    try {
+                        localStorage.setItem('userReviews', JSON.stringify(reviewsData));
+                    } catch (e) {
+                        console.warn('Не удалось сохранить отзывы в localStorage:', e);
+                    }
+                    
+                    currentReview = 0;
+                    if (reviewCard && reviewThumbnails) {
+                        renderReview(0);
+                        startReviewRotation();
+                    }
+                    
+                    showMessage('Отзыв добавлен локально. Возможна ошибка подключения к серверу.', 'info');
                 }
                 
-                // Обновляем отображение отзывов
-                currentReview = 0;
-                if (reviewCard && reviewThumbnails) {
-                    renderReview(0);
-                    startReviewRotation();
-                }
-                
-                showMessage('Спасибо за ваш отзыв! Он добавлен и отображается на сайте.', 'success');
                 reviewForm.reset();
                 selectedRating = 0;
                 reviewRating.value = 0;
