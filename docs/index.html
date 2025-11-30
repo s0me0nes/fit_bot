@@ -4,8 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>GrowFood - Меню</title>
+    
+    <!-- Preload критических ресурсов для быстрой загрузки -->
+    <link rel="preload" href="images/bg.webp" as="image">
+    <link rel="preload" href="images/saratov.png" as="image">
+    <link rel="preload" href="images/telegram.png" as="image">
+    <link rel="preload" href="images/whatsapp.png" as="image">
+    
+    <!-- Preconnect для внешних ресурсов -->
+    <link rel="preconnect" href="https://telegram.org">
+    <link rel="dns-prefetch" href="https://telegram.org">
+    
     <!-- Telegram Web App SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
     <style>
         * {
             margin: 0;
@@ -309,6 +320,130 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            loading: lazy;
+        }
+        
+        /* Оптимизация загрузки фона */
+        .bg-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: -1;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        
+        .bg-loader.loaded {
+            opacity: 0;
+        }
+        
+        /* Skeleton loader для карточек */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Анимированный loader */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-spinner {
+            width: 80px;
+            height: 80px;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-top: 6px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loader-text {
+            color: white;
+            font-size: 1.2em;
+            font-weight: 600;
+            text-align: center;
+            animation: pulse 1.5s ease-in-out infinite;
+            margin-bottom: 15px;
+        }
+        
+        .loader-dots::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .loader-progress {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .loader-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ffffff, #e8f5e9);
+            border-radius: 2px;
+            width: 0%;
+            animation: progress 2s ease-in-out infinite;
+            transition: width 0.3s ease;
+        }
+        
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+        
+        .loader-logo {
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation: bounce 1s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        body.loading {
+            overflow: hidden;
         }
         
         .product-info {
@@ -578,6 +713,7 @@
             width: 100%;
             border-radius: 16px;
             margin-bottom: 12px;
+            loading: lazy;
         }
 
         .plan-card small {
@@ -737,6 +873,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            loading: lazy;
         }
 
         .review-meta h4 {
@@ -829,12 +966,26 @@
         }
     </style>
 </head>
-<body>
+<body class="loading">
+    <!-- Анимированный loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-logo">🍽️</div>
+        <div class="loader-spinner"></div>
+        <div class="loader-text">
+            Загрузка меню<span class="loader-dots"></span>
+        </div>
+        <div class="loader-progress">
+            <div class="loader-progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+    
+    <!-- Загрузчик фона для плавной загрузки -->
+    <div class="bg-loader" id="bgLoader"></div>
     <div class="header">
         <div class="header-content">
             <div class="header-text">
                 <div class="city">
-                    <img src="images/saratov.png" alt="Саратов" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+                    <img src="images/saratov.png" alt="Саратов" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;" loading="eager">
                     Саратов
                 </div>
                 <div class="subtitle">Доставка продуктов правильного питания</div>
@@ -850,10 +1001,10 @@
                     </div>
                 </div>
                 <a href="https://t.me/MariaZeynalova" target="_blank" class="contact-btn telegram-btn" title="Написать в Telegram">
-                    <img src="images/telegram.png" alt="Telegram" style="width: 40px; height: 40px;">
+                    <img src="images/telegram.png" alt="Telegram" style="width: 40px; height: 40px;" loading="eager">
                 </a>
                 <a href="https://wa.me/79085550658" target="_blank" class="contact-btn whatsapp-btn" title="Написать в WhatsApp">
-                    <img src="images/whatsapp.png" alt="WhatsApp" style="width: 40px; height: 40px;">
+                    <img src="images/whatsapp.png" alt="WhatsApp" style="width: 40px; height: 40px;" loading="eager">
                 </a>
             </div>
         </div>
@@ -875,19 +1026,19 @@
         <div class="plan-cards" id="planCards">
             <div class="plan-card" data-animate>
                 <small>Завтрак</small>
-                <img src="images/pit1.png" alt="Нежный крем с брусникой">
+                <img src="images/pit1.png" alt="Нежный крем с брусникой" loading="lazy">
                 <h4>Нежный крем с брусникой</h4>
                 <span>268 Ккал · 300 г</span>
             </div>
             <div class="plan-card" data-animate>
                 <small>Обед</small>
-                <img src="images/pit2.png" alt="Курица с соусом и эларджи">
+                <img src="images/pit2.png" alt="Курица с соусом и эларджи" loading="lazy">
                 <h4>Курица с соусом и эларджи</h4>
                 <span>636 Ккал · 340 г</span>
             </div>
             <div class="plan-card" data-animate>
                 <small>Ужин</small>
-                <img src="images/pit3.png" alt="Мясной соус с орзо">
+                <img src="images/pit3.png" alt="Мясной соус с орзо" loading="lazy">
                 <h4>Мясной соус с орзо</h4>
                 <span>494 Ккал · 360 г</span>
             </div>
@@ -944,6 +1095,106 @@
     </section>
 
     <script>
+        // Управление loader'ом
+        const pageLoader = document.getElementById('pageLoader');
+        const body = document.body;
+        
+        // Функция для скрытия loader'а
+        function hideLoader() {
+            if (pageLoader) {
+                pageLoader.classList.add('hidden');
+                body.classList.remove('loading');
+                // Удаляем loader из DOM после анимации
+                setTimeout(() => {
+                    if (pageLoader.parentNode) {
+                        pageLoader.remove();
+                    }
+                }, 500);
+            }
+        }
+        
+        // Скрываем loader когда все загрузилось
+        window.addEventListener('load', () => {
+            // Ждем немного, чтобы показать loader хотя бы минимальное время
+            setTimeout(() => {
+                hideLoader();
+                
+                // Скрываем загрузчик фона
+                const bgLoader = document.getElementById('bgLoader');
+                if (bgLoader) {
+                    setTimeout(() => {
+                        bgLoader.classList.add('loaded');
+                        setTimeout(() => bgLoader.remove(), 500);
+                    }, 300);
+                }
+            }, 800); // Минимум 800ms для плавности
+        });
+        
+        // Если страница уже загружена (из кеша), скрываем loader сразу
+        if (document.readyState === 'complete') {
+            setTimeout(hideLoader, 300);
+        }
+        
+        // Предзагрузка критических изображений
+        const criticalImages = [
+            'images/bg.webp',
+            'images/saratov.png',
+            'images/telegram.png',
+            'images/whatsapp.png'
+        ];
+        
+        let imagesLoaded = 0;
+        const totalImages = criticalImages.length;
+        
+        // Загружаем изображения и отслеживаем прогресс
+        const progressBar = document.getElementById('progressBar');
+        const loaderText = document.querySelector('.loader-text');
+        
+        function updateProgress(percent) {
+            if (progressBar) {
+                progressBar.style.width = percent + '%';
+            }
+            if (loaderText) {
+                loaderText.innerHTML = `Загрузка ${percent}%<span class="loader-dots"></span>`;
+            }
+        }
+        
+        // Начинаем с небольшого прогресса
+        updateProgress(10);
+        
+        criticalImages.forEach((src, index) => {
+            const img = new Image();
+            img.onload = () => {
+                imagesLoaded++;
+                const percent = Math.min(10 + Math.round((imagesLoaded / totalImages) * 60), 70);
+                updateProgress(percent);
+            };
+            img.onerror = () => {
+                imagesLoaded++;
+                const percent = Math.min(10 + Math.round((imagesLoaded / totalImages) * 60), 70);
+                updateProgress(percent);
+            };
+            img.src = src;
+        });
+        
+        // Симуляция прогресса, если загрузка идет медленно
+        let progressInterval = setInterval(() => {
+            if (progressBar) {
+                const currentWidth = parseInt(progressBar.style.width) || 10;
+                if (currentWidth < 90) {
+                    updateProgress(Math.min(currentWidth + 5, 90));
+                }
+            }
+        }, 200);
+        
+        // Останавливаем симуляцию при полной загрузке
+        window.addEventListener('load', () => {
+            clearInterval(progressInterval);
+            if (progressBar) {
+                updateProgress(100);
+            }
+        });
+        
         // Инициализация Telegram Web App (только если доступен)
         let tg = null;
         if (window.Telegram && window.Telegram.WebApp) {
@@ -1079,7 +1330,7 @@
                 card.setAttribute('data-animate', '');
                 card.innerHTML = `
                     <small>${product.meal}</small>
-                    <img src="images/${product.image}" alt="${product.name}">
+                    <img src="images/${product.image}" alt="${product.name}" loading="lazy">
                     <h4>${product.name}</h4>
                     <span>${product.calories}</span>
                 `;
