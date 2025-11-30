@@ -40,7 +40,7 @@ DEFAULT_REVIEWS = [
         "name": "Алина К.",
         "handle": "@healthy_alina",
         "city": "Саратов",
-        "avatar": "images/photo1.jpg",
+        "avatar": "images/photo4.jpg",
         "rating": 5,
         "text": "Заказываю уже третий месяц. Всегда ощущение домашней еды: свежие продукты, аккуратная упаковка и очень понятное расписание доставок."
     },
@@ -64,7 +64,7 @@ DEFAULT_REVIEWS = [
         "name": "Илья П.",
         "handle": "@ilya_runner",
         "city": "Саратов",
-        "avatar": "images/photo4.jpg",
+        "avatar": "images/photo1.jpg",
         "rating": 5,
         "text": "Поддерживаю форму для марафонов и ценю продуманное БЖУ. Ребята присылают полную информацию по каждому блюду — удобно контролировать результат."
     }
