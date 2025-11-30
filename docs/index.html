@@ -10,6 +10,7 @@
     <link rel="preload" href="images/saratov.png" as="image">
     <link rel="preload" href="images/telegram.png" as="image">
     <link rel="preload" href="images/whatsapp.png" as="image">
+    <link rel="preload" href="images/delivery.png" as="image">
     
     <!-- Preconnect для внешних ресурсов -->
     <link rel="preconnect" href="https://telegram.org">
@@ -201,6 +202,16 @@
         }
         
         .whatsapp-btn:hover {
+            background: transparent;
+            box-shadow: none;
+            opacity: 0.8;
+        }
+        
+        .delivery-btn {
+            background: transparent;
+        }
+        
+        .delivery-btn:hover {
             background: transparent;
             box-shadow: none;
             opacity: 0.8;
@@ -687,33 +698,56 @@
 
         .plan-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .plan-cards {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .plan-cards {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
         }
 
         .plan-card {
             background: rgba(255, 255, 255, 0.8);
-            border-radius: 22px;
-            padding: 18px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
             border: 1px solid rgba(0,0,0,0.05);
             transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            overflow: hidden;
         }
 
         .plan-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 18px 35px rgba(0,0,0,0.12);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
         }
 
         .plan-card:active {
-            transform: scale(0.97);
+            transform: scale(0.98);
         }
 
         .plan-card img {
             width: 100%;
-            border-radius: 16px;
-            margin-bottom: 12px;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 8px;
             loading: lazy;
+            display: block;
+            object-fit: cover;
+        }
+        
+        .plan-card-content {
+            padding: 0 4px;
         }
 
         .plan-card small {
@@ -721,17 +755,134 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            font-size: 0.75em;
+            display: block;
+            margin-bottom: 4px;
         }
 
         .plan-card h4 {
-            margin: 8px 0 4px 0;
-            font-size: 1.1em;
+            margin: 4px 0 2px 0;
+            font-size: 0.95em;
             color: #1f2933;
+            line-height: 1.3;
         }
 
         .plan-card span {
             color: #94a3b8;
+            font-size: 0.8em;
+        }
+        
+        /* Модальное окно для увеличенного фото */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            transform: scale(0.7);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: rgba(0,0,0,0.5);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            transition: background 0.2s, transform 0.2s;
+        }
+        
+        .modal-close:hover {
+            background: rgba(0,0,0,0.7);
+            transform: rotate(90deg);
+        }
+        
+        .modal-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .modal-info {
+            text-align: center;
+            width: 100%;
+        }
+        
+        .modal-info small {
+            display: block;
+            color: #999;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .modal-info h3 {
+            font-size: 1.5em;
+            color: #2d5016;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        
+        .modal-info .modal-calories {
+            color: #94a3b8;
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+        
+        .modal-info .modal-description {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto;
         }
 
         /* Секция преимуществ */
@@ -803,11 +954,27 @@
             align-items: center;
             margin-bottom: 20px;
             gap: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
         }
 
         .reviews-header h3 {
             font-size: 1.6em;
-            color: #1f2933;
+            color: #2d5016;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .reviews-header .badge {
+            display: block;
+            color: #2d5016;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-bottom: 5px;
         }
 
         .review-controls {
@@ -816,20 +983,30 @@
         }
 
         .review-nav {
-            width: 42px;
-            height: 42px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            border: none;
-            background: rgba(34, 197, 94, 0.15);
-            color: #1b4728;
-            font-size: 1.4em;
+            border: 2px solid #4a7c2a;
+            background: #4a7c2a;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s ease, background 0.2s ease;
+            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px rgba(74, 124, 42, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .review-nav:hover {
-            transform: translateY(-2px);
-            background: rgba(34, 197, 94, 0.3);
+            transform: translateY(-3px) scale(1.05);
+            background: #3a6a1a;
+            box-shadow: 0 6px 20px rgba(74, 124, 42, 0.6);
+        }
+        
+        .review-nav:active {
+            transform: translateY(-1px) scale(1);
         }
 
         .review-card {
@@ -890,6 +1067,39 @@
         .review-stars {
             color: #facc15;
             font-size: 1.1em;
+        }
+        
+        .review-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .delete-review-btn {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            color: #dc2626;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: none;
+        }
+        
+        .delete-review-btn.visible {
+            display: block;
+        }
+        
+        .delete-review-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.5);
+            transform: translateY(-1px);
+        }
+        
+        .delete-review-btn:active {
+            transform: translateY(0);
         }
 
         .review-text {
@@ -964,6 +1174,230 @@
                 transform: translateY(0);
             }
         }
+        
+        /* Анимированная подсказка для прокрутки вниз */
+        .scroll-hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .scroll-hint.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .scroll-hint-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85em;
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            background: rgba(45, 80, 22, 0.8);
+            padding: 6px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .scroll-hint-arrow {
+            width: 30px;
+            height: 30px;
+            border-right: 3px solid rgba(255, 255, 255, 0.9);
+            border-bottom: 3px solid rgba(255, 255, 255, 0.9);
+            transform: rotate(45deg);
+            animation: scrollBounce 2s ease-in-out infinite;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        
+        @keyframes scrollBounce {
+            0%, 100% {
+                transform: rotate(45deg) translateY(0);
+                opacity: 0.7;
+            }
+            50% {
+                transform: rotate(45deg) translateY(10px);
+                opacity: 1;
+            }
+        }
+        
+        /* Убираем пустоту внизу */
+        body {
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+        
+        .reviews-section {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+        }
+        
+        /* Форма отзыва */
+        .review-form-section {
+            max-width: 1200px;
+            margin: 40px auto 60px auto;
+            padding: 0 20px;
+        }
+        
+        .review-form-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+        }
+        
+        .review-form-container h3 {
+            font-size: 1.6em;
+            color: #2d5016;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .review-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-group label {
+            color: #2d5016;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            padding: 12px 15px;
+            border: 2px solid rgba(74, 124, 42, 0.3);
+            border-radius: 12px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: white;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4a7c2a;
+            box-shadow: 0 0 0 3px rgba(74, 124, 42, 0.1);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .rating-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .rating-stars {
+            display: flex;
+            gap: 5px;
+            font-size: 1.8em;
+            cursor: pointer;
+        }
+        
+        .rating-star {
+            color: #ddd;
+            transition: color 0.2s, transform 0.2s;
+            cursor: pointer;
+        }
+        
+        .rating-star:hover,
+        .rating-star.active {
+            color: #facc15;
+            transform: scale(1.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #4a7c2a 0%, #3a6a1a 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(74, 124, 42, 0.3);
+        }
+        
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 124, 42, 0.4);
+        }
+        
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .review-message {
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .review-message.success {
+            background: rgba(34, 197, 94, 0.15);
+            color: #16a34a;
+            border: 2px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .review-message.error {
+            background: rgba(239, 68, 68, 0.15);
+            color: #dc2626;
+            border: 2px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .review-message.info {
+            background: rgba(59, 130, 246, 0.15);
+            color: #2563eb;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .time-remaining {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        html {
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+        
+        /* Убираем лишние отступы в конце страницы */
+        section:last-of-type {
+            margin-bottom: 60px;
+        }
     </style>
 </head>
 <body class="loading">
@@ -1006,6 +1440,9 @@
                 <a href="https://wa.me/79085550658" target="_blank" class="contact-btn whatsapp-btn" title="Написать в WhatsApp">
                     <img src="images/whatsapp.png" alt="WhatsApp" style="width: 40px; height: 40px;" loading="eager">
                 </a>
+                <a href="https://t.me/Nill_Kafri" target="_blank" class="contact-btn delivery-btn" title="Связь с курьером">
+                    <img src="images/delivery.png" alt="Курьер" style="width: 40px; height: 40px;" loading="eager">
+                </a>
             </div>
         </div>
     </div>
@@ -1024,23 +1461,29 @@
             <span class="plan-day" data-day="5">Вт 02.12</span>
         </div>
         <div class="plan-cards" id="planCards">
-            <div class="plan-card" data-animate>
-                <small>Завтрак</small>
+            <div class="plan-card" data-animate data-meal="Завтрак" data-name="Нежный крем с брусникой" data-calories="268 Ккал · 300 г" data-image="images/pit1.png" data-description="Нежный крем с брусникой - идеальное начало дня. Свежие ягоды и натуральные ингредиенты для заряда энергии.">
                 <img src="images/pit1.png" alt="Нежный крем с брусникой" loading="lazy">
-                <h4>Нежный крем с брусникой</h4>
-                <span>268 Ккал · 300 г</span>
+                <div class="plan-card-content">
+                    <small>Завтрак</small>
+                    <h4>Нежный крем с брусникой</h4>
+                    <span>268 Ккал · 300 г</span>
+                </div>
             </div>
-            <div class="plan-card" data-animate>
-                <small>Обед</small>
+            <div class="plan-card" data-animate data-meal="Обед" data-name="Курица с соусом и эларджи" data-calories="636 Ккал · 340 г" data-image="images/pit2.png" data-description="Сочная курица с ароматным соусом и эларджи. Сбалансированное блюдо с высоким содержанием белка.">
                 <img src="images/pit2.png" alt="Курица с соусом и эларджи" loading="lazy">
-                <h4>Курица с соусом и эларджи</h4>
-                <span>636 Ккал · 340 г</span>
+                <div class="plan-card-content">
+                    <small>Обед</small>
+                    <h4>Курица с соусом и эларджи</h4>
+                    <span>636 Ккал · 340 г</span>
+                </div>
             </div>
-            <div class="plan-card" data-animate>
-                <small>Ужин</small>
+            <div class="plan-card" data-animate data-meal="Ужин" data-name="Мясной соус с орзо" data-calories="494 Ккал · 360 г" data-image="images/pit3.png" data-description="Сытный мясной соус с орзо. Идеальное блюдо для ужина с оптимальным балансом питательных веществ.">
                 <img src="images/pit3.png" alt="Мясной соус с орзо" loading="lazy">
-                <h4>Мясной соус с орзо</h4>
-                <span>494 Ккал · 360 г</span>
+                <div class="plan-card-content">
+                    <small>Ужин</small>
+                    <h4>Мясной соус с орзо</h4>
+                    <span>494 Ккал · 360 г</span>
+                </div>
             </div>
         </div>
     </section>
@@ -1093,6 +1536,60 @@
         <div class="review-card" id="activeReview" data-animate></div>
         <div class="review-thumbnails" id="reviewThumbnails"></div>
     </section>
+    
+    <!-- Форма для оставления отзыва -->
+    <section class="review-form-section" data-animate>
+        <div class="review-form-container">
+            <h3>💬 Оставьте ваш отзыв</h3>
+            <div id="reviewFormMessage"></div>
+            <form class="review-form" id="reviewForm">
+                <div class="form-group">
+                    <label for="reviewName">Ваше имя</label>
+                    <input type="text" id="reviewName" name="name" required placeholder="Как к вам обращаться?">
+                </div>
+                <div class="form-group">
+                    <label for="reviewText">Ваш отзыв</label>
+                    <textarea id="reviewText" name="text" required placeholder="Поделитесь вашими впечатлениями..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Оценка</label>
+                    <div class="rating-group">
+                        <div class="rating-stars" id="ratingStars">
+                            <span class="rating-star" data-rating="1">☆</span>
+                            <span class="rating-star" data-rating="2">☆</span>
+                            <span class="rating-star" data-rating="3">☆</span>
+                            <span class="rating-star" data-rating="4">☆</span>
+                            <span class="rating-star" data-rating="5">☆</span>
+                        </div>
+                        <span id="ratingValue" style="color: #666; font-weight: 600;"></span>
+                    </div>
+                    <input type="hidden" id="reviewRating" name="rating" value="0" required>
+                </div>
+                <button type="submit" class="submit-btn" id="submitReviewBtn">Отправить отзыв</button>
+                <div class="time-remaining" id="timeRemaining"></div>
+            </form>
+        </div>
+    </section>
+    
+    <!-- Анимированная подсказка для прокрутки вниз -->
+    <div class="scroll-hint" id="scrollHint">
+        <div class="scroll-hint-text">Прокрутите вниз</div>
+        <div class="scroll-hint-arrow"></div>
+    </div>
+    
+    <!-- Модальное окно для увеличенного фото -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <img class="modal-image" id="modalImage" src="" alt="">
+            <div class="modal-info">
+                <small id="modalMeal"></small>
+                <h3 id="modalName"></h3>
+                <div class="modal-calories" id="modalCalories"></div>
+                <div class="modal-description" id="modalDescription"></div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Управление loader'ом
@@ -1140,7 +1637,8 @@
             'images/bg.webp',
             'images/saratov.png',
             'images/telegram.png',
-            'images/whatsapp.png'
+            'images/whatsapp.png',
+            'images/delivery.png'
         ];
         
         let imagesLoaded = 0;
@@ -1262,39 +1760,39 @@
         const dayProducts = [
             // Чт 27.11
             [
-                { meal: 'Завтрак', image: 'pit1.png', name: 'Нежный крем с брусникой', calories: '268 Ккал · 300 г' },
-                { meal: 'Обед', image: 'pit2.png', name: 'Курица с соусом и эларджи', calories: '636 Ккал · 340 г' },
-                { meal: 'Ужин', image: 'pit3.png', name: 'Мясной соус с орзо', calories: '494 Ккал · 360 г' }
+                { meal: 'Завтрак', image: 'pit1.png', name: 'Нежный крем с брусникой', calories: '268 Ккал · 300 г', description: 'Нежный крем с брусникой - идеальное начало дня. Свежие ягоды и натуральные ингредиенты для заряда энергии.' },
+                { meal: 'Обед', image: 'pit2.png', name: 'Курица с соусом и эларджи', calories: '636 Ккал · 340 г', description: 'Сочная курица с ароматным соусом и эларджи. Сбалансированное блюдо с высоким содержанием белка.' },
+                { meal: 'Ужин', image: 'pit3.png', name: 'Мясной соус с орзо', calories: '494 Ккал · 360 г', description: 'Сытный мясной соус с орзо. Идеальное блюдо для ужина с оптимальным балансом питательных веществ.' }
             ],
             // Пт 28.11
             [
-                { meal: 'Завтрак', image: 'pit4.png', name: 'Овсяная каша с ягодами', calories: '285 Ккал · 280 г' },
-                { meal: 'Обед', image: 'pit5.png', name: 'Рыба на пару с овощами', calories: '420 Ккал · 320 г' },
-                { meal: 'Ужин', image: 'pit6.png', name: 'Салат с курицей и авокадо', calories: '380 Ккал · 350 г' }
+                { meal: 'Завтрак', image: 'pit4.png', name: 'Овсяная каша с ягодами', calories: '285 Ккал · 280 г', description: 'Полезная овсяная каша с свежими ягодами. Источник сложных углеводов и витаминов для активного дня.' },
+                { meal: 'Обед', image: 'pit5.png', name: 'Рыба на пару с овощами', calories: '420 Ккал · 320 г', description: 'Нежная рыба, приготовленная на пару, с гарниром из свежих овощей. Легкое и полезное блюдо.' },
+                { meal: 'Ужин', image: 'pit6.png', name: 'Салат с курицей и авокадо', calories: '380 Ккал · 350 г', description: 'Свежий салат с нежной курицей и авокадо. Идеальный легкий ужин с полезными жирами.' }
             ],
             // Сб 29.11
             [
-                { meal: 'Завтрак', image: 'pit2.png', name: 'Творожная запеканка', calories: '320 Ккал · 290 г' },
-                { meal: 'Обед', image: 'pit3.png', name: 'Гречка с индейкой', calories: '550 Ккал · 380 г' },
-                { meal: 'Ужин', image: 'pit4.png', name: 'Овощное рагу', calories: '290 Ккал · 340 г' }
+                { meal: 'Завтрак', image: 'pit2.png', name: 'Творожная запеканка', calories: '320 Ккал · 290 г', description: 'Нежная творожная запеканка - классический завтрак с высоким содержанием белка и кальция.' },
+                { meal: 'Обед', image: 'pit3.png', name: 'Гречка с индейкой', calories: '550 Ккал · 380 г', description: 'Сытная гречка с нежной индейкой. Сбалансированное сочетание круп и белка.' },
+                { meal: 'Ужин', image: 'pit4.png', name: 'Овощное рагу', calories: '290 Ккал · 340 г', description: 'Ароматное овощное рагу из сезонных овощей. Легкое и питательное блюдо для вечера.' }
             ],
             // Вс 30.11
             [
-                { meal: 'Завтрак', image: 'pit5.png', name: 'Омлет с овощами', calories: '310 Ккал · 270 г' },
-                { meal: 'Обед', image: 'pit6.png', name: 'Куриная грудка с рисом', calories: '480 Ккал · 360 г' },
-                { meal: 'Ужин', image: 'pit1.png', name: 'Творог с медом', calories: '250 Ккал · 300 г' }
+                { meal: 'Завтрак', image: 'pit5.png', name: 'Омлет с овощами', calories: '310 Ккал · 270 г', description: 'Пышный омлет с свежими овощами. Быстрый и питательный завтрак с высоким содержанием белка.' },
+                { meal: 'Обед', image: 'pit6.png', name: 'Куриная грудка с рисом', calories: '480 Ккал · 360 г', description: 'Нежная куриная грудка с гарниром из риса. Классическое сочетание для полноценного обеда.' },
+                { meal: 'Ужин', image: 'pit1.png', name: 'Творог с медом', calories: '250 Ккал · 300 г', description: 'Нежный творог с натуральным медом. Легкий и полезный ужин, богатый белком и кальцием.' }
             ],
             // Пн 01.12
             [
-                { meal: 'Завтрак', image: 'pit3.png', name: 'Гречневая каша с молоком', calories: '275 Ккал · 310 г' },
-                { meal: 'Обед', image: 'pit4.png', name: 'Рыбные котлеты с овощами', calories: '450 Ккал · 350 г' },
-                { meal: 'Ужин', image: 'pit5.png', name: 'Салат из свежих овощей', calories: '180 Ккал · 280 г' }
+                { meal: 'Завтрак', image: 'pit3.png', name: 'Гречневая каша с молоком', calories: '275 Ккал · 310 г', description: 'Традиционная гречневая каша с молоком. Сытный и полезный завтрак для начала недели.' },
+                { meal: 'Обед', image: 'pit4.png', name: 'Рыбные котлеты с овощами', calories: '450 Ккал · 350 г', description: 'Нежные рыбные котлеты с гарниром из овощей. Источник омега-3 и белка.' },
+                { meal: 'Ужин', image: 'pit5.png', name: 'Салат из свежих овощей', calories: '180 Ккал · 280 г', description: 'Свежий салат из сезонных овощей. Легкий и витаминный ужин для поддержания формы.' }
             ],
             // Вт 02.12
             [
-                { meal: 'Завтрак', image: 'pit6.png', name: 'Йогурт с мюсли', calories: '295 Ккал · 300 г' },
-                { meal: 'Обед', image: 'pit1.png', name: 'Индейка с булгуром', calories: '520 Ккал · 370 г' },
-                { meal: 'Ужин', image: 'pit2.png', name: 'Овощной суп', calories: '220 Ккал · 320 г' }
+                { meal: 'Завтрак', image: 'pit6.png', name: 'Йогурт с мюсли', calories: '295 Ккал · 300 г', description: 'Натуральный йогурт с хрустящими мюсли. Быстрый и полезный завтрак с пробиотиками.' },
+                { meal: 'Обед', image: 'pit1.png', name: 'Индейка с булгуром', calories: '520 Ккал · 370 г', description: 'Нежная индейка с булгуром. Сбалансированное блюдо с высоким содержанием белка и клетчатки.' },
+                { meal: 'Ужин', image: 'pit2.png', name: 'Овощной суп', calories: '220 Ккал · 320 г', description: 'Ароматный овощной суп. Легкое и согревающее блюдо для вечера, богатое витаминами.' }
             ]
         ];
         
@@ -1328,18 +1826,90 @@
                 const card = document.createElement('div');
                 card.className = 'plan-card';
                 card.setAttribute('data-animate', '');
+                card.setAttribute('data-meal', product.meal);
+                card.setAttribute('data-name', product.name);
+                card.setAttribute('data-calories', product.calories);
+                card.setAttribute('data-image', `images/${product.image}`);
+                card.setAttribute('data-description', product.description || `${product.name} - вкусное и полезное блюдо.`);
                 card.innerHTML = `
-                    <small>${product.meal}</small>
                     <img src="images/${product.image}" alt="${product.name}" loading="lazy">
-                    <h4>${product.name}</h4>
-                    <span>${product.calories}</span>
+                    <div class="plan-card-content">
+                        <small>${product.meal}</small>
+                        <h4>${product.name}</h4>
+                        <span>${product.calories}</span>
+                    </div>
                 `;
                 card.style.transitionDelay = `${index * 0.05}s`;
                 planCards.appendChild(card);
             });
 
             observeAnimatedElements(planCards);
+            attachCardClickHandlers();
         }
+        
+        // Модальное окно
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalClose = document.getElementById('modalClose');
+        const modalImage = document.getElementById('modalImage');
+        const modalMeal = document.getElementById('modalMeal');
+        const modalName = document.getElementById('modalName');
+        const modalCalories = document.getElementById('modalCalories');
+        const modalDescription = document.getElementById('modalDescription');
+        
+        function openModal(card) {
+            const meal = card.getAttribute('data-meal');
+            const name = card.getAttribute('data-name');
+            const calories = card.getAttribute('data-calories');
+            const image = card.getAttribute('data-image');
+            const description = card.getAttribute('data-description');
+            
+            modalImage.src = image;
+            modalImage.alt = name;
+            modalMeal.textContent = meal;
+            modalName.textContent = name;
+            modalCalories.textContent = calories;
+            modalDescription.textContent = description;
+            
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function attachCardClickHandlers() {
+            const cards = document.querySelectorAll('.plan-card');
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    openModal(card);
+                });
+            });
+        }
+        
+        // Закрытие модального окна
+        if (modalClose) {
+            modalClose.addEventListener('click', closeModal);
+        }
+        
+        if (modalOverlay) {
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+            
+            // Закрытие по Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+        }
+        
+        // Привязываем обработчики к существующим карточкам
+        attachCardClickHandlers();
         
         planDays.forEach((day, index) => {
             day.addEventListener('click', () => {
@@ -1352,13 +1922,13 @@
             });
         });
 
-        // Секция отзывов
-        const reviewsData = [
+        // Секция отзывов - данные отзывов
+        reviewsData = [
             {
                 name: 'Алина К.',
                 handle: '@healthy_alina',
                 city: 'Саратов',
-                avatar: 'images/pit1.png',
+                avatar: 'images/photo1.png',
                 rating: 5,
                 text: 'Заказываю уже третий месяц. Всегда ощущение домашней еды: свежие продукты, аккуратная упаковка и очень понятное расписание доставок.'
             },
@@ -1366,7 +1936,7 @@
                 name: 'Михаил Т.',
                 handle: '@mikhail_fit',
                 city: 'Энгельс',
-                avatar: 'images/pit2.png',
+                avatar: 'images/photo2.png',
                 rating: 5,
                 text: 'Приятно, что можно подобрать меню под тренировочный план. Ребята гибко меняют блюда, если предупреждать заранее, и всегда вовремя привозят.'
             },
@@ -1374,7 +1944,7 @@
                 name: 'Виктория С.',
                 handle: '@vika_wellness',
                 city: 'Саратов',
-                avatar: 'images/pit3.png',
+                avatar: 'images/photo3.png',
                 rating: 4,
                 text: 'Люблю разнообразие в рационе. Здесь каждую неделю новое меню и при этом стабильный вкус. Оценка 4 только потому, что хочется ещё больше десертов 😊'
             },
@@ -1382,28 +1952,125 @@
                 name: 'Илья П.',
                 handle: '@ilya_runner',
                 city: 'Саратов',
-                avatar: 'images/pit4.png',
+                avatar: 'images/photo4.png',
                 rating: 5,
                 text: 'Поддерживаю форму для марафонов и ценю продуманное БЖУ. Ребята присылают полную информацию по каждому блюду — удобно контролировать результат.'
             }
         ];
 
+        // Глобальные переменные для отзывов
+        let currentReview = 0;
+        let reviewInterval;
+        let reviewCard, reviewThumbnails, reviewPrev, reviewNext;
+        
+        // Данные отзывов
+        reviewsData = [
+            {
+                name: 'Алина К.',
+                handle: '@healthy_alina',
+                city: 'Саратов',
+                avatar: 'images/photo1.png',
+                rating: 5,
+                text: 'Заказываю уже третий месяц. Всегда ощущение домашней еды: свежие продукты, аккуратная упаковка и очень понятное расписание доставок.'
+            },
+            {
+                name: 'Михаил Т.',
+                handle: '@mikhail_fit',
+                city: 'Энгельс',
+                avatar: 'images/photo2.png',
+                rating: 5,
+                text: 'Приятно, что можно подобрать меню под тренировочный план. Ребята гибко меняют блюда, если предупреждать заранее, и всегда вовремя привозят.'
+            },
+            {
+                name: 'Виктория С.',
+                handle: '@vika_wellness',
+                city: 'Саратов',
+                avatar: 'images/photo3.png',
+                rating: 4,
+                text: 'Люблю разнообразие в рационе. Здесь каждую неделю новое меню и при этом стабильный вкус. Оценка 4 только потому, что хочется ещё больше десертов 😊'
+            },
+            {
+                name: 'Илья П.',
+                handle: '@ilya_runner',
+                city: 'Саратов',
+                avatar: 'images/photo4.png',
+                rating: 5,
+                text: 'Поддерживаю форму для марафонов и ценю продуманное БЖУ. Ребята присылают полную информацию по каждому блюду — удобно контролировать результат.'
+            }
+        ];
+        
+        // Проверка прав администратора
+        function isAdmin() {
+            if (window.userData && window.userData.username) {
+                return window.userData.username === 'Nill_Kafri';
+            }
+            // Также проверяем через Telegram Web App
+            if (window.Telegram && window.Telegram.WebApp) {
+                const user = window.Telegram.WebApp.initDataUnsafe?.user;
+                if (user && user.username) {
+                    return user.username === 'Nill_Kafri';
+                }
+            }
+            return false;
+        }
+        
+        // Глобальная функция удаления отзыва
+        window.deleteReview = function(index) {
+            if (!isAdmin()) {
+                alert('У вас нет прав для удаления отзывов');
+                return;
+            }
+            
+            if (confirm('Вы уверены, что хотите удалить этот отзыв?')) {
+                reviewsData.splice(index, 1);
+                
+                // Если удалили текущий отзыв, переходим на предыдущий или следующий
+                if (currentReview >= reviewsData.length) {
+                    currentReview = reviewsData.length - 1;
+                }
+                if (currentReview < 0) {
+                    currentReview = 0;
+                }
+                
+                // Если отзывов не осталось
+                if (reviewsData.length === 0) {
+                    if (reviewCard) {
+                        reviewCard.innerHTML = '<p class="review-text">Отзывов пока нет</p>';
+                    }
+                    if (reviewThumbnails) {
+                        reviewThumbnails.innerHTML = '';
+                    }
+                    return;
+                }
+                
+                renderReview(currentReview);
+                startReviewRotation();
+            }
+        };
+        
         // Инициализация отзывов
-        const reviewCard = document.getElementById('activeReview');
-        const reviewThumbnails = document.getElementById('reviewThumbnails');
-        const reviewPrev = document.getElementById('reviewPrev');
-        const reviewNext = document.getElementById('reviewNext');
+        reviewCard = document.getElementById('activeReview');
+        reviewThumbnails = document.getElementById('reviewThumbnails');
+        reviewPrev = document.getElementById('reviewPrev');
+        reviewNext = document.getElementById('reviewNext');
         
         if (reviewCard && reviewThumbnails && reviewPrev && reviewNext) {
-            let currentReview = 0;
-            let reviewInterval;
-
             function getStars(rating) {
                 return Array.from({ length: 5 }, (_, i) => i < rating ? '★' : '☆').join('');
             }
 
             function renderReview(index) {
+                if (index < 0 || index >= reviewsData.length) return;
+                
                 const review = reviewsData[index];
+                const adminControls = isAdmin() ? `
+                    <div class="review-actions">
+                        <button class="delete-review-btn visible" onclick="deleteReview(${index})" title="Удалить отзыв">
+                            🗑 Удалить
+                        </button>
+                    </div>
+                ` : '';
+                
                 reviewCard.innerHTML = `
                     <div class="review-top">
                         <div class="review-user">
@@ -1415,15 +2082,19 @@
                                 <span>${review.handle} · ${review.city}</span>
                             </div>
                         </div>
-                        <div class="review-stars">${getStars(review.rating)}</div>
+                        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
+                            <div class="review-stars">${getStars(review.rating)}</div>
+                            ${adminControls}
+                        </div>
                     </div>
                     <p class="review-text">"${review.text}"</p>
                 `;
 
                 reviewThumbnails.innerHTML = reviewsData.map((item, i) => `
-                    <button class="review-thumbnail ${i === index ? 'active' : ''}" data-index="${i}">
+                    <button class="review-thumbnail ${i === index ? 'active' : ''}" data-index="${i}" style="position: relative;">
                         <strong>${item.name}</strong>
                         <span>${item.city}</span>
+                        ${isAdmin() ? `<span style="position: absolute; top: 5px; right: 5px; font-size: 0.9em; color: #dc2626; cursor: pointer; padding: 2px 5px; background: rgba(255,255,255,0.8); border-radius: 50%;" onclick="event.stopPropagation(); deleteReview(${i})" title="Удалить отзыв">🗑</span>` : ''}
                     </button>
                 `).join('');
 
@@ -1451,6 +2122,11 @@
             });
 
             reviewThumbnails.addEventListener('click', (event) => {
+                // Если кликнули на иконку удаления, не обрабатываем как выбор отзыва
+                if (event.target.closest('[onclick*="deleteReview"]')) {
+                    return;
+                }
+                
                 const button = event.target.closest('.review-thumbnail');
                 if (button) {
                     const index = Number(button.dataset.index);
@@ -1463,6 +2139,209 @@
             renderReview(currentReview);
             startReviewRotation();
         }
+        
+        // Управление подсказкой для прокрутки вниз
+        const scrollHint = document.getElementById('scrollHint');
+        
+        function checkScrollPosition() {
+            if (!scrollHint) return;
+            
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Показываем подсказку если можно прокрутить вниз (есть еще контент)
+            // Скрываем если близко к концу страницы (осталось меньше 200px)
+            const distanceFromBottom = documentHeight - (scrollTop + windowHeight);
+            
+            if (distanceFromBottom > 200) {
+                scrollHint.classList.add('visible');
+            } else {
+                scrollHint.classList.remove('visible');
+            }
+        }
+        
+        // Проверяем при прокрутке
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(checkScrollPosition, 100);
+        }, { passive: true });
+        
+        // Проверяем при загрузке и изменении размера окна
+        window.addEventListener('load', checkScrollPosition);
+        window.addEventListener('resize', checkScrollPosition);
+        
+        // Первоначальная проверка
+        setTimeout(checkScrollPosition, 500);
+        
+        // Форма отзыва
+        const reviewForm = document.getElementById('reviewForm');
+        const reviewFormMessage = document.getElementById('reviewFormMessage');
+        const submitReviewBtn = document.getElementById('submitReviewBtn');
+        const timeRemaining = document.getElementById('timeRemaining');
+        const ratingStars = document.querySelectorAll('.rating-star');
+        const ratingValue = document.getElementById('ratingValue');
+        const reviewRating = document.getElementById('reviewRating');
+        
+        let selectedRating = 0;
+        
+        // Обработка рейтинга звездами
+        ratingStars.forEach((star, index) => {
+            star.addEventListener('click', () => {
+                selectedRating = index + 1;
+                reviewRating.value = selectedRating;
+                updateRatingDisplay();
+            });
+            
+            star.addEventListener('mouseenter', () => {
+                highlightStars(index + 1);
+            });
+        });
+        
+        document.getElementById('ratingStars').addEventListener('mouseleave', () => {
+            updateRatingDisplay();
+        });
+        
+        function highlightStars(rating) {
+            ratingStars.forEach((star, index) => {
+                if (index < rating) {
+                    star.textContent = '★';
+                    star.classList.add('active');
+                } else {
+                    star.textContent = '☆';
+                    star.classList.remove('active');
+                }
+            });
+        }
+        
+        function updateRatingDisplay() {
+            highlightStars(selectedRating);
+            if (selectedRating > 0) {
+                ratingValue.textContent = `${selectedRating} из 5`;
+            } else {
+                ratingValue.textContent = '';
+            }
+        }
+        
+        // Проверка времени последнего отзыва
+        function canSubmitReview() {
+            const lastReviewTime = localStorage.getItem('lastReviewTime');
+            if (!lastReviewTime) return true;
+            
+            const now = Date.now();
+            const timeDiff = now - parseInt(lastReviewTime);
+            const hours24 = 24 * 60 * 60 * 1000; // 24 часа в миллисекундах
+            
+            return timeDiff >= hours24;
+        }
+        
+        function getTimeUntilNextReview() {
+            const lastReviewTime = localStorage.getItem('lastReviewTime');
+            if (!lastReviewTime) return null;
+            
+            const now = Date.now();
+            const lastTime = parseInt(lastReviewTime);
+            const hours24 = 24 * 60 * 60 * 1000;
+            const timeDiff = hours24 - (now - lastTime);
+            
+            if (timeDiff <= 0) return null;
+            
+            const hours = Math.floor(timeDiff / (60 * 60 * 1000));
+            const minutes = Math.floor((timeDiff % (60 * 60 * 1000)) / (60 * 1000));
+            
+            return { hours, minutes };
+        }
+        
+        function updateReviewFormStatus() {
+            if (canSubmitReview()) {
+                reviewForm.style.display = 'flex';
+                submitReviewBtn.disabled = false;
+                timeRemaining.textContent = '';
+                if (reviewFormMessage) {
+                    reviewFormMessage.innerHTML = '';
+                }
+            } else {
+                const timeLeft = getTimeUntilNextReview();
+                if (timeLeft) {
+                    reviewForm.style.display = 'none';
+                    if (reviewFormMessage) {
+                        reviewFormMessage.innerHTML = `
+                            <div class="review-message info">
+                                ⏰ Вы уже оставили отзыв. Следующий отзыв можно оставить через ${timeLeft.hours} ч ${timeLeft.minutes} мин
+                            </div>
+                        `;
+                    }
+                    timeRemaining.textContent = `До следующего отзыва: ${timeLeft.hours} ч ${timeLeft.minutes} мин`;
+                }
+            }
+        }
+        
+        // Обновление таймера каждую минуту
+        function updateTimer() {
+            updateReviewFormStatus();
+            const timeLeft = getTimeUntilNextReview();
+            if (timeLeft) {
+                timeRemaining.textContent = `До следующего отзыва: ${timeLeft.hours} ч ${timeLeft.minutes} мин`;
+            }
+        }
+        
+        setInterval(updateTimer, 60000); // Обновляем каждую минуту
+        
+        // Обработка отправки формы
+        if (reviewForm) {
+            reviewForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                if (!canSubmitReview()) {
+                    showMessage('Вы уже оставили отзыв. Подождите 24 часа.', 'error');
+                    return;
+                }
+                
+                if (selectedRating === 0) {
+                    showMessage('Пожалуйста, выберите оценку', 'error');
+                    return;
+                }
+                
+                const name = document.getElementById('reviewName').value.trim();
+                const text = document.getElementById('reviewText').value.trim();
+                
+                if (!name || !text) {
+                    showMessage('Заполните все поля', 'error');
+                    return;
+                }
+                
+                // Сохраняем время отправки
+                localStorage.setItem('lastReviewTime', Date.now().toString());
+                
+                // Здесь можно отправить на сервер
+                // await fetch('/api/reviews', { method: 'POST', body: JSON.stringify({ name, text, rating: selectedRating }) });
+                
+                showMessage('Спасибо за ваш отзыв! Он будет опубликован после модерации.', 'success');
+                reviewForm.reset();
+                selectedRating = 0;
+                reviewRating.value = 0;
+                updateRatingDisplay();
+                
+                // Обновляем статус формы
+                setTimeout(updateReviewFormStatus, 1000);
+            });
+        }
+        
+        function showMessage(text, type) {
+            if (reviewFormMessage) {
+                reviewFormMessage.innerHTML = `<div class="review-message ${type}">${text}</div>`;
+                setTimeout(() => {
+                    if (reviewFormMessage) {
+                        reviewFormMessage.innerHTML = '';
+                    }
+                }, 5000);
+            }
+        }
+        
+        // Инициализация при загрузке
+        updateReviewFormStatus();
+        updateTimer();
     </script>
 </body>
 </html>

@@ -5,8 +5,8 @@ import os
 import logging
 from pathlib import Path
 from dotenv import load_dotenv
-from telegram import Update, WebAppInfo
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram import Update, WebAppInfo, KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 # Настройка логирования (сначала, чтобы можно было использовать logger)
@@ -40,6 +40,10 @@ if not env_loaded:
 
 # Токен бота (получаем из переменных окружения)
 BOT_TOKEN = os.getenv('BOT_TOKEN', '')
+
+# Хранение активных сессий обмена геолокацией
+# Формат: {sender_id: receiver_id}
+location_sharing_sessions = {}
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -125,7 +129,10 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             'Доступные команды:\n'
             '/start - Начать работу\n'
             '/help - Показать эту справку\n'
-            '/menu - Открыть меню\n\n'
+            '/menu - Открыть меню\n'
+            '/my_id - Узнать свой ID\n'
+            '/share_location - Поделиться геолокацией\n'
+            '/stop_location - Остановить обмен геолокацией\n\n'
             'Или нажмите кнопку ниже:',
             reply_markup=reply_markup
         )
@@ -158,11 +165,252 @@ async def menu_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         logger.error(f"Ошибка в обработчике /menu: {e}", exc_info=True)
 
 
+async def share_location_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Команда для начала обмена геолокацией"""
+    try:
+        if not update.message:
+            return
+        
+        user = update.message.from_user
+        user_id = user.id
+        
+        # Проверяем, не делится ли уже пользователь геолокацией
+        if user_id in location_sharing_sessions:
+            receiver_id = location_sharing_sessions[user_id]
+            await update.message.reply_text(
+                f"⚠️ Вы уже делитесь геолокацией с пользователем (ID: {receiver_id})\n\n"
+                f"Используйте /stop_location чтобы остановить обмен."
+            )
+            return
+        
+        # Получаем ID получателя из аргументов команды
+        if context.args and len(context.args) > 0:
+            try:
+                receiver_id = int(context.args[0])
+                
+                # Проверяем, что получатель существует
+                try:
+                    receiver = await context.bot.get_chat(receiver_id)
+                    receiver_name = receiver.first_name or f"ID: {receiver_id}"
+                except:
+                    await update.message.reply_text(
+                        "❌ Не удалось найти получателя. Проверьте правильность ID."
+                    )
+                    return
+                
+                # Создаем сессию обмена
+                location_sharing_sessions[user_id] = receiver_id
+                
+                # Создаем клавиатуру с кнопкой для отправки геолокации
+                keyboard = [
+                    [KeyboardButton("📍 Отправить мою геолокацию", request_location=True)],
+                    [KeyboardButton("⏹ Остановить обмен")]
+                ]
+                reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=False)
+                
+                await update.message.reply_text(
+                    f"✅ Обмен геолокацией активирован!\n\n"
+                    f"📤 Вы делитесь геолокацией с: {receiver_name}\n\n"
+                    f"📍 Нажмите кнопку ниже, чтобы отправить вашу текущую геолокацию.\n"
+                    f"⏹ Используйте /stop_location чтобы остановить обмен.",
+                    reply_markup=reply_markup
+                )
+                
+                # Уведомляем получателя
+                try:
+                    await context.bot.send_message(
+                        receiver_id,
+                        f"📍 <b>{user.first_name}</b> начал делиться с вами геолокацией.\n\n"
+                        f"Вы будете получать обновления его местоположения.\n"
+                        f"Используйте /stop_location чтобы остановить получение.",
+                        parse_mode='HTML'
+                    )
+                except Exception as e:
+                    logger.warning(f"Не удалось уведомить получателя {receiver_id}: {e}")
+                
+                logger.info(f"📍 Пользователь {user_id} начал делиться геолокацией с {receiver_id}")
+                
+            except ValueError:
+                await update.message.reply_text(
+                    "❌ Неверный формат ID получателя.\n\n"
+                    "Использование: /share_location <ID_получателя>\n\n"
+                    "Пример: /share_location 123456789"
+                )
+        else:
+            await update.message.reply_text(
+                "📍 <b>Обмен геолокацией</b>\n\n"
+                "Использование: /share_location <ID_получателя>\n\n"
+                "Пример: /share_location 123456789\n\n"
+                "Чтобы узнать ID пользователя, попросите его написать боту @userinfobot",
+                parse_mode='HTML'
+            )
+            
+    except Exception as e:
+        logger.error(f"Ошибка в share_location_command: {e}", exc_info=True)
+        if update.message:
+            await update.message.reply_text("Произошла ошибка. Попробуйте позже.")
+
+
+async def my_id_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показать свой ID"""
+    try:
+        if not update.message:
+            return
+        
+        user = update.message.from_user
+        user_id = user.id
+        username = user.username or "не указан"
+        name = f"{user.first_name} {user.last_name or ''}".strip()
+        
+        text = (
+            f"🆔 <b>Ваша информация:</b>\n\n"
+            f"ID: <code>{user_id}</code>\n"
+            f"Имя: {name}\n"
+            f"Username: @{username}\n\n"
+            f"💡 <i>Поделитесь этим ID с тем, кто хочет делиться с вами геолокацией.</i>"
+        )
+        
+        await update.message.reply_text(text, parse_mode='HTML')
+        logger.info(f"🆔 Пользователь {user_id} запросил свой ID")
+        
+    except Exception as e:
+        logger.error(f"Ошибка в my_id_command: {e}", exc_info=True)
+        if update.message:
+            await update.message.reply_text("Произошла ошибка. Попробуйте позже.")
+
+
+async def stop_location_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Остановка обмена геолокацией"""
+    try:
+        if not update.message:
+            return
+        
+        user_id = update.message.from_user.id
+        
+        if user_id in location_sharing_sessions:
+            receiver_id = location_sharing_sessions[user_id]
+            del location_sharing_sessions[user_id]
+            
+            # Убираем клавиатуру
+            await update.message.reply_text(
+                "⏹ Обмен геолокацией остановлен.",
+                reply_markup=ReplyKeyboardRemove()
+            )
+            
+            # Уведомляем получателя
+            try:
+                user_name = update.message.from_user.first_name
+                await context.bot.send_message(
+                    receiver_id,
+                    f"⏹ <b>{user_name}</b> остановил обмен геолокацией.",
+                    parse_mode='HTML'
+                )
+            except Exception as e:
+                logger.warning(f"Не удалось уведомить получателя {receiver_id}: {e}")
+            
+            logger.info(f"⏹ Пользователь {user_id} остановил обмен геолокацией с {receiver_id}")
+        else:
+            # Проверяем, не является ли пользователь получателем
+            sender_id = None
+            for sid, rid in location_sharing_sessions.items():
+                if rid == user_id:
+                    sender_id = sid
+                    break
+            
+            if sender_id:
+                del location_sharing_sessions[sender_id]
+                try:
+                    sender_name = (await context.bot.get_chat(sender_id)).first_name
+                    await update.message.reply_text(
+                        f"⏹ Вы больше не получаете геолокацию от {sender_name}.",
+                        reply_markup=ReplyKeyboardRemove()
+                    )
+                    await context.bot.send_message(
+                        sender_id,
+                        f"⏹ Получатель остановил получение вашей геолокации.",
+                        parse_mode='HTML'
+                    )
+                except Exception as e:
+                    logger.warning(f"Ошибка при остановке получения: {e}")
+            else:
+                await update.message.reply_text(
+                    "ℹ️ Вы не делитесь геолокацией и не получаете её.",
+                    reply_markup=ReplyKeyboardRemove()
+                )
+                
+    except Exception as e:
+        logger.error(f"Ошибка в stop_location_command: {e}", exc_info=True)
+        if update.message:
+            await update.message.reply_text("Произошла ошибка. Попробуйте позже.")
+
+
+async def handle_location(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обработчик получения геолокации"""
+    try:
+        if not update.message or not update.message.location:
+            return
+        
+        sender_id = update.message.from_user.id
+        location = update.message.location
+        
+        # Проверяем, есть ли активная сессия обмена
+        if sender_id in location_sharing_sessions:
+            receiver_id = location_sharing_sessions[sender_id]
+            
+            try:
+                sender_name = update.message.from_user.first_name or "Пользователь"
+                
+                # Отправляем геолокацию получателю
+                await context.bot.send_location(
+                    receiver_id,
+                    latitude=location.latitude,
+                    longitude=location.longitude
+                )
+                
+                # Отправляем текстовое сообщение с координатами
+                await context.bot.send_message(
+                    receiver_id,
+                    f"📍 <b>{sender_name}</b> поделился геолокацией:\n\n"
+                    f"Широта: {location.latitude}\n"
+                    f"Долгота: {location.longitude}",
+                    parse_mode='HTML'
+                )
+                
+                # Подтверждаем отправителю
+                await update.message.reply_text("✅ Геолокация отправлена!")
+                
+                logger.info(f"📍 Геолокация от {sender_id} отправлена {receiver_id}")
+                
+            except Exception as e:
+                logger.error(f"Ошибка при отправке геолокации: {e}")
+                await update.message.reply_text(
+                    "❌ Не удалось отправить геолокацию. Возможно, получатель заблокировал бота."
+                )
+        else:
+            await update.message.reply_text(
+                "ℹ️ У вас нет активной сессии обмена геолокацией.\n"
+                "Используйте /share_location чтобы начать обмен."
+            )
+            
+    except Exception as e:
+        logger.error(f"Ошибка в handle_location: {e}", exc_info=True)
+
+
+async def handle_stop_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обработчик кнопки 'Остановить обмен'"""
+    if update.message and update.message.text == "⏹ Остановить обмен":
+        await stop_location_command(update, context)
+
+
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Эхо-обработчик для текстовых сообщений"""
     try:
         if update.message:
-            await update.message.reply_text(update.message.text)
+            # Проверяем, не является ли это кнопкой остановки
+            if update.message.text == "⏹ Остановить обмен":
+                await handle_stop_button(update, context)
+            else:
+                await update.message.reply_text(update.message.text)
     except Exception as e:
         logger.error(f"Ошибка в обработчике echo: {e}", exc_info=True)
 
@@ -207,6 +455,14 @@ def main():
         application.add_handler(CommandHandler("start", start))
         application.add_handler(CommandHandler("help", help_command))
         application.add_handler(CommandHandler("menu", menu_command))
+        application.add_handler(CommandHandler("my_id", my_id_command))
+        application.add_handler(CommandHandler("share_location", share_location_command))
+        application.add_handler(CommandHandler("stop_location", stop_location_command))
+        
+        # Обработчик геолокации (должен быть перед TEXT handler)
+        application.add_handler(MessageHandler(filters.LOCATION, handle_location))
+        
+        # Обработчик текстовых сообщений
         application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
         logger.info("✅ Обработчики зарегистрированы")
         
