@@ -11,6 +11,7 @@
     <link rel="preload" href="images/telegram.png" as="image">
     <link rel="preload" href="images/whatsapp.png" as="image">
     <link rel="preload" href="images/delivery.png" as="image">
+    <link rel="preload" href="images/result.png" as="image">
     
     <!-- Preconnect для внешних ресурсов -->
     <link rel="preconnect" href="https://telegram.org">
@@ -1348,6 +1349,25 @@
             padding-bottom: 40px;
         }
         
+        /* Изображение результата */
+        .result-image-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+        
+        .result-image-section img {
+            max-width: 100%;
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: block;
+            margin: 0 auto;
+            object-fit: contain;
+        }
+        
         /* FAQ секция */
         .faq-section {
             max-width: 1200px;
@@ -1601,6 +1621,11 @@
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- Изображение результата -->
+    <section class="result-image-section" data-animate>
+        <img src="images/result.png" alt="Результаты" loading="eager">
     </section>
 
     <!-- Отзывы клиентов -->
