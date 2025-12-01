@@ -1313,6 +1313,135 @@
             padding-bottom: 40px;
         }
         
+        /* FAQ секция */
+        .faq-section {
+            max-width: 1200px;
+            margin: 40px auto 60px auto;
+            padding: 0 20px;
+        }
+        
+        .faq-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .faq-header h2 {
+            font-size: 2em;
+            color: #2d5016;
+            margin-bottom: 10px;
+        }
+        
+        .faq-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .faq-category-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            border-radius: 25px;
+            color: #2d5016;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+        
+        .faq-category-btn:hover,
+        .faq-category-btn.active {
+            background: linear-gradient(135deg, #4a7c2a 0%, #3a6a1a 100%);
+            color: white;
+            border-color: #4a7c2a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+        
+        .faq-category {
+            display: none;
+        }
+        
+        .faq-category.active {
+            display: block;
+            animation: fadeInUp 0.4s ease;
+        }
+        
+        .faq-item {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 16px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(76, 175, 80, 0.15);
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .faq-question {
+            padding: 18px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #2d5016;
+            font-size: 1.05em;
+            transition: background 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: rgba(76, 175, 80, 0.05);
+        }
+        
+        .faq-question.active {
+            background: rgba(76, 175, 80, 0.1);
+        }
+        
+        .faq-icon {
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+            color: #4a7c2a;
+        }
+        
+        .faq-question.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 0 20px;
+        }
+        
+        .faq-answer.active {
+            max-height: 500px;
+            padding: 0 20px 18px 20px;
+        }
+        
+        .faq-answer-content {
+            color: #555;
+            line-height: 1.7;
+            font-size: 0.95em;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
         html {
             padding-bottom: 0;
             margin-bottom: 0;
@@ -1440,6 +1569,164 @@
         </div>
         <div class="review-card" id="activeReview" data-animate></div>
         <div class="review-thumbnails" id="reviewThumbnails"></div>
+    </section>
+
+    <!-- FAQ секция -->
+    <section class="faq-section" data-animate>
+        <div class="faq-header">
+            <h2>Часто задаваемые вопросы</h2>
+        </div>
+        
+        <div class="faq-categories">
+            <button class="faq-category-btn active" data-category="general">Общие</button>
+            <button class="faq-category-btn" data-category="storage">Хранение</button>
+            <button class="faq-category-btn" data-category="payment">Оплата и Доставка</button>
+            <button class="faq-category-btn" data-category="products">Продукты</button>
+        </div>
+        
+        <!-- Общие вопросы -->
+        <div class="faq-category active" id="faq-general">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Можно ли менять местами блюда в течение дня?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Утром количество углеводов является максимальным, а вечером минимальным. Поэтому мы не рекомендуем менять местами приемы в течение дня.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Насколько часто у меня будет меняться меню?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Мы за разнообразие. В нашем меню более 400 блюд и мы постоянно обновляем его с учетом ваших пожеланий и отзывов.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Сколько времени я сэкономлю?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Мы все посчитали: на составление рациона, походы в магазин и приготовление еды уходит около 20 часов в неделю. Теперь это время будет только вашим.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Нужно ли есть еще что-то дополнительно?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Наше меню на день идеально сбалансировано, поэтому вам не нужно покупать дополнительные продукты и что-то готовить.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Хранение -->
+        <div class="faq-category" id="faq-storage">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Как долго хранятся ваши блюда?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Наши блюда упакованы в герметичные контейнеры по технологии газомодифицированной среды. Это сохраняет свежесть на несколько дней, если хранить в холодильнике. Главное — следите за сроками годности на упаковке.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Можно ли разогревать еду прямо в контейнере?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Да. Просто снимите пленку/крышку и поставьте контейнер в микроволновку на пару минут.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Оплата и Доставка -->
+        <div class="faq-category" id="faq-payment">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Как я могу оплатить свой заказ?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Удобным вам способом: наличными курьеру в день первой доставки либо переводом.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Как осуществляется доставка?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Мы привозим еду каждые 2 дня. Дополнительная информация по телеграму.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Когда можно изменить время доставки, перенести доставку или отменить?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Свяжитесь с курьером: в приложении есть кнопка «Написать курьеру». Он постарается подстроиться под ваш новый график.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Продукты -->
+        <div class="faq-category" id="faq-products">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Какие продукты вы используете?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Мы используем диетические сорта мяса, например куриное филе, филе индейки и говядину. Молочная продукция оптимальна по жирности — до 5%. Многие блюда готовим на пару и по технологии су-вид. Так они получаются вкусными и полезными.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Используете ли вы сахарозаменитель?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        В нашем меню есть блюда, где сахар заменен на натуральный сахарозаменитель "Prebiosweet Fitness", чтобы еда была не только вкусной, но и полезной. Подробный состав вы всегда можете уточнить у нашего менеджера.
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Блок с преимуществами -->
@@ -2146,6 +2433,43 @@
         
         // Первоначальная проверка
         setTimeout(checkScrollPosition, 500);
+        
+        // FAQ функционал
+        function toggleFaq(questionElement) {
+            const answer = questionElement.nextElementSibling;
+            const isActive = questionElement.classList.contains('active');
+            
+            // Закрываем все другие вопросы в этой категории
+            const category = questionElement.closest('.faq-category');
+            const allQuestions = category.querySelectorAll('.faq-question');
+            const allAnswers = category.querySelectorAll('.faq-answer');
+            
+            allQuestions.forEach(q => q.classList.remove('active'));
+            allAnswers.forEach(a => a.classList.remove('active'));
+            
+            // Открываем/закрываем текущий вопрос
+            if (!isActive) {
+                questionElement.classList.add('active');
+                answer.classList.add('active');
+            }
+        }
+        
+        // Переключение категорий FAQ
+        document.querySelectorAll('.faq-category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const category = this.dataset.category;
+                
+                // Убираем активный класс со всех кнопок
+                document.querySelectorAll('.faq-category-btn').forEach(b => b.classList.remove('active'));
+                // Добавляем активный класс к нажатой кнопке
+                this.classList.add('active');
+                
+                // Скрываем все категории
+                document.querySelectorAll('.faq-category').forEach(c => c.classList.remove('active'));
+                // Показываем выбранную категорию
+                document.getElementById(`faq-${category}`).classList.add('active');
+            });
+        });
     </script>
 </body>
 </html>
