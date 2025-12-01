@@ -1090,6 +1090,21 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
             backdrop-filter: blur(10px);
         }
+        
+        .reviews-header > span {
+            font-size: 1.3em;
+            color: #2d5016;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex: 0 0 auto;
+        }
+        
+        .reviews-header .review-controls {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
 
         .reviews-header h3 {
             font-size: 1.3em;
@@ -1596,13 +1611,12 @@
     <!-- Отзывы клиентов -->
     <section class="reviews-section" data-animate>
         <div class="reviews-header">
-            <div>
-                <h3>Наши отзывы</h3>
-            </div>
+            <span>Наши</span>
             <div class="review-controls">
                 <button class="review-nav" id="reviewPrev" aria-label="Предыдущий отзыв">‹</button>
                 <button class="review-nav" id="reviewNext" aria-label="Следующий отзыв">›</button>
             </div>
+            <span>Отзывы</span>
         </div>
         <div class="review-card" id="activeReview" data-animate></div>
         <div class="review-thumbnails" id="reviewThumbnails"></div>
