@@ -1356,6 +1356,26 @@
             padding-bottom: 40px;
         }
         
+        /* Изображение результата */
+        .result-image-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            text-align: center;
+            min-height: 200px;
+        }
+        
+        .result-image-section img {
+            max-width: 100%;
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: block;
+            margin: 0 auto;
+            object-fit: contain;
+        }
+        
         /* FAQ секция */
         .faq-section {
             max-width: 1200px;
@@ -1612,11 +1632,10 @@
     </section>
 
     <!-- Изображение результата -->
-    <section class="result-image-section" data-animate style="max-width: 1200px; margin: 40px auto; padding: 0 20px; text-align: center;">
+    <section class="result-image-section" data-animate style="max-width: 1200px; margin: 40px auto; padding: 0 20px; text-align: center; min-height: 200px;">
         <img src="images/result.png" alt="Результаты" 
-             style="max-width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: block; margin: 0 auto;" 
-             loading="lazy"
-             onerror="this.style.display='none'; console.error('Ошибка загрузки result.png');">
+             style="max-width: 100%; width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: block; margin: 0 auto; object-fit: contain;" 
+             loading="eager">
     </section>
 
     <!-- Отзывы клиентов -->
