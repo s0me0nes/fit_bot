@@ -1099,33 +1099,6 @@
             gap: 10px;
         }
         
-        .delete-review-btn {
-            background: rgba(239, 68, 68, 0.1);
-            border: 2px solid rgba(239, 68, 68, 0.3);
-            color: #dc2626;
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 0.85em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: none;
-        }
-        
-        .delete-review-btn.visible {
-            display: block;
-        }
-        
-        .delete-review-btn:hover {
-            background: rgba(239, 68, 68, 0.2);
-            border-color: rgba(239, 68, 68, 0.5);
-            transform: translateY(-1px);
-        }
-        
-        .delete-review-btn:active {
-            transform: translateY(0);
-        }
-
         .review-text {
             font-size: 1.05em;
             color: #1f2933;
@@ -1262,155 +1235,6 @@
         .reviews-section {
             margin-bottom: 60px;
             padding-bottom: 40px;
-        }
-        
-        /* Форма отзыва */
-        .review-form-section {
-            max-width: 1200px;
-            margin: 40px auto 60px auto;
-            padding: 0 20px;
-        }
-        
-        .review-form-container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            backdrop-filter: blur(10px);
-        }
-        
-        .review-form-container h3 {
-            font-size: 1.6em;
-            color: #2d5016;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-        
-        .review-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .form-group label {
-            color: #2d5016;
-            font-weight: 600;
-            font-size: 0.95em;
-        }
-        
-        .form-group input,
-        .form-group textarea {
-            padding: 12px 15px;
-            border: 2px solid rgba(74, 124, 42, 0.3);
-            border-radius: 12px;
-            font-size: 1em;
-            font-family: inherit;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            background: white;
-        }
-        
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #4a7c2a;
-            box-shadow: 0 0 0 3px rgba(74, 124, 42, 0.1);
-        }
-        
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-        
-        .rating-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .rating-stars {
-            display: flex;
-            gap: 5px;
-            font-size: 1.8em;
-            cursor: pointer;
-        }
-        
-        .rating-star {
-            color: #ddd;
-            transition: color 0.2s, transform 0.2s;
-            cursor: pointer;
-        }
-        
-        .rating-star:hover,
-        .rating-star.active {
-            color: #facc15;
-            transform: scale(1.1);
-        }
-        
-        .submit-btn {
-            background: linear-gradient(135deg, #4a7c2a 0%, #3a6a1a 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 12px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(74, 124, 42, 0.3);
-        }
-        
-        .submit-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(74, 124, 42, 0.4);
-        }
-        
-        .submit-btn:active:not(:disabled) {
-            transform: translateY(0);
-        }
-        
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
-        .review-message {
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: 500;
-        }
-        
-        .review-message.success {
-            background: rgba(34, 197, 94, 0.15);
-            color: #16a34a;
-            border: 2px solid rgba(34, 197, 94, 0.3);
-        }
-        
-        .review-message.error {
-            background: rgba(239, 68, 68, 0.15);
-            color: #dc2626;
-            border: 2px solid rgba(239, 68, 68, 0.3);
-        }
-        
-        .review-message.info {
-            background: rgba(59, 130, 246, 0.15);
-            color: #2563eb;
-            border: 2px solid rgba(59, 130, 246, 0.3);
-        }
-        
-        .time-remaining {
-            color: #666;
-            font-size: 0.9em;
-            margin-top: 10px;
-            text-align: center;
         }
         
         html {
@@ -1569,62 +1393,6 @@
         <div class="review-card" id="activeReview" data-animate></div>
         <div class="review-thumbnails" id="reviewThumbnails"></div>
     </section>
-    
-    <!-- Форма для оставления отзыва -->
-    <section class="review-form-section" data-animate>
-        <div class="review-form-container">
-            <h3>💬 Оставьте ваш отзыв</h3>
-            <div id="reviewFormMessage"></div>
-            <form class="review-form" id="reviewForm">
-                <div class="form-group">
-                    <label for="reviewName">Ваше имя</label>
-                    <input type="text" id="reviewName" name="name" required placeholder="Как к вам обращаться?">
-                </div>
-                <div class="form-group">
-                    <label for="reviewText">Ваш отзыв</label>
-                    <textarea id="reviewText" name="text" required placeholder="Поделитесь вашими впечатлениями..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Оценка</label>
-                    <div class="rating-group">
-                        <div class="rating-stars" id="ratingStars">
-                            <span class="rating-star" data-rating="1">☆</span>
-                            <span class="rating-star" data-rating="2">☆</span>
-                            <span class="rating-star" data-rating="3">☆</span>
-                            <span class="rating-star" data-rating="4">☆</span>
-                            <span class="rating-star" data-rating="5">☆</span>
-                        </div>
-                        <span id="ratingValue" style="color: #666; font-weight: 600;"></span>
-                    </div>
-                    <input type="hidden" id="reviewRating" name="rating" value="0" required>
-                </div>
-                <button type="submit" class="submit-btn" id="submitReviewBtn">Отправить отзыв</button>
-                <div class="time-remaining" id="timeRemaining"></div>
-            </form>
-        </div>
-    </section>
-    
-    <!-- Кнопка обновления для админа -->
-    <div id="adminRefreshBtn" style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
-        <button onclick="refreshReviews()" style="
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.6)'" 
-        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.4)'">
-            🔄 Обновить отзывы
-        </button>
-    </div>
     
     <!-- Анимированная подсказка для прокрутки вниз -->
     <div class="scroll-hint" id="scrollHint">
@@ -2088,80 +1856,7 @@
             return false;
         }
         
-        // Функция для обновления отзывов (для админа)
-        async function refreshReviews() {
-            const adminBtn = document.getElementById('adminRefreshBtn');
-            const button = adminBtn ? adminBtn.querySelector('button') : null;
-            
-            if (button) {
-                button.disabled = true;
-                button.textContent = '⏳ Обновление...';
-            }
-            
-            try {
-                const loaded = await loadReviewsFromServer();
-                if (loaded) {
-                    // Обновляем отображение
-                    if (reviewsData.length > 0) {
-                        currentReview = 0;
-                        renderReview(currentReview);
-                        startReviewRotation();
-                    } else {
-                        if (reviewCard) {
-                            reviewCard.innerHTML = '<p class="review-text">Отзывов пока нет</p>';
-                        }
-                        if (reviewThumbnails) {
-                            reviewThumbnails.innerHTML = '';
-                        }
-                    }
-                    
-                    if (button) {
-                        button.textContent = '✅ Обновлено!';
-                        setTimeout(() => {
-                            button.textContent = '🔄 Обновить отзывы';
-                            button.disabled = false;
-                        }, 2000);
-                    }
-                    return true;
-                } else {
-                    if (button) {
-                        button.textContent = '❌ Ошибка';
-                        setTimeout(() => {
-                            button.textContent = '🔄 Обновить отзывы';
-                            button.disabled = false;
-                        }, 2000);
-                    }
-                    return false;
-                }
-            } catch (error) {
-                console.error('Ошибка при обновлении отзывов:', error);
-                if (button) {
-                    button.textContent = '❌ Ошибка';
-                    setTimeout(() => {
-                        button.textContent = '🔄 Обновить отзывы';
-                        button.disabled = false;
-                    }, 2000);
-                }
-                return false;
-            }
-        }
-        
         // Инициализация отзывов будет вызвана после определения всех функций
-        
-        // Проверка прав администратора
-        function isAdmin() {
-            if (window.userData && window.userData.username) {
-                return window.userData.username === 'Nill_Kafri';
-            }
-            // Также проверяем через Telegram Web App
-            if (window.Telegram && window.Telegram.WebApp) {
-                const user = window.Telegram.WebApp.initDataUnsafe?.user;
-                if (user && user.username) {
-                    return user.username === 'Nill_Kafri';
-                }
-            }
-            return false;
-        }
         
         // Получаем URL бэкенда
         function getBackendUrl() {
@@ -2183,73 +1878,6 @@
             return backendUrl;
         }
         
-        // Глобальная функция удаления отзыва
-        window.deleteReview = async function(index) {
-            if (!isAdmin()) {
-                alert('У вас нет прав для удаления отзывов');
-                return;
-            }
-            
-            if (!confirm('Вы уверены, что хотите удалить этот отзыв?')) {
-                return;
-            }
-            
-            // Получаем username для проверки прав
-            let username = null;
-            if (window.userData && window.userData.username) {
-                username = window.userData.username;
-            } else if (window.Telegram && window.Telegram.WebApp) {
-                const user = window.Telegram.WebApp.initDataUnsafe?.user;
-                if (user && user.username) {
-                    username = user.username;
-                }
-            }
-            
-            if (username !== 'Nill_Kafri') {
-                alert('У вас нет прав для удаления отзывов');
-                return;
-            }
-            
-            try {
-                const backendUrl = getBackendUrl();
-                const response = await fetch(`${backendUrl}/api/reviews/${index}?username=${username}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                
-                if (!response.ok) {
-                    const error = await response.json();
-                    throw new Error(error.detail || 'Ошибка при удалении отзыва');
-                }
-                
-                const result = await response.json();
-                
-                // Перезагружаем отзывы с сервера для синхронизации
-                await refreshReviews();
-                
-                console.log('Отзыв успешно удален с сервера');
-            } catch (error) {
-                console.error('Ошибка при удалении отзыва:', error);
-                // Показываем ошибку, но все равно удаляем локально (fallback)
-                alert('Ошибка при удалении отзыва на сервере: ' + error.message + '\nОтзыв удален локально.');
-                
-                // Удаляем локально в любом случае
-                reviewsData.splice(index, 1);
-                if (currentReview >= reviewsData.length) {
-                    currentReview = reviewsData.length - 1;
-                }
-                if (currentReview < 0) {
-                    currentReview = 0;
-                }
-                if (reviewsData.length > 0) {
-                    renderReview(currentReview);
-                    startReviewRotation();
-                }
-            }
-        };
-        
         // Инициализация отзывов
         reviewCard = document.getElementById('activeReview');
         reviewThumbnails = document.getElementById('reviewThumbnails');
@@ -2265,13 +1893,6 @@
                 if (index < 0 || index >= reviewsData.length) return;
                 
                 const review = reviewsData[index];
-                const adminControls = isAdmin() ? `
-                    <div class="review-actions">
-                        <button class="delete-review-btn visible" onclick="deleteReview(${index})" title="Удалить отзыв">
-                            🗑 Удалить
-                        </button>
-                    </div>
-                ` : '';
                 
                 reviewCard.innerHTML = `
                     <div class="review-top">
@@ -2286,17 +1907,15 @@
                         </div>
                         <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
                             <div class="review-stars">${getStars(review.rating)}</div>
-                            ${adminControls}
                         </div>
                     </div>
                     <p class="review-text">"${review.text}"</p>
                 `;
 
                 reviewThumbnails.innerHTML = reviewsData.map((item, i) => `
-                    <button class="review-thumbnail ${i === index ? 'active' : ''}" data-index="${i}" style="position: relative;">
+                    <button class="review-thumbnail ${i === index ? 'active' : ''}" data-index="${i}">
                         <strong>${item.name}</strong>
                         <span>${item.city}</span>
-                        ${isAdmin() ? `<span style="position: absolute; top: 5px; right: 5px; font-size: 0.9em; color: #dc2626; cursor: pointer; padding: 2px 5px; background: rgba(255,255,255,0.8); border-radius: 50%;" onclick="event.stopPropagation(); deleteReview(${i})" title="Удалить отзыв">🗑</span>` : ''}
                     </button>
                 `).join('');
 
@@ -2324,11 +1943,6 @@
             });
 
             reviewThumbnails.addEventListener('click', (event) => {
-                // Если кликнули на иконку удаления, не обрабатываем как выбор отзыва
-                if (event.target.closest('[onclick*="deleteReview"]')) {
-                    return;
-                }
-                
                 const button = event.target.closest('.review-thumbnail');
                 if (button) {
                     const index = Number(button.dataset.index);
@@ -2403,262 +2017,6 @@
         
         // Первоначальная проверка
         setTimeout(checkScrollPosition, 500);
-        
-        // Форма отзыва
-        const reviewForm = document.getElementById('reviewForm');
-        const reviewFormMessage = document.getElementById('reviewFormMessage');
-        const submitReviewBtn = document.getElementById('submitReviewBtn');
-        const timeRemaining = document.getElementById('timeRemaining');
-        const ratingStars = document.querySelectorAll('.rating-star');
-        const ratingValue = document.getElementById('ratingValue');
-        const reviewRating = document.getElementById('reviewRating');
-        
-        let selectedRating = 0;
-        
-        // Обработка рейтинга звездами
-        ratingStars.forEach((star, index) => {
-            star.addEventListener('click', () => {
-                selectedRating = index + 1;
-                reviewRating.value = selectedRating;
-                updateRatingDisplay();
-            });
-            
-            star.addEventListener('mouseenter', () => {
-                highlightStars(index + 1);
-            });
-        });
-        
-        document.getElementById('ratingStars').addEventListener('mouseleave', () => {
-            updateRatingDisplay();
-        });
-        
-        function highlightStars(rating) {
-            ratingStars.forEach((star, index) => {
-                if (index < rating) {
-                    star.textContent = '★';
-                    star.classList.add('active');
-                } else {
-                    star.textContent = '☆';
-                    star.classList.remove('active');
-                }
-            });
-        }
-        
-        function updateRatingDisplay() {
-            highlightStars(selectedRating);
-            if (selectedRating > 0) {
-                ratingValue.textContent = `${selectedRating} из 5`;
-            } else {
-                ratingValue.textContent = '';
-            }
-        }
-        
-        // Проверка времени последнего отзыва
-        function canSubmitReview() {
-            const lastReviewTime = localStorage.getItem('lastReviewTime');
-            if (!lastReviewTime) return true;
-            
-            const now = Date.now();
-            const timeDiff = now - parseInt(lastReviewTime);
-            const hours24 = 24 * 60 * 60 * 1000; // 24 часа в миллисекундах
-            
-            return timeDiff >= hours24;
-        }
-        
-        function getTimeUntilNextReview() {
-            const lastReviewTime = localStorage.getItem('lastReviewTime');
-            if (!lastReviewTime) return null;
-            
-            const now = Date.now();
-            const lastTime = parseInt(lastReviewTime);
-            const hours24 = 24 * 60 * 60 * 1000;
-            const timeDiff = hours24 - (now - lastTime);
-            
-            if (timeDiff <= 0) return null;
-            
-            const hours = Math.floor(timeDiff / (60 * 60 * 1000));
-            const minutes = Math.floor((timeDiff % (60 * 60 * 1000)) / (60 * 1000));
-            
-            return { hours, minutes };
-        }
-        
-        function updateReviewFormStatus() {
-            if (canSubmitReview()) {
-                reviewForm.style.display = 'flex';
-                submitReviewBtn.disabled = false;
-                timeRemaining.textContent = '';
-                if (reviewFormMessage) {
-                    reviewFormMessage.innerHTML = '';
-                }
-            } else {
-                const timeLeft = getTimeUntilNextReview();
-                if (timeLeft) {
-                    reviewForm.style.display = 'none';
-                    if (reviewFormMessage) {
-                        reviewFormMessage.innerHTML = `
-                            <div class="review-message info">
-                                ⏰ Вы уже оставили отзыв. Следующий отзыв можно оставить через ${timeLeft.hours} ч ${timeLeft.minutes} мин
-                            </div>
-                        `;
-                    }
-                    timeRemaining.textContent = `До следующего отзыва: ${timeLeft.hours} ч ${timeLeft.minutes} мин`;
-                }
-            }
-        }
-        
-        // Обновление таймера каждую минуту
-        function updateTimer() {
-            updateReviewFormStatus();
-            const timeLeft = getTimeUntilNextReview();
-            if (timeLeft) {
-                timeRemaining.textContent = `До следующего отзыва: ${timeLeft.hours} ч ${timeLeft.minutes} мин`;
-            }
-        }
-        
-        setInterval(updateTimer, 60000); // Обновляем каждую минуту
-        
-        // Обработка отправки формы
-        if (reviewForm) {
-            reviewForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                if (!canSubmitReview()) {
-                    showMessage('Вы уже оставили отзыв. Подождите 24 часа.', 'error');
-                    return;
-                }
-                
-                if (selectedRating === 0) {
-                    showMessage('Пожалуйста, выберите оценку', 'error');
-                    return;
-                }
-                
-                const name = document.getElementById('reviewName').value.trim();
-                const text = document.getElementById('reviewText').value.trim();
-                
-                if (!name || !text) {
-                    showMessage('Заполните все поля', 'error');
-                    return;
-                }
-                
-                // Сохраняем время отправки
-                localStorage.setItem('lastReviewTime', Date.now().toString());
-                
-                // Получаем данные пользователя для отзыва
-                let userHandle = 'Пользователь';
-                let userCity = 'Саратов';
-                let userAvatar = 'images/photo5.jpg'; // Дефолтный аватар
-                
-                if (window.userData && window.userData.username) {
-                    userHandle = '@' + window.userData.username;
-                } else if (window.Telegram && window.Telegram.WebApp) {
-                    const user = window.Telegram.WebApp.initDataUnsafe?.user;
-                    if (user) {
-                        if (user.username) {
-                            userHandle = '@' + user.username;
-                        }
-                        if (user.photo_url) {
-                            userAvatar = user.photo_url;
-                        }
-                    }
-                }
-                
-                // Создаем новый отзыв
-                const newReview = {
-                    name: name,
-                    handle: userHandle,
-                    city: userCity,
-                    avatar: userAvatar,
-                    rating: selectedRating,
-                    text: text
-                };
-                
-                // Отправляем отзыв на сервер
-                try {
-                    const backendUrl = getBackendUrl();
-                    const response = await fetch(`${backendUrl}/api/reviews`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(newReview)
-                    });
-                    
-                    if (response.ok) {
-                        // Добавляем отзыв в начало массива
-                        reviewsData.unshift(newReview);
-                        
-                        // Сохраняем отзывы в localStorage (для офлайн-доступа)
-                        try {
-                            localStorage.setItem('userReviews', JSON.stringify(reviewsData));
-                        } catch (e) {
-                            console.warn('Не удалось сохранить отзывы в localStorage:', e);
-                        }
-                        
-                        // Обновляем отображение отзывов
-                        currentReview = 0;
-                        if (reviewCard && reviewThumbnails) {
-                            renderReview(0);
-                            startReviewRotation();
-                        }
-                        
-                        showMessage('Спасибо за ваш отзыв! Он добавлен и отображается на сайте.', 'success');
-                    } else {
-                        throw new Error('Ошибка при сохранении на сервере');
-                    }
-                } catch (error) {
-                    console.error('Ошибка при отправке отзыва на сервер:', error);
-                    // Fallback: сохраняем локально
-                    reviewsData.unshift(newReview);
-                    try {
-                        localStorage.setItem('userReviews', JSON.stringify(reviewsData));
-                    } catch (e) {
-                        console.warn('Не удалось сохранить отзывы в localStorage:', e);
-                    }
-                    
-                    currentReview = 0;
-                    if (reviewCard && reviewThumbnails) {
-                        renderReview(0);
-                        startReviewRotation();
-                    }
-                    
-                    showMessage('Отзыв добавлен локально. Возможна ошибка подключения к серверу.', 'info');
-                }
-                
-                reviewForm.reset();
-                selectedRating = 0;
-                reviewRating.value = 0;
-                updateRatingDisplay();
-                
-                // Обновляем статус формы
-                setTimeout(updateReviewFormStatus, 1000);
-            });
-        }
-        
-        function showMessage(text, type) {
-            if (reviewFormMessage) {
-                reviewFormMessage.innerHTML = `<div class="review-message ${type}">${text}</div>`;
-                setTimeout(() => {
-                    if (reviewFormMessage) {
-                        reviewFormMessage.innerHTML = '';
-                    }
-                }, 5000);
-            }
-        }
-        
-        // Инициализация при загрузке
-        updateReviewFormStatus();
-        updateTimer();
-        
-        // Показываем кнопку обновления для админа
-        (function() {
-            const adminBtn = document.getElementById('adminRefreshBtn');
-            if (adminBtn && isAdmin()) {
-                adminBtn.style.display = 'block';
-            }
-        })();
-        
-        // Делаем функцию refreshReviews доступной глобально
-        window.refreshReviews = refreshReviews;
     </script>
 </body>
 </html>
