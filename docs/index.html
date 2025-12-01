@@ -1624,8 +1624,8 @@
     </section>
 
     <!-- Изображение результата -->
-    <section class="result-image-section" data-animate id="resultImageSection">
-        <img src="images/result.png" alt="Результаты" loading="eager" id="resultImage" onerror="this.style.display='none'; document.getElementById('resultImageSection').style.display='none';">
+    <section class="result-image-section" data-animate id="resultImageSection" style="display: none;">
+        <img src="images/result.png" alt="" loading="eager" id="resultImage" onerror="document.getElementById('resultImageSection').style.display='none';">
     </section>
 
     <!-- Отзывы клиентов -->
@@ -2143,23 +2143,20 @@
         
         observeAnimatedElements();
         
-        // Проверка загрузки result.png
+        // Проверка загрузки result.png - проверяем ДО отображения
         (function checkResultImage() {
-            const resultImg = document.getElementById('resultImage');
             const resultSection = document.getElementById('resultImageSection');
-            if (resultImg && resultSection) {
+            if (resultSection) {
                 const img = new Image();
                 img.onload = function() {
-                    // Изображение загружено успешно
-                    if (resultImg.style.display === 'none') {
-                        resultImg.style.display = 'block';
-                        resultSection.style.display = 'block';
-                    }
+                    // Изображение загружено успешно - показываем секцию
+                    resultSection.style.display = 'block';
                 };
                 img.onerror = function() {
-                    // Изображение не загрузилось - скрываем секцию
+                    // Изображение не загрузилось - секция остается скрытой
                     resultSection.style.display = 'none';
                 };
+                // Проверяем загрузку изображения
                 img.src = 'images/result.png';
             }
         })();
