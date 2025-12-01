@@ -605,16 +605,40 @@
 
         .plan-header {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             margin-bottom: 20px;
+            gap: 8px;
         }
-
+        
         .plan-header h2 {
             margin: 0;
             font-size: 1.6em;
             color: #2d5016;
             text-align: center;
+        }
+
+        .plan-promo {
+            font-size: 1.1em;
+            color: #f43f5e; /* насыщенный красный */
+            font-weight: 700;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.35);
+            letter-spacing: 0.03em;
+            font-family: 'Playfair Display', 'Cormorant Garamond', 'Georgia', serif;
+            animation: promoPulse 2s infinite ease-in-out;
+        }
+
+        @keyframes promoPulse {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-2px);
+                opacity: 0.9;
+            }
         }
 
         .plan-controls {
@@ -1450,6 +1474,7 @@
     <!-- Превью меню -->
     <section class="plan-preview" data-animate>
         <div class="plan-header">
+            <div class="plan-promo">Закажи сейчас и получи 40% скидку на 4 дня</div>
             <h2>Расписание</h2>
         </div>
         <div class="plan-days">
