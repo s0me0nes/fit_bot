@@ -1624,8 +1624,8 @@
     </section>
 
     <!-- Изображение результата -->
-    <section class="result-image-section" data-animate>
-        <img src="images/result.png" alt="Результаты" loading="eager">
+    <section class="result-image-section" data-animate id="resultImageSection">
+        <img src="images/result.png" alt="Результаты" loading="eager" id="resultImage" onerror="this.style.display='none'; document.getElementById('resultImageSection').style.display='none';">
     </section>
 
     <!-- Отзывы клиентов -->
@@ -2142,6 +2142,27 @@
         }
         
         observeAnimatedElements();
+        
+        // Проверка загрузки result.png
+        (function checkResultImage() {
+            const resultImg = document.getElementById('resultImage');
+            const resultSection = document.getElementById('resultImageSection');
+            if (resultImg && resultSection) {
+                const img = new Image();
+                img.onload = function() {
+                    // Изображение загружено успешно
+                    if (resultImg.style.display === 'none') {
+                        resultImg.style.display = 'block';
+                        resultSection.style.display = 'block';
+                    }
+                };
+                img.onerror = function() {
+                    // Изображение не загрузилось - скрываем секцию
+                    resultSection.style.display = 'none';
+                };
+                img.src = 'images/result.png';
+            }
+        })();
         
         function updateProducts(dayIndex) {
             const products = dayProducts[dayIndex];
