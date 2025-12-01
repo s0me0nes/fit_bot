@@ -11,7 +11,6 @@
     <link rel="preload" href="images/telegram.png" as="image">
     <link rel="preload" href="images/whatsapp.png" as="image">
     <link rel="preload" href="images/delivery.png" as="image">
-    <link rel="preload" href="images/result.png" as="image">
     
     <!-- Preconnect для внешних ресурсов -->
     <link rel="preconnect" href="https://telegram.org">
@@ -54,8 +53,8 @@
         /* Переключение темы */
         body.dark-theme {
             color: #f5f5f5;
-            filter: brightness(0.7) contrast(1.05);
-            background-color: #2a2a2a;
+            filter: brightness(0.85) contrast(1.02);
+            background-color: #3a3a3a;
         }
         
         body.dark-theme .header {
@@ -68,35 +67,34 @@
         body.dark-theme .info-text,
         body.dark-theme .faq-item,
         body.dark-theme .reviews-header {
-            background: rgba(30, 30, 30, 0.9);
+            background: rgba(50, 50, 50, 0.9);
             color: #e0e0e0;
         }
         
         body.dark-theme .plan-card,
         body.dark-theme .review-thumbnail {
-            background: rgba(25, 25, 25, 0.85);
+            background: rgba(45, 45, 45, 0.85);
         }
 
         .theme-toggle {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 10;
-            display: flex;
+            position: relative;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             padding: 0;
+            margin-right: 10px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(8px);
             color: #fff;
-            font-size: 1.3em;
+            font-size: 1.2em;
             cursor: pointer;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+            vertical-align: middle;
         }
 
         .theme-toggle:hover {
@@ -149,14 +147,6 @@
             flex: 1;
             min-width: 200px;
             position: relative;
-            padding-left: 120px;
-        }
-        
-        @media (max-width: 768px) {
-            .header-text {
-                padding-left: 0;
-                padding-top: 45px;
-            }
         }
         
         .header h1 {
@@ -171,6 +161,8 @@
             font-weight: 600;
             margin: 0 0 8px 0;
             color: #fff;
+            display: flex;
+            align-items: center;
         }
         
         .header .subtitle {
@@ -1356,26 +1348,6 @@
             padding-bottom: 40px;
         }
         
-        /* Изображение результата */
-        .result-image-section {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-            text-align: center;
-            min-height: 200px;
-        }
-        
-        .result-image-section img {
-            max-width: 100%;
-            width: 100%;
-            height: auto;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            display: block;
-            margin: 0 auto;
-            object-fit: contain;
-        }
-        
         /* FAQ секция */
         .faq-section {
             max-width: 1200px;
@@ -1548,11 +1520,11 @@
     <div class="header">
         <div class="header-content">
             <div class="header-text">
-                <!-- Переключатель темы -->
-                <button class="theme-toggle" id="themeToggle" type="button" title="Переключить тему">
-                    <span class="theme-toggle-icon" id="themeToggleIcon">🌙</span>
-                </button>
                 <div class="city">
+                    <!-- Переключатель темы -->
+                    <button class="theme-toggle" id="themeToggle" type="button" title="Переключить тему">
+                        <span class="theme-toggle-icon" id="themeToggleIcon">🌙</span>
+                    </button>
                     <img src="images/saratov.png" alt="Саратов" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;" loading="eager">
                     Саратов
                 </div>
@@ -1629,13 +1601,6 @@
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Изображение результата -->
-    <section class="result-image-section" data-animate style="max-width: 1200px; margin: 40px auto; padding: 0 20px; text-align: center; min-height: 200px;">
-        <img src="images/result.png" alt="Результаты" 
-             style="max-width: 100%; width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: block; margin: 0 auto; object-fit: contain;" 
-             loading="eager">
     </section>
 
     <!-- Отзывы клиентов -->
