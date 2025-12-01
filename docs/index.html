@@ -11,6 +11,7 @@
     <link rel="preload" href="images/telegram.png" as="image">
     <link rel="preload" href="images/whatsapp.png" as="image">
     <link rel="preload" href="images/delivery.png" as="image">
+    <link rel="preload" href="images/result.png" as="image">
     
     <!-- Preconnect для внешних ресурсов -->
     <link rel="preconnect" href="https://telegram.org">
@@ -1586,7 +1587,10 @@
 
     <!-- Изображение результата -->
     <section class="result-image-section" data-animate style="max-width: 1200px; margin: 40px auto; padding: 0 20px; text-align: center;">
-        <img src="images/result.png" alt="Результаты" style="max-width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);" loading="lazy">
+        <img src="images/result.png" alt="Результаты" 
+             style="max-width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: block; margin: 0 auto;" 
+             loading="lazy"
+             onerror="this.style.display='none'; console.error('Ошибка загрузки result.png');">
     </section>
 
     <!-- Отзывы клиентов -->
