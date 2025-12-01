@@ -53,28 +53,48 @@
         /* Переключение темы */
         body.dark-theme {
             color: #f5f5f5;
-            filter: brightness(0.85);
+            filter: brightness(0.5) contrast(1.1);
+            background-color: #1a1a1a;
+        }
+        
+        body.dark-theme .header {
+            background: linear-gradient(135deg, #1a2e0f 0%, #2a4a1a 100%);
+        }
+        
+        body.dark-theme .plan-preview,
+        body.dark-theme .review-card,
+        body.dark-theme .highlight-card,
+        body.dark-theme .info-text,
+        body.dark-theme .faq-item,
+        body.dark-theme .reviews-header {
+            background: rgba(30, 30, 30, 0.9);
+            color: #e0e0e0;
+        }
+        
+        body.dark-theme .plan-card,
+        body.dark-theme .review-thumbnail {
+            background: rgba(25, 25, 25, 0.85);
         }
 
         .theme-toggle {
-            position: fixed;
-            top: 16px;
-            right: 16px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
             z-index: 10002;
             display: flex;
             align-items: center;
             gap: 6px;
-            padding: 10px 16px;
+            padding: 8px 14px;
             border-radius: 999px;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(10px);
             color: #fff;
-            font-size: 0.9em;
+            font-size: 0.85em;
             font-weight: 600;
             cursor: pointer;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease, opacity 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
         }
 
         .theme-toggle:hover {
@@ -129,6 +149,7 @@
         .header-text {
             flex: 1;
             min-width: 200px;
+            position: relative;
         }
         
         .header h1 {
@@ -1454,12 +1475,6 @@
     </style>
 </head>
 <body class="loading">
-    <!-- Переключатель темы -->
-    <button class="theme-toggle" id="themeToggle" type="button">
-        <span class="theme-toggle-icon" id="themeToggleIcon">🌙</span>
-        <span class="theme-toggle-label" id="themeToggleLabel">Тёмная тема</span>
-    </button>
-    
     <!-- Анимированный loader -->
     <div class="page-loader" id="pageLoader">
         <div class="loader-logo">🍽️</div>
@@ -1477,6 +1492,11 @@
     <div class="header">
         <div class="header-content">
             <div class="header-text">
+                <!-- Переключатель темы -->
+                <button class="theme-toggle" id="themeToggle" type="button">
+                    <span class="theme-toggle-icon" id="themeToggleIcon">🌙</span>
+                    <span class="theme-toggle-label" id="themeToggleLabel">Тёмная тема</span>
+                </button>
                 <div class="city">
                     <img src="images/saratov.png" alt="Саратов" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;" loading="eager">
                     Саратов
