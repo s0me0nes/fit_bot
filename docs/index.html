@@ -1672,82 +1672,7 @@
             <span class="plan-day active" data-day="0">Чт 27.11</span>
         </div>
         <div class="plan-cards" id="planCards">
-            <div class="plan-card" data-animate data-meal="Завтрак" data-name="Овсяноблин с мягким творогом" data-calories="268 Ккал · 300 г" data-image="images/pit1.png" data-description="Овсяноблин с мягким творогом - идеальное начало дня. Свежие овощи и натуральные ингредиенты для заряда энергии.">
-                <div class="plan-card-image-wrapper">
-                    <img src="images/pit1.png" alt="Овсяноблин с мягким творогом" loading="lazy">
-                    <div class="plan-card-ingredients">
-                        <div class="plan-card-ingredients-title">Состав</div>
-                        <ul class="plan-card-ingredients-list">
-                            <li>Геркулес (15-20 мин варки) - 55 гр</li>
-                            <li>Яйца - 2шт</li>
-                            <li>Мягкий творог 5% - 50 гр</li>
-                            <li>Разрыхлителя - 1/2 чайной ложки</li>
-                            <li>Соль щепотка</li>
-                        </ul>
-                        <div class="plan-card-ingredients-section">
-                            <div class="plan-card-ingredients-section-title">Начинка:</div>
-                            <ul class="plan-card-ingredients-list">
-                                <li>Помидор - на глаз</li>
-                                <li>Огурец - на глаз</li>
-                                <li>Сыр творожный - 40 гр</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="plan-card-content">
-                    <small>Завтрак</small>
-                    <h4>Овсяноблин с мягким творогом</h4>
-                    <span>268 Ккал · 300 г</span>
-                </div>
-            </div>
-            <div class="plan-card" data-animate data-meal="Обед" data-name="Курица с соусом и эларджи" data-calories="636 Ккал · 340 г" data-image="images/pit2.png" data-description="Сочная курица с ароматным соусом и эларджи. Сбалансированное блюдо с высоким содержанием белка.">
-                <div class="plan-card-image-wrapper">
-                    <img src="images/pit2.png" alt="Курица с соусом и эларджи" loading="lazy">
-                    <div class="plan-card-ingredients">
-                        <div class="plan-card-ingredients-title">Состав</div>
-                        <ul class="plan-card-ingredients-list">
-                            <li>Состав блюда</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="plan-card-content">
-                    <small>Обед</small>
-                    <h4>Курица с соусом и эларджи</h4>
-                    <span>636 Ккал · 340 г</span>
-                </div>
-            </div>
-            <div class="plan-card" data-animate data-meal="Перекус" data-name="Протеиновый батончик" data-calories="180 Ккал · 50 г" data-image="images/pit5.png" data-description="Питательный протеиновый батончик для поддержания энергии между основными приемами пищи.">
-                <div class="plan-card-image-wrapper">
-                    <img src="images/pit5.png" alt="Протеиновый батончик" loading="lazy">
-                    <div class="plan-card-ingredients">
-                        <div class="plan-card-ingredients-title">Состав</div>
-                        <ul class="plan-card-ingredients-list">
-                            <li>Состав блюда</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="plan-card-content">
-                    <small>Перекус</small>
-                    <h4>Протеиновый батончик</h4>
-                    <span>180 Ккал · 50 г</span>
-                </div>
-            </div>
-            <div class="plan-card" data-animate data-meal="Ужин" data-name="Мясной соус с орзо" data-calories="494 Ккал · 360 г" data-image="images/pit3.png" data-description="Сытный мясной соус с орзо. Идеальное блюдо для ужина с оптимальным балансом питательных веществ.">
-                <div class="plan-card-image-wrapper">
-                    <img src="images/pit3.png" alt="Мясной соус с орзо" loading="lazy">
-                    <div class="plan-card-ingredients">
-                        <div class="plan-card-ingredients-title">Состав</div>
-                        <ul class="plan-card-ingredients-list">
-                            <li>Состав блюда</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="plan-card-content">
-                    <small>Ужин</small>
-                    <h4>Мясной соус с орзо</h4>
-                    <span>494 Ккал · 360 г</span>
-                </div>
-            </div>
+            <!-- Карточки будут сгенерированы через JavaScript -->
         </div>
     </section>
 
@@ -2425,6 +2350,9 @@
         
         // Привязываем обработчики к существующим карточкам
         attachCardClickHandlers();
+        
+        // Инициализируем продукты для первого дня (четверг) при загрузке
+        updateProducts(0);
         
         planDays.forEach((day, index) => {
             day.addEventListener('click', () => {
