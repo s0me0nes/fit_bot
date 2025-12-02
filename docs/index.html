@@ -798,43 +798,25 @@
         .plan-card-image-wrapper {
             position: relative;
             width: 100%;
-            height: 180px;
             margin-bottom: 8px;
-            overflow: hidden;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
         .plan-card img {
             width: 100%;
-            height: 100%;
+            height: 180px;
             object-fit: cover;
             border-radius: 50%;
-            clip-path: polygon(0 0, 75% 0, 75% 100%, 0 100%);
-            transition: clip-path 0.3s ease;
-        }
-        
-        .plan-card:hover img {
-            clip-path: polygon(0 0, 70% 0, 70% 100%, 0 100%);
+            display: block;
         }
         
         .plan-card-ingredients {
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 25%;
-            height: 100%;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            padding: 12px 8px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            border-radius: 0 50% 50% 0;
+            padding: 10px 12px;
+            border-radius: 12px;
+            margin-top: 8px;
+            max-height: 120px;
             overflow-y: auto;
-            box-shadow: -2px 0 8px rgba(0,0,0,0.1);
         }
         
         .plan-card-ingredients::-webkit-scrollbar {
@@ -851,10 +833,10 @@
         }
         
         .plan-card-ingredients-title {
-            font-size: 0.7em;
+            font-size: 0.75em;
             font-weight: 700;
             color: #2d5016;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             line-height: 1.2;
@@ -864,14 +846,14 @@
             list-style: none;
             padding: 0;
             margin: 0;
-            font-size: 0.65em;
+            font-size: 0.7em;
             color: #555;
             line-height: 1.4;
         }
         
         .plan-card-ingredients-list li {
-            margin-bottom: 4px;
-            padding-left: 8px;
+            margin-bottom: 3px;
+            padding-left: 12px;
             position: relative;
         }
         
@@ -884,11 +866,11 @@
         }
         
         .plan-card-ingredients-section {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         
         .plan-card-ingredients-section-title {
-            font-size: 0.7em;
+            font-size: 0.75em;
             font-weight: 600;
             color: #4a7c2a;
             margin-bottom: 4px;
@@ -993,9 +975,67 @@
             width: 100%;
             max-width: 600px;
             height: auto;
-            border-radius: 16px;
+            border-radius: 50%;
             margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .modal-ingredients {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .modal-ingredients-title {
+            font-size: 0.85em;
+            font-weight: 700;
+            color: #2d5016;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .modal-ingredients-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.85em;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .modal-ingredients-list li {
+            margin-bottom: 5px;
+            padding-left: 16px;
+            position: relative;
+        }
+        
+        .modal-ingredients-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #4a7c2a;
+            font-weight: bold;
+        }
+        
+        .modal-ingredients-section {
+            margin-bottom: 10px;
+        }
+        
+        .modal-ingredients-section-title {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #4a7c2a;
+            margin-bottom: 6px;
+            margin-top: 10px;
         }
         
         .modal-info {
@@ -1844,6 +1884,7 @@
         <div class="modal-content">
             <button class="modal-close" id="modalClose">&times;</button>
             <img class="modal-image" id="modalImage" src="" alt="">
+            <div class="modal-ingredients" id="modalIngredients"></div>
             <div class="modal-info">
                 <small id="modalMeal"></small>
                 <h3 id="modalName"></h3>
@@ -2153,15 +2194,16 @@
                 card.setAttribute('data-calories', product.calories);
                 card.setAttribute('data-image', `images/${product.image}`);
                 card.setAttribute('data-description', product.description || `${product.name} - вкусное и полезное блюдо.`);
+                card.setAttribute('data-ingredients', JSON.stringify(product.ingredients || []));
                 
                 const ingredientsHTML = generateIngredientsHTML(product.ingredients);
                 
                 card.innerHTML = `
                     <div class="plan-card-image-wrapper">
                         <img src="images/${product.image}" alt="${product.name}" loading="lazy">
-                        <div class="plan-card-ingredients">
-                            ${ingredientsHTML}
-                        </div>
+                    </div>
+                    <div class="plan-card-ingredients">
+                        ${ingredientsHTML}
                     </div>
                     <div class="plan-card-content">
                         <small>${product.meal}</small>
@@ -2185,6 +2227,31 @@
         const modalName = document.getElementById('modalName');
         const modalCalories = document.getElementById('modalCalories');
         const modalDescription = document.getElementById('modalDescription');
+        const modalIngredients = document.getElementById('modalIngredients');
+        
+        function generateModalIngredientsHTML(ingredients) {
+            if (!ingredients || ingredients.length === 0) {
+                return '';
+            }
+            
+            let html = '<div class="modal-ingredients-title">Состав</div>';
+            
+            ingredients.forEach(section => {
+                if (section.title) {
+                    html += `<div class="modal-ingredients-section"><div class="modal-ingredients-section-title">${section.title}:</div>`;
+                }
+                html += '<ul class="modal-ingredients-list">';
+                section.items.forEach(item => {
+                    html += `<li>${item}</li>`;
+                });
+                html += '</ul>';
+                if (section.title) {
+                    html += '</div>';
+                }
+            });
+            
+            return html;
+        }
         
         function openModal(card) {
             const meal = card.getAttribute('data-meal');
@@ -2192,6 +2259,7 @@
             const calories = card.getAttribute('data-calories');
             const image = card.getAttribute('data-image');
             const description = card.getAttribute('data-description');
+            const ingredientsData = card.getAttribute('data-ingredients');
             
             modalImage.src = image;
             modalImage.alt = name;
@@ -2199,6 +2267,17 @@
             modalName.textContent = name;
             modalCalories.textContent = calories;
             modalDescription.textContent = description;
+            
+            // Парсим и отображаем состав
+            let ingredients = [];
+            if (ingredientsData) {
+                try {
+                    ingredients = JSON.parse(ingredientsData);
+                } catch (e) {
+                    console.warn('Ошибка парсинга состава:', e);
+                }
+            }
+            modalIngredients.innerHTML = generateModalIngredientsHTML(ingredients);
             
             modalOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
