@@ -868,15 +868,16 @@
         .plan-card-ingredients-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease, margin 0.4s ease;
             padding: 0;
             margin: 0;
         }
         
         .plan-card-ingredients-content.expanded {
-            max-height: 500px;
+            max-height: 2000px;
             padding-top: 8px;
             margin-top: 0;
+            overflow: visible;
         }
         
         .plan-card-ingredients-list {
@@ -2283,7 +2284,21 @@
                     e.stopPropagation(); // Предотвращаем открытие модального окна
                     const content = this.nextElementSibling;
                     if (content && content.classList.contains('plan-card-ingredients-content')) {
-                        content.classList.toggle('expanded');
+                        if (content.classList.contains('expanded')) {
+                            // Сворачиваем
+                            content.style.maxHeight = '0px';
+                            content.classList.remove('expanded');
+                        } else {
+                            // Разворачиваем - сначала измеряем реальную высоту
+                            content.style.maxHeight = 'none';
+                            const height = content.scrollHeight;
+                            content.style.maxHeight = '0px';
+                            // Небольшая задержка для начала анимации
+                            setTimeout(() => {
+                                content.style.maxHeight = height + 'px';
+                                content.classList.add('expanded');
+                            }, 10);
+                        }
                     }
                 });
             });
