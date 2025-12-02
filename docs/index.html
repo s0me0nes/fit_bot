@@ -868,16 +868,17 @@
         .plan-card-ingredients-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease, margin 0.4s ease;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease, margin 0.4s ease, opacity 0.3s ease;
             padding: 0;
             margin: 0;
+            opacity: 0;
         }
         
         .plan-card-ingredients-content.expanded {
-            max-height: 2000px;
             padding-top: 8px;
             margin-top: 0;
             overflow: visible;
+            opacity: 1;
         }
         
         .plan-card-ingredients-list {
@@ -2286,18 +2287,33 @@
                     if (content && content.classList.contains('plan-card-ingredients-content')) {
                         if (content.classList.contains('expanded')) {
                             // Сворачиваем
+                            const currentHeight = content.scrollHeight;
+                            content.style.maxHeight = currentHeight + 'px';
+                            // Принудительный reflow
+                            content.offsetHeight;
                             content.style.maxHeight = '0px';
                             content.classList.remove('expanded');
                         } else {
                             // Разворачиваем - сначала измеряем реальную высоту
                             content.style.maxHeight = 'none';
+                            content.style.overflow = 'visible';
                             const height = content.scrollHeight;
                             content.style.maxHeight = '0px';
+                            content.style.overflow = 'hidden';
                             // Небольшая задержка для начала анимации
-                            setTimeout(() => {
-                                content.style.maxHeight = height + 'px';
-                                content.classList.add('expanded');
-                            }, 10);
+                            requestAnimationFrame(() => {
+                                requestAnimationFrame(() => {
+                                    content.style.maxHeight = height + 'px';
+                                    content.classList.add('expanded');
+                                    // После завершения анимации убираем ограничение
+                                    setTimeout(() => {
+                                        if (content.classList.contains('expanded')) {
+                                            content.style.maxHeight = 'none';
+                                            content.style.overflow = 'visible';
+                                        }
+                                    }, 400);
+                                });
+                            });
                         }
                     }
                 });
