@@ -841,6 +841,42 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             line-height: 1.2;
+            cursor: pointer;
+            user-select: none;
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+            transition: transform 0.2s ease;
+        }
+        
+        .plan-card-ingredients-title:hover {
+            transform: translateY(-2px);
+        }
+        
+        .plan-card-ingredients-title:active {
+            transform: translateY(0);
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .plan-card-ingredients-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .plan-card-ingredients-content.expanded {
+            max-height: 500px;
+            padding-top: 8px;
+            margin-top: 0;
         }
         
         .plan-card-ingredients-list {
@@ -2078,10 +2114,11 @@
         // Функция для генерации HTML состава
         function generateIngredientsHTML(ingredients) {
             if (!ingredients || ingredients.length === 0) {
-                return '<div class="plan-card-ingredients-title">Состав</div><ul class="plan-card-ingredients-list"><li>Состав блюда</li></ul>';
+                return '<div class="plan-card-ingredients-title">Состав</div><div class="plan-card-ingredients-content"><ul class="plan-card-ingredients-list"><li>Состав блюда</li></ul></div>';
             }
             
             let html = '<div class="plan-card-ingredients-title">Состав</div>';
+            html += '<div class="plan-card-ingredients-content">';
             
             ingredients.forEach(section => {
                 if (section.title) {
@@ -2097,6 +2134,7 @@
                 }
             });
             
+            html += '</div>';
             return html;
         }
         
@@ -2233,6 +2271,21 @@
 
             observeAnimatedElements(planCards);
             attachCardClickHandlers();
+            attachIngredientsClickHandlers();
+        }
+        
+        // Обработчик клика на "Состав"
+        function attachIngredientsClickHandlers() {
+            const ingredientsTitles = document.querySelectorAll('.plan-card-ingredients-title');
+            ingredientsTitles.forEach(title => {
+                title.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Предотвращаем открытие модального окна
+                    const content = this.nextElementSibling;
+                    if (content && content.classList.contains('plan-card-ingredients-content')) {
+                        content.classList.toggle('expanded');
+                    }
+                });
+            });
         }
         
         // Модальное окно
