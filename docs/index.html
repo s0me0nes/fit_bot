@@ -2256,13 +2256,13 @@
                     <div class="plan-card-image-wrapper">
                         <img src="images/${product.image}" alt="${product.name}" loading="lazy">
                     </div>
-                    <div class="plan-card-ingredients">
-                        ${ingredientsHTML}
-                    </div>
                     <div class="plan-card-content">
                         <small>${product.meal}</small>
                         <h4>${product.name}</h4>
                         <span>${product.calories}</span>
+                        <div class="plan-card-ingredients">
+                            ${ingredientsHTML}
+                        </div>
                     </div>
                 `;
                 card.style.transitionDelay = `${index * 0.05}s`;
@@ -2279,11 +2279,20 @@
             const ingredientsTitles = document.querySelectorAll('.plan-card-ingredients-title');
             ingredientsTitles.forEach(title => {
                 title.addEventListener('click', function(e) {
+                    e.preventDefault();
                     e.stopPropagation(); // Предотвращаем открытие модального окна
                     const content = this.nextElementSibling;
                     if (content && content.classList.contains('plan-card-ingredients-content')) {
                         content.classList.toggle('expanded');
                     }
+                });
+            });
+            
+            // Также предотвращаем клик на весь блок состава
+            const ingredientsBlocks = document.querySelectorAll('.plan-card-ingredients');
+            ingredientsBlocks.forEach(block => {
+                block.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Предотвращаем открытие модального окна
                 });
             });
         }
