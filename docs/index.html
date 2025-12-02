@@ -51,68 +51,6 @@
             transition: background-color 0.4s ease, color 0.4s ease, filter 0.4s ease;
         }
 
-        /* Переключение темы */
-        body.dark-theme {
-            color: #f5f5f5;
-            filter: brightness(0.85) contrast(1.02);
-            background-color: #3a3a3a;
-        }
-        
-        body.dark-theme .header {
-            background: linear-gradient(135deg, #1a2e0f 0%, #2a4a1a 100%);
-        }
-        
-        body.dark-theme .plan-preview,
-        body.dark-theme .review-card,
-        body.dark-theme .highlight-card,
-        body.dark-theme .info-text,
-        body.dark-theme .faq-item,
-        body.dark-theme .reviews-header {
-            background: rgba(50, 50, 50, 0.9);
-            color: #e0e0e0;
-        }
-        
-        body.dark-theme .plan-card,
-        body.dark-theme .review-thumbnail {
-            background: rgba(45, 45, 45, 0.85);
-        }
-
-        .theme-toggle {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            padding: 0;
-            margin-right: 10px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(8px);
-            color: #fff;
-            font-size: 1.2em;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
-            vertical-align: middle;
-        }
-
-        .theme-toggle:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            background: rgba(0, 0, 0, 0.6);
-        }
-        
-        .theme-toggle:active {
-            transform: translateY(0);
-        }
-
-        .theme-toggle-icon {
-            font-size: 1.1em;
-        }
-
-        
         [data-animate] {
             opacity: 0;
             transform: translateY(25px);
@@ -863,16 +801,17 @@
             height: 180px;
             margin-bottom: 8px;
             overflow: hidden;
-            border-radius: 25px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
+            justify-content: center;
         }
         
         .plan-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 25px;
+            border-radius: 50%;
             clip-path: polygon(0 0, 75% 0, 75% 100%, 0 100%);
             transition: clip-path 0.3s ease;
         }
@@ -893,7 +832,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            border-radius: 0 25px 25px 0;
+            border-radius: 0 50% 50% 0;
             overflow-y: auto;
             box-shadow: -2px 0 8px rgba(0,0,0,0.1);
         }
@@ -1630,10 +1569,6 @@
         <div class="header-content">
             <div class="header-text">
                 <div class="city">
-                    <!-- Переключатель темы -->
-                    <button class="theme-toggle" id="themeToggle" type="button" title="Переключить тему">
-                        <span class="theme-toggle-icon" id="themeToggleIcon">🌙</span>
-                    </button>
                     <img src="images/saratov.png" alt="Саратов" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;" loading="eager">
                     Саратов
                 </div>
@@ -1922,8 +1857,6 @@
         // Управление loader'ом
         const pageLoader = document.getElementById('pageLoader');
         const body = document.body;
-        const themeToggle = document.getElementById('themeToggle');
-        const themeToggleIcon = document.getElementById('themeToggleIcon');
         
         // Функция для скрытия loader'а
         function hideLoader() {
@@ -1937,49 +1870,6 @@
                     }
                 }, 500);
             }
-        }
-        
-        // ТЕМА: загрузка сохранённой темы
-        function applyTheme(theme) {
-            if (theme === 'dark') {
-                body.classList.add('dark-theme');
-                if (themeToggleIcon) {
-                    themeToggleIcon.textContent = '☀️';
-                }
-            } else {
-                body.classList.remove('dark-theme');
-                if (themeToggleIcon) {
-                    themeToggleIcon.textContent = '🌙';
-                }
-            }
-        }
-
-        (function initTheme() {
-            try {
-                const savedTheme = localStorage.getItem('fit_theme');
-                if (savedTheme === 'dark' || savedTheme === 'light') {
-                    applyTheme(savedTheme);
-                } else {
-                    // По умолчанию используем системную тему
-                    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                    applyTheme(prefersDark ? 'dark' : 'light');
-                }
-            } catch (e) {
-                console.warn('Не удалось загрузить тему:', e);
-            }
-        })();
-
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                const isDark = body.classList.contains('dark-theme');
-                const nextTheme = isDark ? 'light' : 'dark';
-                applyTheme(nextTheme);
-                try {
-                    localStorage.setItem('fit_theme', nextTheme);
-                } catch (e) {
-                    console.warn('Не удалось сохранить тему:', e);
-                }
-            });
         }
 
         // Скрываем loader когда все загрузилось
