@@ -850,20 +850,22 @@
             font-size: 0.75em;
             font-weight: 700;
             color: #2d5016;
-            margin-bottom: 4px;
+            margin-bottom: 0;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             line-height: 1.2;
             cursor: pointer;
             user-select: none;
-            animation: bounce 2s ease-in-out infinite;
+            animation: bounceUp 2s ease-in-out infinite;
             transition: transform 0.2s ease;
             padding: 4px 12px;
             min-height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: -4px -12px 4px -12px;
+            margin: -4px -12px 0 -12px;
+            position: relative;
+            top: 2px;
         }
         
         .plan-card-ingredients-title:hover {
@@ -880,6 +882,15 @@
             }
             50% {
                 transform: translateY(-5px);
+            }
+        }
+        
+        @keyframes bounceUp {
+            0%, 100% {
+                transform: translateY(2px);
+            }
+            50% {
+                transform: translateY(-2px);
             }
         }
         
