@@ -1791,7 +1791,7 @@
     <!-- Отзывы клиентов -->
     <section class="reviews-section" data-animate>
         <div class="in-development">
-            <div class="in-development-text">В разработке</div>
+            <div class="in-development-text">Отзывы<br>В разработке</div>
         </div>
     </section>
 
@@ -2380,6 +2380,16 @@
                             content.classList.remove('expanded');
                             if (ingredientsBlock) {
                                 ingredientsBlock.classList.remove('expanded');
+                                // Восстанавливаем исходные стили для скрытия скролла
+                                ingredientsBlock.style.maxHeight = '120px';
+                                ingredientsBlock.style.overflowY = 'auto';
+                                // После завершения анимации убеждаемся, что стили применены
+                                setTimeout(() => {
+                                    if (!content.classList.contains('expanded')) {
+                                        ingredientsBlock.style.maxHeight = '120px';
+                                        ingredientsBlock.style.overflowY = 'auto';
+                                    }
+                                }, 400);
                             }
                         } else {
                             // Разворачиваем - сначала измеряем реальную высоту
