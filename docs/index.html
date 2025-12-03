@@ -2081,6 +2081,9 @@
         <div class="plan-days">
             <span class="plan-day active" data-day="0">Пн 08.12</span>
             <span class="plan-day" data-day="1">Вт 09.12</span>
+            <span class="plan-day" data-day="2">Ср 10.12</span>
+            <span class="plan-day" data-day="3">Чт 11.12</span>
+            <span class="plan-day" data-day="4">Пт 12.12</span>
         </div>
         <div class="plan-cards" id="planCards">
             <!-- Карточки будут сгенерированы через JavaScript -->
@@ -2735,6 +2738,111 @@
                         }
                     ]
                 }
+            ],
+            // Ср 10.12
+            [
+                { 
+                    meal: 'Завтрак', 
+                    image: 'soon.jpg', 
+                    name: 'Блюдо на фотосессии', 
+                    calories: '', 
+                    description: 'Блюдо на фотосессии',
+                    ingredients: []
+                },
+                { 
+                    meal: 'Первый перекус', 
+                    image: 'soon.jpg', 
+                    name: 'Блюдо на фотосессии', 
+                    calories: '', 
+                    description: 'Блюдо на фотосессии',
+                    ingredients: []
+                },
+                { 
+                    meal: 'Обед', 
+                    image: 'soon.jpg', 
+                    name: 'Блюдо на фотосессии', 
+                    calories: '',
+                    description: 'Блюдо на фотосессии',
+                    ingredients: []
+                },
+                { 
+                    meal: 'Ужин', 
+                    image: 'soon.jpg', 
+                    name: 'Блюдо на фотосессии', 
+                    calories: '', 
+                    description: 'Блюдо на фотосессии',
+                    ingredients: []
+                }
+            ],
+            // Чт 11.12
+            [
+                { 
+                    meal: 'Завтрак', 
+                    image: 'soon.jpg', 
+                    name: 'Блюдо на фотосессии', 
+                    calories: '', 
+                    description: 'Блюдо на фотосессии',
+                    ingredients: []
+                },
+                { 
+                    meal: 'Первый перекус', 
+                    image: 'soon.jpg', 
+                    name: 'Блюдо на фотосессии', 
+                    calories: '', 
+                    description: 'Блюдо на фотосессии',
+                    ingredients: []
+                },
+                { 
+                    meal: 'Обед', 
+                    image: 'soon.jpg', 
+                    name: 'Блюдо на фотосессии', 
+                    calories: '',
+                    description: 'Блюдо на фотосессии',
+                    ingredients: []
+                },
+                { 
+                    meal: 'Ужин', 
+                    image: 'soon.jpg', 
+                    name: 'Блюдо на фотосессии', 
+                    calories: '', 
+                    description: 'Блюдо на фотосессии',
+                    ingredients: []
+                }
+            ],
+            // Пт 12.12
+            [
+                { 
+                    meal: 'Завтрак', 
+                    image: 'soon.jpg', 
+                    name: 'Блюдо на фотосессии', 
+                    calories: '', 
+                    description: 'Блюдо на фотосессии',
+                    ingredients: []
+                },
+                { 
+                    meal: 'Первый перекус', 
+                    image: 'soon.jpg', 
+                    name: 'Блюдо на фотосессии', 
+                    calories: '', 
+                    description: 'Блюдо на фотосессии',
+                    ingredients: []
+                },
+                { 
+                    meal: 'Обед', 
+                    image: 'soon.jpg', 
+                    name: 'Блюдо на фотосессии', 
+                    calories: '',
+                    description: 'Блюдо на фотосессии',
+                    ingredients: []
+                },
+                { 
+                    meal: 'Ужин', 
+                    image: 'soon.jpg', 
+                    name: 'Блюдо на фотосессии', 
+                    calories: '', 
+                    description: 'Блюдо на фотосессии',
+                    ingredients: []
+                }
             ]
         ];
         
@@ -2795,6 +2903,7 @@
                 
                 const ingredientsHTML = generateIngredientsHTML(product.ingredients);
                 const isPerekus = product.meal.toLowerCase().includes('перекус');
+                const isSoon = product.name === 'Блюдо на фотосессии' || !product.ingredients || product.ingredients.length === 0;
                 
                 card.innerHTML = `
                     <div class="plan-card-image-wrapper">
@@ -2804,7 +2913,7 @@
                         <small class="card-meal">${product.meal}</small>
                         <h4 class="card-name">${product.name}</h4>
                         <span>${product.calories}</span>
-                        ${isPerekus ? '' : `<div class="plan-card-ingredients">${ingredientsHTML}</div>`}
+                        ${(isPerekus || isSoon) ? '' : `<div class="plan-card-ingredients">${ingredientsHTML}</div>`}
                     </div>
                 `;
                 card.style.transitionDelay = `${index * 0.05}s`;
