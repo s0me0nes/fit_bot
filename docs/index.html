@@ -2176,6 +2176,107 @@
         section:last-of-type {
             margin-bottom: 60px;
         }
+        
+        /* Настройки уведомлений */
+        .notifications-settings {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .notifications-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            border: none;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            transition: all 0.3s ease;
+        }
+        
+        .notifications-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.6);
+        }
+        
+        .notifications-btn.active {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+        
+        .notifications-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .notifications-modal.active {
+            display: flex;
+        }
+        
+        .notifications-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .notifications-modal h3 {
+            margin: 0 0 20px 0;
+            color: #1f2933;
+            font-size: 1.5em;
+        }
+        
+        .notification-setting {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 10px;
+        }
+        
+        .notification-setting label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1f2933;
+        }
+        
+        .notification-setting input[type="time"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        
+        .notification-setting input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        
+        .notification-toggle {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body class="loading">
@@ -2230,6 +2331,61 @@
                     <span class="contact-label">Связь с курьером</span>
                 </div>
             </div>
+        </div>
+    </div>
+    
+    <!-- Кнопка настроек уведомлений -->
+    <div class="notifications-settings">
+        <button class="notifications-btn" id="notificationsBtn" title="Настройки уведомлений">🔔</button>
+    </div>
+    
+    <!-- Модальное окно настроек уведомлений -->
+    <div class="notifications-modal" id="notificationsModal">
+        <div class="notifications-modal-content">
+            <h3>🔔 Настройки напоминаний</h3>
+            
+            <div class="notification-setting">
+                <div class="notification-toggle">
+                    <input type="checkbox" id="notifyBreakfast" checked>
+                    <label for="notifyBreakfast">Завтрак</label>
+                </div>
+                <input type="time" id="timeBreakfast" value="08:00">
+            </div>
+            
+            <div class="notification-setting">
+                <div class="notification-toggle">
+                    <input type="checkbox" id="notifySnack1" checked>
+                    <label for="notifySnack1">Первый перекус</label>
+                </div>
+                <input type="time" id="timeSnack1" value="11:00">
+            </div>
+            
+            <div class="notification-setting">
+                <div class="notification-toggle">
+                    <input type="checkbox" id="notifyLunch" checked>
+                    <label for="notifyLunch">Обед</label>
+                </div>
+                <input type="time" id="timeLunch" value="14:00">
+            </div>
+            
+            <div class="notification-setting">
+                <div class="notification-toggle">
+                    <input type="checkbox" id="notifySnack2" checked>
+                    <label for="notifySnack2">Второй перекус</label>
+                </div>
+                <input type="time" id="timeSnack2" value="17:00">
+            </div>
+            
+            <div class="notification-setting">
+                <div class="notification-toggle">
+                    <input type="checkbox" id="notifyDinner" checked>
+                    <label for="notifyDinner">Ужин</label>
+                </div>
+                <input type="time" id="timeDinner" value="19:00">
+            </div>
+            
+            <button style="width: 100%; padding: 12px; background: #22c55e; color: white; border: none; border-radius: 10px; font-size: 1em; font-weight: 600; cursor: pointer; margin-top: 20px;" onclick="saveNotificationSettings()">Сохранить</button>
+            <button style="width: 100%; padding: 12px; background: #e5e7eb; color: #1f2933; border: none; border-radius: 10px; font-size: 1em; font-weight: 600; cursor: pointer; margin-top: 10px;" onclick="closeNotificationsModal()">Закрыть</button>
         </div>
     </div>
     
@@ -3631,6 +3787,232 @@
                 // Показываем выбранную категорию
                 document.getElementById(`faq-${category}`).classList.add('active');
             });
+        });
+        
+        // ========== СИСТЕМА УВЕДОМЛЕНИЙ О ПРИЕМЕ ПИЩИ ==========
+        
+        // Проверка поддержки уведомлений
+        let notificationPermission = 'default';
+        if ('Notification' in window) {
+            notificationPermission = Notification.permission;
+        }
+        
+        // Настройки уведомлений по умолчанию
+        const defaultNotificationSettings = {
+            breakfast: { enabled: true, time: '08:00' },
+            snack1: { enabled: true, time: '11:00' },
+            lunch: { enabled: true, time: '14:00' },
+            snack2: { enabled: true, time: '17:00' },
+            dinner: { enabled: true, time: '19:00' }
+        };
+        
+        // Загрузка настроек из localStorage
+        function loadNotificationSettings() {
+            const saved = localStorage.getItem('notificationSettings');
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            return defaultNotificationSettings;
+        }
+        
+        // Сохранение настроек в localStorage
+        function saveNotificationSettings() {
+            const settings = {
+                breakfast: {
+                    enabled: document.getElementById('notifyBreakfast').checked,
+                    time: document.getElementById('timeBreakfast').value
+                },
+                snack1: {
+                    enabled: document.getElementById('notifySnack1').checked,
+                    time: document.getElementById('timeSnack1').value
+                },
+                lunch: {
+                    enabled: document.getElementById('notifyLunch').checked,
+                    time: document.getElementById('timeLunch').value
+                },
+                snack2: {
+                    enabled: document.getElementById('notifySnack2').checked,
+                    time: document.getElementById('timeSnack2').value
+                },
+                dinner: {
+                    enabled: document.getElementById('notifyDinner').checked,
+                    time: document.getElementById('timeDinner').value
+                }
+            };
+            
+            localStorage.setItem('notificationSettings', JSON.stringify(settings));
+            closeNotificationsModal();
+            
+            // Перезапускаем проверку уведомлений
+            initNotifications();
+            
+            // Показываем подтверждение
+            if (tg && tg.showAlert) {
+                tg.showAlert('Настройки сохранены!');
+            } else {
+                alert('Настройки сохранены!');
+            }
+        }
+        
+        // Открытие модального окна настроек
+        function openNotificationsModal() {
+            const settings = loadNotificationSettings();
+            
+            document.getElementById('notifyBreakfast').checked = settings.breakfast.enabled;
+            document.getElementById('timeBreakfast').value = settings.breakfast.time;
+            document.getElementById('notifySnack1').checked = settings.snack1.enabled;
+            document.getElementById('timeSnack1').value = settings.snack1.time;
+            document.getElementById('notifyLunch').checked = settings.lunch.enabled;
+            document.getElementById('timeLunch').value = settings.lunch.time;
+            document.getElementById('notifySnack2').checked = settings.snack2.enabled;
+            document.getElementById('timeSnack2').value = settings.snack2.time;
+            document.getElementById('notifyDinner').checked = settings.dinner.enabled;
+            document.getElementById('timeDinner').value = settings.dinner.time;
+            
+            document.getElementById('notificationsModal').classList.add('active');
+        }
+        
+        // Закрытие модального окна
+        function closeNotificationsModal() {
+            document.getElementById('notificationsModal').classList.remove('active');
+        }
+        
+        // Обработчики для модального окна
+        const notificationsBtn = document.getElementById('notificationsBtn');
+        const notificationsModal = document.getElementById('notificationsModal');
+        
+        if (notificationsBtn) {
+            notificationsBtn.addEventListener('click', () => {
+                // Запрашиваем разрешение при первом клике
+                if (notificationPermission === 'default' && 'Notification' in window) {
+                    Notification.requestPermission().then(permission => {
+                        notificationPermission = permission;
+                        if (permission === 'granted') {
+                            openNotificationsModal();
+                        } else {
+                            if (tg && tg.showAlert) {
+                                tg.showAlert('Разрешите уведомления в настройках браузера для работы напоминаний');
+                            } else {
+                                alert('Разрешите уведомления в настройках браузера для работы напоминаний');
+                            }
+                        }
+                    });
+                } else {
+                    openNotificationsModal();
+                }
+            });
+        }
+        
+        // Закрытие по клику вне модального окна
+        if (notificationsModal) {
+            notificationsModal.addEventListener('click', (e) => {
+                if (e.target === notificationsModal) {
+                    closeNotificationsModal();
+                }
+            });
+        }
+        
+        // Функция показа уведомления
+        function showMealNotification(mealName, mealTime) {
+            if (!('Notification' in window)) {
+                return;
+            }
+            
+            if (Notification.permission === 'granted') {
+                const notification = new Notification('🍽️ Время приема пищи', {
+                    body: `Напоминание: ${mealName} в ${mealTime}`,
+                    icon: 'images/saratov.png',
+                    badge: 'images/saratov.png',
+                    tag: `meal-${mealName.toLowerCase()}`,
+                    requireInteraction: false
+                });
+                
+                // Закрываем уведомление через 5 секунд
+                setTimeout(() => {
+                    notification.close();
+                }, 5000);
+                
+                // Обработчик клика на уведомление
+                notification.onclick = () => {
+                    window.focus();
+                    notification.close();
+                };
+            } else if (Notification.permission === 'default') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        showMealNotification(mealName, mealTime);
+                    }
+                });
+            }
+        }
+        
+        // Проверка времени и показ уведомлений
+        let notificationCheckInterval = null;
+        
+        function checkNotificationTimes() {
+            const settings = loadNotificationSettings();
+            const now = new Date();
+            const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            
+            const meals = [
+                { key: 'breakfast', name: 'Завтрак', setting: settings.breakfast },
+                { key: 'snack1', name: 'Первый перекус', setting: settings.snack1 },
+                { key: 'lunch', name: 'Обед', setting: settings.lunch },
+                { key: 'snack2', name: 'Второй перекус', setting: settings.snack2 },
+                { key: 'dinner', name: 'Ужин', setting: settings.dinner }
+            ];
+            
+            meals.forEach(meal => {
+                if (meal.setting.enabled && meal.setting.time === currentTime) {
+                    // Проверяем, не показывали ли уже уведомление сегодня
+                    const lastNotificationKey = `lastNotification_${meal.key}_${now.toDateString()}`;
+                    const lastNotification = localStorage.getItem(lastNotificationKey);
+                    
+                    if (!lastNotification) {
+                        showMealNotification(meal.name, meal.setting.time);
+                        localStorage.setItem(lastNotificationKey, 'true');
+                    }
+                }
+            });
+        }
+        
+        // Инициализация системы уведомлений
+        function initNotifications() {
+            // Очищаем старый интервал
+            if (notificationCheckInterval) {
+                clearInterval(notificationCheckInterval);
+            }
+            
+            // Проверяем время каждую минуту
+            notificationCheckInterval = setInterval(checkNotificationTimes, 60000);
+            
+            // Проверяем сразу при загрузке
+            checkNotificationTimes();
+            
+            // Обновляем иконку кнопки в зависимости от разрешения
+            if (notificationsBtn) {
+                if (Notification.permission === 'granted') {
+                    notificationsBtn.classList.add('active');
+                } else {
+                    notificationsBtn.classList.remove('active');
+                }
+            }
+        }
+        
+        // Запрос разрешения при загрузке страницы (опционально)
+        if ('Notification' in window && Notification.permission === 'default') {
+            // Можно запросить разрешение автоматически или по клику
+            // Notification.requestPermission().then(permission => {
+            //     notificationPermission = permission;
+            //     if (permission === 'granted') {
+            //         initNotifications();
+            //     }
+            // });
+        }
+        
+        // Инициализируем уведомления при загрузке страницы
+        window.addEventListener('load', () => {
+            setTimeout(initNotifications, 1000);
         });
     </script>
 </body>
