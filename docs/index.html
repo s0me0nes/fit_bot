@@ -2341,11 +2341,58 @@
                 `;
                 card.style.transitionDelay = `${index * 0.05}s`;
                 planCards.appendChild(card);
+                
+                // После загрузки изображения синхронизируем высоту
+                const img = card.querySelector('img');
+                if (img) {
+                    if (img.complete) {
+                        setTimeout(syncCardHeights, 100);
+                    } else {
+                        img.addEventListener('load', () => {
+                            setTimeout(syncCardHeights, 100);
+                        });
+                    }
+                }
             });
 
             observeAnimatedElements(planCards);
             attachCardClickHandlers();
             attachIngredientsClickHandlers();
+            
+            // Синхронизируем высоту карточек в одной строке
+            syncCardHeights();
+        }
+        
+        // Функция для синхронизации высоты карточек в одной строке
+        function syncCardHeights() {
+            const cards = document.querySelectorAll('.plan-card');
+            if (cards.length < 2) return;
+            
+            // Сбрасываем все установленные высоты
+            cards.forEach(card => {
+                card.style.minHeight = '';
+            });
+            
+            // Группируем карточки по строкам (каждые 2 карточки)
+            for (let i = 0; i < cards.length; i += 2) {
+                const row = [cards[i], cards[i + 1]].filter(Boolean);
+                if (row.length === 2) {
+                    // Находим максимальную высоту в строке
+                    const heights = row.map(card => {
+                        // Временно сбрасываем min-height для точного измерения
+                        const oldMinHeight = card.style.minHeight;
+                        card.style.minHeight = '';
+                        const height = card.offsetHeight;
+                        card.style.minHeight = oldMinHeight;
+                        return height;
+                    });
+                    const maxHeight = Math.max(...heights);
+                    // Устанавливаем минимальную высоту для всех карточек в строке
+                    row.forEach(card => {
+                        card.style.minHeight = maxHeight + 'px';
+                    });
+                }
+            }
         }
         
         // Обработчик клика на "Состав"
@@ -2377,6 +2424,8 @@
                                         ingredientsBlock.style.maxHeight = '40px';
                                         ingredientsBlock.style.overflowY = 'hidden';
                                     }
+                                    // Синхронизируем высоту карточек после сворачивания
+                                    syncCardHeights();
                                 }, 400);
                             }
                         } else {
@@ -2400,6 +2449,8 @@
                                             content.style.maxHeight = 'none';
                                             content.style.overflow = 'visible';
                                         }
+                                        // Синхронизируем высоту карточек после разворачивания
+                                        syncCardHeights();
                                     }, 400);
                                 });
                             });
@@ -2563,7 +2614,10 @@
         
         // Проверяем при загрузке и изменении размера окна
         window.addEventListener('load', checkScrollPosition);
-        window.addEventListener('resize', checkScrollPosition);
+        window.addEventListener('resize', () => {
+            checkScrollPosition();
+            syncCardHeights();
+        });
         
         // Первоначальная проверка
         setTimeout(checkScrollPosition, 500);
