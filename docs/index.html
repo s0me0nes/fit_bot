@@ -1116,6 +1116,23 @@
             min-height: 1.2em;
             line-height: 1.2em;
             height: 1.2em;
+            margin-top: 0;
+        }
+        
+        /* Выравнивание названий: Завтрак и Перекусы на одном уровне */
+        .plan-card.meal-zavtrak small,
+        .plan-card.meal-perekus small {
+            height: 1.2em;
+            margin-bottom: 4px;
+            margin-top: 0;
+        }
+        
+        /* Выравнивание названий: Обед и Ужин на одном уровне */
+        .plan-card.meal-obed small,
+        .plan-card.meal-uzhin small {
+            height: 1.2em;
+            margin-bottom: 4px;
+            margin-top: 0;
         }
 
         .plan-card h4 {
@@ -3086,6 +3103,8 @@
                 const ingredientsHTML = generateIngredientsHTML(product.ingredients);
                 const isPerekus = product.meal.toLowerCase().includes('перекус');
                 const isUzhin = product.meal.toLowerCase().includes('ужин');
+                const isZavtrak = product.meal.toLowerCase().includes('завтрак');
+                const isObed = product.meal.toLowerCase().includes('обед');
                 const isSoon = product.name === 'Блюдо на фотосессии' || !product.ingredients || product.ingredients.length === 0;
                 
                 // Убираем HTML теги из названия для alt атрибута
@@ -3093,7 +3112,9 @@
                 
                 // Добавляем классы для стилизации
                 let cardClasses = 'plan-card';
+                if (isZavtrak) cardClasses += ' meal-zavtrak';
                 if (isPerekus) cardClasses += ' meal-perekus';
+                if (isObed) cardClasses += ' meal-obed';
                 if (isUzhin) cardClasses += ' meal-uzhin';
                 
                 card.className = cardClasses;
