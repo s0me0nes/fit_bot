@@ -2337,15 +2337,10 @@
         
         // Функция для показа модального окна со скидкой
         function showSaleModal() {
-            // Проверяем, показывали ли уже модальное окно
-            const saleModalShown = localStorage.getItem('saleModalShown');
-            
-            if (!saleModalShown && saleModalOverlay) {
+            if (saleModalOverlay) {
                 // Показываем модальное окно через небольшую задержку после загрузки
                 setTimeout(() => {
                     saleModalOverlay.classList.add('show');
-                    // Сохраняем, что модальное окно было показано
-                    localStorage.setItem('saleModalShown', 'true');
                 }, 1200); // Показываем через 1.2 секунды после загрузки
             }
         }
