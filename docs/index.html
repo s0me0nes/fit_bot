@@ -826,6 +826,56 @@
             transform: scale(0.98) translateY(-1px);
         }
 
+        /* Блок с ценами */
+        .plan-price-block {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .plan-price-block.active {
+            display: block;
+        }
+
+        .plan-price {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .plan-price-old {
+            color: #dc2626;
+            text-decoration: line-through;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .plan-price-new {
+            color: #22c55e;
+            font-weight: 900;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 640px) {
+            .plan-price {
+                font-size: 1.1em;
+            }
+            
+            .plan-price-old {
+                font-size: 0.85em;
+            }
+            
+            .plan-price-new {
+                font-size: 1.1em;
+            }
+        }
 
         .plan-cards {
             display: grid;
@@ -2085,6 +2135,12 @@
             <span class="plan-day" data-day="3">Чт 11.12</span>
             <span class="plan-day" data-day="4">Пт 12.12</span>
         </div>
+        <div class="plan-price-block active" id="planPriceBlock" data-day="0">
+            <div class="plan-price">
+                <span class="plan-price-old">2250₽</span>
+                <span class="plan-price-new">1650₽</span>
+            </div>
+        </div>
         <div class="plan-cards" id="planCards">
             <!-- Карточки будут сгенерированы через JavaScript -->
         </div>
@@ -3192,6 +3248,33 @@
         // Инициализируем продукты для первого дня (четверг) при загрузке
         updateProducts(0);
         
+        // Данные цен для каждого дня
+        const dayPrices = [
+            { old: '2250₽', new: '1650₽' }, // Пн 08.12
+            { old: '1820₽', new: '1300₽' }, // Вт 09.12
+            null, // Ср 10.12 - нет цены
+            null, // Чт 11.12 - нет цены
+            null  // Пт 12.12 - нет цены
+        ];
+        
+        // Функция для обновления цен
+        function updatePrice(dayIndex) {
+            const priceBlock = document.getElementById('planPriceBlock');
+            if (!priceBlock) return;
+            
+            const priceData = dayPrices[dayIndex];
+            if (priceData) {
+                priceBlock.classList.add('active');
+                priceBlock.setAttribute('data-day', dayIndex);
+                const oldPrice = priceBlock.querySelector('.plan-price-old');
+                const newPrice = priceBlock.querySelector('.plan-price-new');
+                if (oldPrice) oldPrice.textContent = priceData.old;
+                if (newPrice) newPrice.textContent = priceData.new;
+            } else {
+                priceBlock.classList.remove('active');
+            }
+        }
+        
         planDays.forEach((day, index) => {
             day.addEventListener('click', () => {
                 // Убираем активный класс со всех дней
@@ -3200,8 +3283,13 @@
                 day.classList.add('active');
                 // Обновляем продукты
                 updateProducts(index);
+                // Обновляем цены
+                updatePrice(index);
             });
         });
+        
+        // Инициализация цены для первого дня
+        updatePrice(0);
 
         
         // Управление подсказкой для прокрутки вниз
