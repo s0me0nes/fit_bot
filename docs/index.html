@@ -823,12 +823,20 @@
             font-weight: 700;
         }
 
-        .plan-day:hover {
+        .plan-day:hover:not(.active) {
             transform: translateY(-3px);
             color: #2d5016;
             background: rgba(255, 255, 255, 1);
             border-color: rgba(45, 80, 22, 0.4);
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+        
+        .plan-day.active:hover {
+            transform: translateY(-2px);
+            color: white;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            border: 2px solid #22c55e;
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.5), 0 4px 12px rgba(34, 197, 94, 0.3);
         }
 
         .plan-day:active {
@@ -3482,8 +3490,31 @@
             }
         }
         
+        // Используем делегирование событий для более надежной обработки кликов
+        const planDaysContainer = document.querySelector('.plan-days');
+        if (planDaysContainer) {
+            planDaysContainer.addEventListener('click', (e) => {
+                const dayElement = e.target.closest('.plan-day');
+                if (!dayElement) return;
+                
+                const dayIndex = parseInt(dayElement.getAttribute('data-day'));
+                if (isNaN(dayIndex)) return;
+                
+                // Убираем активный класс со всех дней
+                planDays.forEach(d => d.classList.remove('active'));
+                // Добавляем активный класс к выбранному дню
+                dayElement.classList.add('active');
+                // Обновляем продукты
+                updateProducts(dayIndex);
+                // Обновляем цены
+                updatePrice(dayIndex);
+            });
+        }
+        
+        // Также оставляем прямые обработчики для совместимости
         planDays.forEach((day, index) => {
-            day.addEventListener('click', () => {
+            day.addEventListener('click', (e) => {
+                e.stopPropagation();
                 // Убираем активный класс со всех дней
                 planDays.forEach(d => d.classList.remove('active'));
                 // Добавляем активный класс к выбранному дню
