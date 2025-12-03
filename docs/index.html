@@ -958,6 +958,16 @@
             max-height: 90%;
         }
         
+        /* Для ужина - центрирование изображения по вертикали */
+        .plan-card[data-meal*="ужин"] .plan-card-image-wrapper img,
+        .plan-card[data-meal*="Ужин"] .plan-card-image-wrapper img {
+            object-fit: contain;
+            object-position: center;
+            padding: 10px;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
         .plan-card-ingredients {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -1123,6 +1133,24 @@
         
         .plan-card[data-meal*="перекус"] h4,
         .plan-card[data-meal*="Перекус"] h4 {
+            min-height: 2.6em;
+            margin: 4px 0 2px 0;
+        }
+        
+        /* Для ужина - выравнивание названий на одном уровне с обедом */
+        .plan-card[data-meal*="ужин"] .plan-card-content,
+        .plan-card[data-meal*="Ужин"] .plan-card-content {
+            justify-content: flex-start;
+        }
+        
+        .plan-card[data-meal*="ужин"] small,
+        .plan-card[data-meal*="Ужин"] small {
+            height: 1.2em;
+            margin-bottom: 4px;
+        }
+        
+        .plan-card[data-meal*="ужин"] h4,
+        .plan-card[data-meal*="Ужин"] h4 {
             min-height: 2.6em;
             margin: 4px 0 2px 0;
         }
