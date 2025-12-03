@@ -2326,7 +2326,6 @@
     <!-- Модальное окно со скидкой при первом запуске -->
     <div class="sale-modal-overlay" id="saleModalOverlay">
         <div class="sale-modal-content">
-            <button class="sale-modal-close" id="saleModalClose">&times;</button>
             <div class="sale-image-wrapper">
                 <img src="images/sale.png" alt="Скидка">
             </div>
@@ -2367,7 +2366,6 @@
 
         // Управление модальным окном со скидкой
         const saleModalOverlay = document.getElementById('saleModalOverlay');
-        const saleModalClose = document.getElementById('saleModalClose');
         
         // Функция для показа модального окна со скидкой
         function showSaleModal() {
@@ -2386,14 +2384,9 @@
             }
         }
         
-        // Обработчики закрытия модального окна
-        if (saleModalClose) {
-            saleModalClose.addEventListener('click', hideSaleModal);
-        }
-        
+        // Закрытие модального окна при клике на overlay (но не на сам контент)
         if (saleModalOverlay) {
             saleModalOverlay.addEventListener('click', (e) => {
-                // Закрываем при клике на overlay (но не на сам контент)
                 if (e.target === saleModalOverlay) {
                     hideSaleModal();
                 }
