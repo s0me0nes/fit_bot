@@ -889,7 +889,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            align-items: stretch;
+            align-items: start;
         }
         
         @media (max-width: 768px) {
@@ -934,6 +934,7 @@
             width: 100%;
             margin-bottom: 8px;
             aspect-ratio: 1 / 1;
+            min-height: 140px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -3205,15 +3206,43 @@
             // Сбрасываем все установленные высоты
             cards.forEach(card => {
                 card.style.minHeight = '';
+                const content = card.querySelector('.plan-card-content');
+                if (content) content.style.marginTop = '';
             });
             
             // Группируем карточки по строкам (каждые 2 карточки)
             for (let i = 0; i < cards.length; i += 2) {
                 const row = [cards[i], cards[i + 1]].filter(Boolean);
                 if (row.length === 2) {
-                    // Находим максимальную высоту в строке
+                    // Находим максимальную высоту изображения в строке
+                    const imageHeights = row.map(card => {
+                        const imageWrapper = card.querySelector('.plan-card-image-wrapper');
+                        return imageWrapper ? imageWrapper.offsetHeight : 0;
+                    });
+                    const maxImageHeight = Math.max(...imageHeights);
+                    
+                    // Синхронизируем высоту области с текстом
+                    const contentHeights = row.map(card => {
+                        const content = card.querySelector('.plan-card-content');
+                        return content ? content.offsetHeight : 0;
+                    });
+                    const maxContentHeight = Math.max(...contentHeights);
+                    
+                    // Устанавливаем одинаковую высоту изображений и выравниваем текст
+                    row.forEach(card => {
+                        const imageWrapper = card.querySelector('.plan-card-image-wrapper');
+                        const content = card.querySelector('.plan-card-content');
+                        
+                        if (imageWrapper && imageWrapper.offsetHeight < maxImageHeight) {
+                            const diff = maxImageHeight - imageWrapper.offsetHeight;
+                            if (content) {
+                                content.style.marginTop = diff + 'px';
+                            }
+                        }
+                    });
+                    
+                    // Находим максимальную общую высоту в строке
                     const heights = row.map(card => {
-                        // Временно сбрасываем min-height для точного измерения
                         const oldMinHeight = card.style.minHeight;
                         card.style.minHeight = '';
                         const height = card.offsetHeight;
