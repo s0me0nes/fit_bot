@@ -834,10 +834,10 @@
         .plan-card-ingredients {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            padding: 10px 12px;
+            padding: 6px 12px;
             border-radius: 12px;
             margin-top: auto;
-            max-height: 120px;
+            max-height: 60px;
             overflow-y: auto;
         }
         
@@ -871,11 +871,12 @@
             user-select: none;
             animation: bounce 2s ease-in-out infinite;
             transition: transform 0.2s ease;
-            padding: 8px 12px;
-            min-height: 32px;
+            padding: 6px 12px;
+            min-height: 28px;
             display: flex;
             align-items: center;
-            margin: -8px -12px 6px -12px;
+            justify-content: center;
+            margin: -6px -12px 6px -12px;
         }
         
         .plan-card-ingredients-title:hover {
@@ -2381,13 +2382,17 @@
                             if (ingredientsBlock) {
                                 ingredientsBlock.classList.remove('expanded');
                                 // Восстанавливаем исходные стили для скрытия скролла
-                                ingredientsBlock.style.maxHeight = '120px';
+                                ingredientsBlock.style.maxHeight = '60px';
                                 ingredientsBlock.style.overflowY = 'auto';
-                                // После завершения анимации убеждаемся, что стили применены
+                                // После завершения анимации убеждаемся, что стили применены и скролл скрыт
                                 setTimeout(() => {
-                                    if (!content.classList.contains('expanded')) {
-                                        ingredientsBlock.style.maxHeight = '120px';
+                                    if (!content.classList.contains('expanded') && !ingredientsBlock.classList.contains('expanded')) {
+                                        ingredientsBlock.style.maxHeight = '60px';
                                         ingredientsBlock.style.overflowY = 'auto';
+                                        // Убираем скролл, если контент не переполняется
+                                        if (ingredientsBlock.scrollHeight <= 60) {
+                                            ingredientsBlock.style.overflowY = 'hidden';
+                                        }
                                     }
                                 }, 400);
                             }
