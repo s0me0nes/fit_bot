@@ -1077,6 +1077,7 @@
             display: flex;
             flex-direction: column;
             flex: 1;
+            justify-content: flex-start;
         }
 
         .plan-card small {
@@ -1090,6 +1091,7 @@
             transition: opacity 0.3s ease;
             min-height: 1.2em;
             line-height: 1.2em;
+            height: 1.2em;
         }
 
         .plan-card h4 {
@@ -1104,6 +1106,25 @@
             word-wrap: break-word;
             overflow-wrap: break-word;
             hyphens: auto;
+            min-height: 2.6em;
+        }
+        
+        /* Для перекусов - выравнивание названий на одном уровне */
+        .plan-card[data-meal*="перекус"] .plan-card-content,
+        .plan-card[data-meal*="Перекус"] .plan-card-content {
+            justify-content: flex-start;
+        }
+        
+        .plan-card[data-meal*="перекус"] small,
+        .plan-card[data-meal*="Перекус"] small {
+            height: 1.2em;
+            margin-bottom: 4px;
+        }
+        
+        .plan-card[data-meal*="перекус"] h4,
+        .plan-card[data-meal*="Перекус"] h4 {
+            min-height: 2.6em;
+            margin: 4px 0 2px 0;
         }
 
         .plan-card span {
