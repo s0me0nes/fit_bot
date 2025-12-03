@@ -1011,6 +1011,7 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            transition: opacity 0.3s ease;
         }
 
         .plan-card span {
@@ -2289,12 +2290,14 @@
                     ]
                 },
                 { 
-                    meal: 'Перекус 1', 
+                    meal: 'Перекус', 
                     image: 'perekus1.jpg', 
                     name: 'Апельсин', 
                     calories: '', 
                     description: 'Питательный перекус для поддержания энергии между основными приемами пищи.',
-                    ingredients: []
+                    ingredients: [],
+                    alternateImage: 'perekus2.jpg',
+                    alternateName: 'Йогурт греческий'
                 },
                 { 
                     meal: 'Обед', 
@@ -2313,14 +2316,6 @@
                             ]
                         }
                     ]
-                },
-                { 
-                    meal: 'Перекус 2', 
-                    image: 'perekus2.jpg', 
-                    name: 'Йогурт греческий', 
-                    calories: '',
-                    description: 'Питательный перекус для поддержания энергии между основными приемами пищи.',
-                    ingredients: []
                 },
                 { 
                     meal: 'Ужин', 
@@ -2401,11 +2396,11 @@
                 
                 card.innerHTML = `
                     <div class="plan-card-image-wrapper">
-                        <img src="images/${product.image}" alt="${product.name}" loading="lazy">
+                        <img src="images/${product.image}" alt="${product.name}" loading="lazy" class="card-image">
                     </div>
                     <div class="plan-card-content">
                         <small>${product.meal}</small>
-                        <h4>${product.name}</h4>
+                        <h4 class="card-name">${product.name}</h4>
                         <span>${product.calories}</span>
                         <div class="plan-card-ingredients">
                             ${ingredientsHTML}
@@ -2414,6 +2409,38 @@
                 `;
                 card.style.transitionDelay = `${index * 0.05}s`;
                 planCards.appendChild(card);
+                
+                // Если есть альтернативное изображение и название, добавляем переключение
+                if (product.alternateImage && product.alternateName) {
+                    const cardImage = card.querySelector('.card-image');
+                    const cardName = card.querySelector('.card-name');
+                    let isAlternate = false;
+                    
+                    setInterval(() => {
+                        isAlternate = !isAlternate;
+                        if (isAlternate) {
+                            cardImage.style.opacity = '0';
+                            cardName.style.opacity = '0';
+                            setTimeout(() => {
+                                cardImage.src = `images/${product.alternateImage}`;
+                                cardImage.alt = product.alternateName;
+                                cardName.textContent = product.alternateName;
+                                cardImage.style.opacity = '1';
+                                cardName.style.opacity = '1';
+                            }, 300);
+                        } else {
+                            cardImage.style.opacity = '0';
+                            cardName.style.opacity = '0';
+                            setTimeout(() => {
+                                cardImage.src = `images/${product.image}`;
+                                cardImage.alt = product.name;
+                                cardName.textContent = product.name;
+                                cardImage.style.opacity = '1';
+                                cardName.style.opacity = '1';
+                            }, 300);
+                        }
+                    }, 2000);
+                }
                 
                 // После загрузки изображения синхронизируем высоту
                 const img = card.querySelector('img');
