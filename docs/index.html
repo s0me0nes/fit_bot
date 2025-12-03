@@ -2398,7 +2398,6 @@
                 <img src="images/sale.png" alt="Скидка">
             </div>
             <h2 class="sale-title">Специальное предложение!</h2>
-            <div class="sale-discount">40%</div>
             <p class="sale-text">
                 Закажите прямо сейчас и получите<br>
                 <span class="sale-highlight">скидку 40% на первые 4 дня</span>
@@ -2437,12 +2436,24 @@
         
         // Функция для показа модального окна со скидкой
         function showSaleModal() {
-            if (saleModalOverlay) {
-                // Показываем модальное окно через небольшую задержку после загрузки
-                setTimeout(() => {
-                    saleModalOverlay.classList.add('show');
-                }, 1200); // Показываем через 1.2 секунды после загрузки
+            if (!saleModalOverlay) return;
+            
+            // Проверяем, показывали ли уже модальное окно сегодня
+            const lastShown = localStorage.getItem('saleModalLastShown');
+            const now = new Date().getTime();
+            const oneDay = 24 * 60 * 60 * 1000; // 24 часа в миллисекундах
+            
+            // Если показывали менее суток назад - не показываем
+            if (lastShown && (now - parseInt(lastShown)) < oneDay) {
+                return;
             }
+            
+            // Показываем модальное окно через небольшую задержку после загрузки
+            setTimeout(() => {
+                saleModalOverlay.classList.add('show');
+                // Сохраняем время показа
+                localStorage.setItem('saleModalLastShown', now.toString());
+            }, 1200); // Показываем через 1.2 секунды после загрузки
         }
         
         // Функция для скрытия модального окна
