@@ -2177,6 +2177,8 @@
             tg.expand();
             tg.setHeaderColor('#2d5016');
             tg.setBackgroundColor('#f5f5f5');
+            // Принудительное обновление кеша
+            tg.ready();
             
             // Автоматическая авторизация через Telegram
             const user = tg.initDataUnsafe?.user;
