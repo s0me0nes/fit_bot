@@ -3344,8 +3344,8 @@
             if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
                 header.classList.add('hidden');
             } 
-            // Если прокрутили вверх - показываем header
-            else if (scrollTop < lastScrollTop) {
+            // Если прокрутили до самого верха (scrollTop = 0 или очень близко) - показываем header
+            else if (scrollTop <= 10) {
                 header.classList.remove('hidden');
             }
             
