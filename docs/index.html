@@ -949,8 +949,7 @@
         }
         
         /* Для перекусов - центрирование изображения по вертикали */
-        .plan-card[data-meal*="перекус"] .plan-card-image-wrapper img,
-        .plan-card[data-meal*="Перекус"] .plan-card-image-wrapper img {
+        .plan-card.meal-perekus .plan-card-image-wrapper img {
             object-fit: contain;
             object-position: center;
             padding: 10px;
@@ -959,8 +958,7 @@
         }
         
         /* Для ужина - центрирование изображения по вертикали */
-        .plan-card[data-meal*="ужин"] .plan-card-image-wrapper img,
-        .plan-card[data-meal*="Ужин"] .plan-card-image-wrapper img {
+        .plan-card.meal-uzhin .plan-card-image-wrapper img {
             object-fit: contain;
             object-position: center;
             padding: 10px;
@@ -1120,37 +1118,31 @@
         }
         
         /* Для перекусов - выравнивание названий на одном уровне */
-        .plan-card[data-meal*="перекус"] .plan-card-content,
-        .plan-card[data-meal*="Перекус"] .plan-card-content {
+        .plan-card.meal-perekus .plan-card-content {
             justify-content: flex-start;
         }
         
-        .plan-card[data-meal*="перекус"] small,
-        .plan-card[data-meal*="Перекус"] small {
+        .plan-card.meal-perekus small {
             height: 1.2em;
             margin-bottom: 4px;
         }
         
-        .plan-card[data-meal*="перекус"] h4,
-        .plan-card[data-meal*="Перекус"] h4 {
+        .plan-card.meal-perekus h4 {
             min-height: 2.6em;
             margin: 4px 0 2px 0;
         }
         
         /* Для ужина - выравнивание названий на одном уровне с обедом */
-        .plan-card[data-meal*="ужин"] .plan-card-content,
-        .plan-card[data-meal*="Ужин"] .plan-card-content {
+        .plan-card.meal-uzhin .plan-card-content {
             justify-content: flex-start;
         }
         
-        .plan-card[data-meal*="ужин"] small,
-        .plan-card[data-meal*="Ужин"] small {
+        .plan-card.meal-uzhin small {
             height: 1.2em;
             margin-bottom: 4px;
         }
         
-        .plan-card[data-meal*="ужин"] h4,
-        .plan-card[data-meal*="Ужин"] h4 {
+        .plan-card.meal-uzhin h4 {
             min-height: 2.6em;
             margin: 4px 0 2px 0;
         }
@@ -3067,7 +3059,6 @@
             
             products.forEach((product, index) => {
                 const card = document.createElement('div');
-                card.className = 'plan-card';
                 card.setAttribute('data-animate', '');
                 card.setAttribute('data-meal', product.meal);
                 card.setAttribute('data-name', product.name);
@@ -3078,10 +3069,18 @@
                 
                 const ingredientsHTML = generateIngredientsHTML(product.ingredients);
                 const isPerekus = product.meal.toLowerCase().includes('перекус');
+                const isUzhin = product.meal.toLowerCase().includes('ужин');
                 const isSoon = product.name === 'Блюдо на фотосессии' || !product.ingredients || product.ingredients.length === 0;
                 
                 // Убираем HTML теги из названия для alt атрибута
                 const nameForAlt = product.name.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ');
+                
+                // Добавляем классы для стилизации
+                let cardClasses = 'plan-card';
+                if (isPerekus) cardClasses += ' meal-perekus';
+                if (isUzhin) cardClasses += ' meal-uzhin';
+                
+                card.className = cardClasses;
                 
                 card.innerHTML = `
                     <div class="plan-card-image-wrapper">
