@@ -1000,6 +1000,7 @@
             font-size: 0.75em;
             display: block;
             margin-bottom: 4px;
+            transition: opacity 0.3s ease;
         }
 
         .plan-card h4 {
@@ -2296,14 +2297,15 @@
                     ]
                 },
                 { 
-                    meal: 'Перекус', 
+                    meal: 'Первый перекус', 
                     image: 'perekus1.jpg', 
                     name: 'Апельсин', 
                     calories: '', 
                     description: 'Питательный перекус для поддержания энергии между основными приемами пищи.',
                     ingredients: [],
                     alternateImage: 'perekus2.jpg',
-                    alternateName: 'Йогурт греческий'
+                    alternateName: 'Йогурт греческий',
+                    alternateMeal: 'Второй перекус'
                 },
                 { 
                     meal: 'Обед', 
@@ -2405,7 +2407,7 @@
                         <img src="images/${product.image}" alt="${product.name}" loading="lazy" class="card-image">
                     </div>
                     <div class="plan-card-content">
-                        <small>${product.meal}</small>
+                        <small class="card-meal">${product.meal}</small>
                         <h4 class="card-name">${product.name}</h4>
                         <span>${product.calories}</span>
                         <div class="plan-card-ingredients">
@@ -2420,6 +2422,7 @@
                 if (product.alternateImage && product.alternateName) {
                     const cardImage = card.querySelector('.card-image');
                     const cardName = card.querySelector('.card-name');
+                    const cardMeal = card.querySelector('.card-meal');
                     let isAlternate = false;
                     
                     setInterval(() => {
@@ -2427,22 +2430,32 @@
                         if (isAlternate) {
                             cardImage.style.opacity = '0';
                             cardName.style.opacity = '0';
+                            if (cardMeal) cardMeal.style.opacity = '0';
                             setTimeout(() => {
                                 cardImage.src = `images/${product.alternateImage}`;
                                 cardImage.alt = product.alternateName;
                                 cardName.textContent = product.alternateName;
+                                if (cardMeal && product.alternateMeal) {
+                                    cardMeal.textContent = product.alternateMeal;
+                                }
                                 cardImage.style.opacity = '1';
                                 cardName.style.opacity = '1';
+                                if (cardMeal) cardMeal.style.opacity = '1';
                             }, 300);
                         } else {
                             cardImage.style.opacity = '0';
                             cardName.style.opacity = '0';
+                            if (cardMeal) cardMeal.style.opacity = '0';
                             setTimeout(() => {
                                 cardImage.src = `images/${product.image}`;
                                 cardImage.alt = product.name;
                                 cardName.textContent = product.name;
+                                if (cardMeal) {
+                                    cardMeal.textContent = product.meal;
+                                }
                                 cardImage.style.opacity = '1';
                                 cardName.style.opacity = '1';
+                                if (cardMeal) cardMeal.style.opacity = '1';
                             }, 300);
                         }
                     }, 2000);
