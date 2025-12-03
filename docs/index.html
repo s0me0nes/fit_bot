@@ -75,6 +75,15 @@
             top: 0;
             z-index: 100;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .header.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
         }
         
         .header-content {
@@ -3318,6 +3327,34 @@
         window.addEventListener('scroll', () => {
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(checkScrollPosition, 100);
+        }, { passive: true });
+        
+        // Управление скрытием/показом header при прокрутке
+        const header = document.querySelector('.header');
+        let lastScrollTop = 0;
+        let scrollTimeoutHeader = null;
+        const scrollThreshold = 50; // Порог прокрутки в пикселях
+        
+        function handleHeaderScroll() {
+            if (!header) return;
+            
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Если прокрутили вниз больше порога - скрываем header
+            if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
+                header.classList.add('hidden');
+            } 
+            // Если прокрутили вверх - показываем header
+            else if (scrollTop < lastScrollTop) {
+                header.classList.remove('hidden');
+            }
+            
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }
+        
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeoutHeader);
+            scrollTimeoutHeader = setTimeout(handleHeaderScroll, 10);
         }, { passive: true });
         
         // Проверяем при загрузке и изменении размера окна
