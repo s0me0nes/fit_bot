@@ -3482,6 +3482,11 @@
                             const height = content.scrollHeight;
                             content.style.maxHeight = '0px';
                             content.style.overflow = 'hidden';
+                            // Сбрасываем стили ingredientsBlock для корректного разворачивания
+                            if (ingredientsBlock) {
+                                ingredientsBlock.style.maxHeight = '';
+                                ingredientsBlock.style.overflowY = '';
+                            }
                             // Небольшая задержка для начала анимации
                             requestAnimationFrame(() => {
                                 requestAnimationFrame(() => {
