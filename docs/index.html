@@ -719,6 +719,93 @@
             gap: 20px;
         }
 
+        /* Информационное окно о заказах */
+        .order-info-box {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 24px 28px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .order-info-box h3 {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            text-align: center;
+            letter-spacing: -0.02em;
+        }
+
+        .order-info-box p {
+            color: #333;
+            line-height: 1.7;
+            font-size: 1em;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .order-info-box .schedule-example {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(0,0,0,0.03);
+            border-radius: 12px;
+            border-left: 3px solid #4a7c2a;
+        }
+
+        .order-info-box .schedule-example .schedule-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        .order-info-box .schedule-example .schedule-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .order-info-box .schedule-example .schedule-item strong {
+            color: #1a1a1a;
+            font-weight: 600;
+            min-width: 120px;
+            margin-right: 12px;
+        }
+
+        @media (max-width: 640px) {
+            .order-info-box {
+                margin: 20px auto;
+                padding: 20px;
+                border-radius: 16px;
+            }
+
+            .order-info-box h3 {
+                font-size: 1.2em;
+            }
+
+            .order-info-box p {
+                font-size: 0.9em;
+            }
+
+            .order-info-box .schedule-example {
+                padding: 12px;
+            }
+
+            .order-info-box .schedule-example .schedule-item {
+                font-size: 0.85em;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .order-info-box .schedule-example .schedule-item strong {
+                min-width: auto;
+                margin-bottom: 4px;
+            }
+        }
+
         /* План питания */
         .plan-preview {
             max-width: 1200px;
@@ -2427,6 +2514,27 @@
             
             <button style="width: 100%; padding: 12px; background: #22c55e; color: white; border: none; border-radius: 10px; font-size: 1em; font-weight: 600; cursor: pointer; margin-top: 20px;" onclick="saveNotificationSettings()">Сохранить</button>
             <button style="width: 100%; padding: 12px; background: #e5e7eb; color: #1f2933; border: none; border-radius: 10px; font-size: 1em; font-weight: 600; cursor: pointer; margin-top: 10px;" onclick="closeNotificationsModal()">Закрыть</button>
+        </div>
+    </div>
+    
+    <!-- Информационное окно о заказах -->
+    <div class="order-info-box" data-animate>
+        <h3>Мы принимаем заказы за 2 рабочих дня до даты начала питания</h3>
+        <p>Это необходимо для подготовки свежих блюд.</p>
+        <div class="schedule-example">
+            <p style="margin-bottom: 12px; font-weight: 600; color: #1a1a1a;">Пример графика:</p>
+            <div class="schedule-item">
+                <strong>6-е число:</strong>
+                <span>оформление заказа</span>
+            </div>
+            <div class="schedule-item">
+                <strong>7-е число:</strong>
+                <span>доставка рациона</span>
+            </div>
+            <div class="schedule-item">
+                <strong>8-е число:</strong>
+                <span>день приема пищи</span>
+            </div>
         </div>
     </div>
     
