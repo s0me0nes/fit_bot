@@ -757,11 +757,11 @@
         }
 
         .order-info-box .schedule-example .schedule-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 6px;
+            display: block;
+            margin-bottom: 4px;
             font-size: 0.9em;
             color: #555;
+            line-height: 1.5;
         }
 
         .order-info-box .schedule-example .schedule-item:last-child {
@@ -771,8 +771,7 @@
         .order-info-box .schedule-example .schedule-item strong {
             color: #1a1a1a;
             font-weight: 600;
-            min-width: 90px;
-            margin-right: 10px;
+            margin-right: 8px;
         }
 
         @media (max-width: 640px) {
@@ -796,13 +795,10 @@
 
             .order-info-box .schedule-example .schedule-item {
                 font-size: 0.8em;
-                flex-direction: column;
-                align-items: flex-start;
             }
 
             .order-info-box .schedule-example .schedule-item strong {
-                min-width: auto;
-                margin-bottom: 2px;
+                margin-right: 6px;
             }
         }
 
@@ -3015,20 +3011,6 @@
                 console.log('Открыто не из Telegram, авторизация недоступна');
             }
             
-        // Переключение изображений шапки
-        const headerImages = ['images/head1.jpg', 'images/head2.jpg', 'images/head3.jpg', 'images/head4.jpg'];
-        let currentHeaderImageIndex = 0;
-        const headerElement = document.querySelector('.header');
-        const headerImageToggle = document.getElementById('headerImageToggle');
-        
-        if (headerImageToggle && headerElement) {
-            headerImageToggle.addEventListener('click', function() {
-                currentHeaderImageIndex = (currentHeaderImageIndex + 1) % headerImages.length;
-                const nextImage = headerImages[currentHeaderImageIndex];
-                headerElement.style.backgroundImage = `url('${nextImage}')`;
-            });
-        }
-        
             // Кнопка "Назад"
             tg.BackButton.show();
             tg.BackButton.onClick(() => {
@@ -3041,6 +3023,20 @@
                 userProfile.style.display = 'none';
             }
             console.log('Открыто не из Telegram, Web App SDK недоступен');
+        }
+        
+        // Переключение изображений шапки (работает в любом режиме)
+        const headerImages = ['images/head1.jpg', 'images/head2.jpg', 'images/head3.jpg', 'images/head4.jpg'];
+        let currentHeaderImageIndex = 0;
+        const headerElement = document.querySelector('.header');
+        const headerImageToggle = document.getElementById('headerImageToggle');
+        
+        if (headerImageToggle && headerElement) {
+            headerImageToggle.addEventListener('click', function() {
+                currentHeaderImageIndex = (currentHeaderImageIndex + 1) % headerImages.length;
+                const nextImage = headerImages[currentHeaderImageIndex];
+                headerElement.style.backgroundImage = `url('${nextImage}')`;
+            });
         }
         
         
