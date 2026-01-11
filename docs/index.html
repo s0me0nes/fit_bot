@@ -1326,11 +1326,16 @@
             min-height: 2.6em;
         }
         
+        /* Уменьшаем отступ между названием и составом у завтраков */
+        .plan-card.meal-zavtrak .plan-card-ingredients {
+            margin-top: 4px;
+        }
+        
         /* Для перекусов - текст закреплен внизу карточки */
         .plan-card.meal-perekus .plan-card-content {
             justify-content: flex-end;
             margin-top: auto;
-            padding-top: 8px;
+            padding-top: 2px;
         }
         
         .plan-card.meal-perekus small {
@@ -3208,10 +3213,11 @@
                 },
                 { 
                     meal: 'Обед', 
-                    image: 'soon.jpg', 
-                    name: 'Блюдо на фотосессии', 
+                    image: 'obed.jpg', 
+                    name: 'Лодочки из кабачков', 
                     calories: '',
-                    description: 'Блюдо на фотосессии',
+                    description: 'Лодочки из кабачков - сытное и полезное блюдо. Нежные кабачки с мясным фаршем и сыром создают идеальный баланс вкуса и питательности.',
+                    note: '+ цельнозерновые макароны',
                     ingredients: []
                 },
                 { 
@@ -3637,6 +3643,29 @@
         
         // Инициализируем продукты для первого дня (понедельник) при загрузке
         updateProducts(0);
+        
+        // Предотвращаем автоматическую прокрутку вниз при загрузке страницы
+        window.addEventListener('load', () => {
+            // Убеждаемся, что страница начинается с верха
+            if (window.scrollY > 0 || document.documentElement.scrollTop > 0) {
+                window.scrollTo(0, 0);
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+            }
+        }, { once: true });
+        
+        // Также предотвращаем прокрутку при изменении DOM
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                window.scrollTo(0, 0);
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+            });
+        } else {
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        }
         
         // Данные цен для каждого дня
         const dayPrices = [
