@@ -1115,11 +1115,13 @@
         }
         
         .plan-card.meal-perekus .plan-card-image-wrapper {
-            flex: 1;
+            flex: 0 0 auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 0;
+            margin-bottom: 4px;
+            min-height: auto;
+            aspect-ratio: 1 / 1;
         }
         
         .plan-card.meal-perekus .plan-card-image-wrapper img {
@@ -1329,13 +1331,19 @@
         /* Уменьшаем отступ между названием и составом у завтраков */
         .plan-card.meal-zavtrak .plan-card-ingredients {
             margin-top: 4px;
+            margin-bottom: 0;
+        }
+        
+        /* Убираем лишнее пустое пространство под составом у завтраков */
+        .plan-card.meal-zavtrak .plan-card-content {
+            justify-content: flex-start;
         }
         
         /* Для перекусов - текст закреплен внизу карточки */
         .plan-card.meal-perekus .plan-card-content {
-            justify-content: flex-end;
-            margin-top: auto;
-            padding-top: 2px;
+            justify-content: flex-start;
+            margin-top: 0;
+            padding-top: 0;
         }
         
         .plan-card.meal-perekus small {
@@ -3198,7 +3206,17 @@
                     calories: '', 
                     description: 'Яичница со шпинатом - полезное и сытное блюдо для начала дня. Нежные яйца с ароматным шпинатом создают идеальный баланс вкуса и пользы.',
                     note: '+2 хлебца',
-                    ingredients: []
+                    ingredients: [
+                        {
+                            title: 'Состав',
+                            items: [
+                                'Шпинат',
+                                '3 яйца',
+                                '2 хлебца',
+                                'Творожный сыр'
+                            ]
+                        }
+                    ]
                 },
                 { 
                     meal: 'Первый перекус', 
@@ -3218,7 +3236,16 @@
                     calories: '',
                     description: 'Лодочки из кабачков - сытное и полезное блюдо. Нежные кабачки с мясным фаршем и сыром создают идеальный баланс вкуса и питательности.',
                     note: '+ цельнозерновые макароны',
-                    ingredients: []
+                    ingredients: [
+                        {
+                            title: 'Состав',
+                            items: [
+                                'Филе куриной грудки',
+                                'Томат',
+                                'Легкий сыр'
+                            ]
+                        }
+                    ]
                 },
                 { 
                     meal: 'Ужин', 
@@ -3226,7 +3253,18 @@
                     name: 'Филе телапии с овощным салатом', 
                     calories: '', 
                     description: 'Филе телапии с овощным салатом - легкое и полезное блюдо для ужина. Нежное филе рыбы с свежими овощами создают идеальный баланс белка и витаминов.',
-                    ingredients: []
+                    ingredients: [
+                        {
+                            title: 'Состав',
+                            items: [
+                                'Филе телапии',
+                                'Овощной салат',
+                                'Помидоры',
+                                'Огурцы',
+                                'Листья Салата'
+                            ]
+                        }
+                    ]
                 }
             ],
             // Пт 16.01
