@@ -2393,11 +2393,11 @@
             <h2>Расписание</h2>
         </div>
         <div class="plan-days">
-            <span class="plan-day active" data-day="0">Ср 10.12</span>
-            <span class="plan-day" data-day="1">Чт 11.12</span>
-            <span class="plan-day" data-day="2">Пт 12.12</span>
-            <span class="plan-day" data-day="3">Сб 13.12</span>
-            <span class="plan-day" data-day="4">Вс 14.12</span>
+            <span class="plan-day active" data-day="0">Пн 08.12</span>
+            <span class="plan-day" data-day="1">Вт 09.12</span>
+            <span class="plan-day" data-day="2">Ср 10.12</span>
+            <span class="plan-day" data-day="3">Чт 11.12</span>
+            <span class="plan-day" data-day="4">Пт 12.12</span>
         </div>
         <div class="plan-price-block active" id="planPriceBlock" data-day="0">
             <div class="plan-price">
@@ -2921,7 +2921,7 @@
         
         // Данные продуктов для каждого дня недели
         const dayProducts = [
-            // Ср 10.12
+            // Пн 08.12
             [
                 { 
                     meal: 'Завтрак', 
@@ -3000,7 +3000,7 @@
                     ]
                 }
             ],
-            // Чт 11.12
+            // Вт 09.12
             [
                 { 
                     meal: 'Завтрак', 
@@ -3081,7 +3081,7 @@
                     ]
                 }
             ],
-            // Пт 12.12
+            // Ср 10.12
             [
                 { 
                     meal: 'Завтрак', 
@@ -3167,7 +3167,7 @@
                     ]
                 }
             ],
-            // Пт 12.12
+            // Чт 11.12
             [
                 { 
                     meal: 'Завтрак', 
@@ -3202,7 +3202,7 @@
                     ingredients: []
                 }
             ],
-            // Вс 14.12
+            // Пт 12.12
             [
                 { 
                     meal: 'Завтрак', 
@@ -3612,16 +3612,16 @@
         // Привязываем обработчики к существующим карточкам
         attachCardClickHandlers();
         
-        // Инициализируем продукты для первого дня (четверг) при загрузке
+        // Инициализируем продукты для первого дня (понедельник) при загрузке
         updateProducts(0);
         
         // Данные цен для каждого дня
         const dayPrices = [
-            { old: '2250₽', new: '1650₽' }, // Ср 10.12
-            { old: '1820₽', new: '1300₽' }, // Чт 11.12
-            { old: '2150₽', new: '1290₽' }, // Пт 12.12
-            null, // Сб 13.12 - нет цены
-            null  // Вс 14.12 - нет цены
+            { old: '2250₽', new: '1650₽' }, // Пн 08.12
+            { old: '1820₽', new: '1300₽' }, // Вт 09.12
+            { old: '2150₽', new: '1290₽' }, // Ср 10.12
+            null, // Чт 11.12 - нет цены
+            null  // Пт 12.12 - нет цены
         ];
         
         // Функция для обновления цен
