@@ -3739,9 +3739,13 @@
                 card.setAttribute('data-calories', product.calories);
                 card.setAttribute('data-image', `images/${dayFolder}/${product.image}`);
                 card.setAttribute('data-description', product.description || `${product.name} - вкусное и полезное блюдо.`);
-                card.setAttribute('data-ingredients', JSON.stringify(product.ingredients || []));
+                // Если есть несколько составов, используем первый для основного блюда
+                const initialIngredients = product.ingredients && product.ingredients.length > 1 && product.alternateImage 
+                    ? [product.ingredients[0]] 
+                    : (product.ingredients || []);
+                card.setAttribute('data-ingredients', JSON.stringify(initialIngredients));
                 
-                const ingredientsHTML = generateIngredientsHTML(product.ingredients);
+                const ingredientsHTML = generateIngredientsHTML(initialIngredients);
                 const isPerekus = product.meal.toLowerCase().includes('перекус');
                 const isUzhin = product.meal.toLowerCase().includes('ужин');
                 const isZavtrak = product.meal.toLowerCase().includes('завтрак');
@@ -3797,11 +3801,23 @@
                                 if (cardMeal && product.alternateMeal) {
                                     cardMeal.textContent = product.alternateMeal;
                                 }
+                                // Обновляем атрибуты карточки для модального окна
+                                card.setAttribute('data-image', `images/${dayFolder}/${product.alternateImage}`);
+                                card.setAttribute('data-name', product.alternateName);
+                                if (product.alternateMeal) {
+                                    card.setAttribute('data-meal', product.alternateMeal);
+                                }
                                 // Обновляем состав, если есть alternateIngredients
                                 if (cardIngredients && product.alternateIngredients) {
                                     const alternateIngredientsHTML = generateIngredientsHTML(product.alternateIngredients);
                                     cardIngredients.innerHTML = alternateIngredientsHTML;
                                     card.setAttribute('data-ingredients', JSON.stringify(product.alternateIngredients));
+                                } else if (cardIngredients && product.ingredients && product.ingredients.length > 1) {
+                                    // Если есть несколько составов, используем второй для альтернативного блюда
+                                    const alternateIngredients = product.ingredients.slice(1);
+                                    const alternateIngredientsHTML = generateIngredientsHTML(alternateIngredients);
+                                    cardIngredients.innerHTML = alternateIngredientsHTML;
+                                    card.setAttribute('data-ingredients', JSON.stringify(alternateIngredients));
                                 }
                                 cardImage.style.opacity = '1';
                                 cardName.style.opacity = '1';
@@ -3820,11 +3836,17 @@
                                 if (cardMeal) {
                                     cardMeal.textContent = product.meal;
                                 }
+                                // Возвращаем исходные атрибуты карточки
+                                card.setAttribute('data-image', `images/${dayFolder}/${product.image}`);
+                                card.setAttribute('data-name', product.name);
+                                card.setAttribute('data-meal', product.meal);
                                 // Возвращаем исходный состав
                                 if (cardIngredients && product.ingredients) {
-                                    const originalIngredientsHTML = generateIngredientsHTML(product.ingredients);
+                                    // Если есть несколько составов, используем первый для основного блюда
+                                    const originalIngredients = product.ingredients.length > 1 ? [product.ingredients[0]] : product.ingredients;
+                                    const originalIngredientsHTML = generateIngredientsHTML(originalIngredients);
                                     cardIngredients.innerHTML = originalIngredientsHTML;
-                                    card.setAttribute('data-ingredients', JSON.stringify(product.ingredients));
+                                    card.setAttribute('data-ingredients', JSON.stringify(originalIngredients));
                                 }
                                 cardImage.style.opacity = '1';
                                 cardName.style.opacity = '1';
