@@ -964,6 +964,11 @@
         .plan-day:active {
             transform: scale(0.98) translateY(-1px);
         }
+        
+        /* Скрываем день 12.01 (понедельник) */
+        .plan-day[data-day="0"] {
+            display: none;
+        }
 
         /* Блок с ценами */
         .plan-price-block {
@@ -2423,13 +2428,14 @@
             <h2>Расписание</h2>
         </div>
         <div class="plan-days">
-            <span class="plan-day active" data-day="0">Пн 12.01</span>
-            <span class="plan-day" data-day="1">Вт 13.01</span>
+            <span class="plan-day" data-day="0">Пн 12.01</span>
+            <span class="plan-day active" data-day="1">Вт 13.01</span>
             <span class="plan-day" data-day="2">Ср 14.01</span>
             <span class="plan-day" data-day="3">Чт 15.01</span>
             <span class="plan-day" data-day="4">Пт 16.01</span>
+            <span class="plan-day" data-day="5">Сб 17.01</span>
         </div>
-        <div class="plan-price-block active" id="planPriceBlock" data-day="0">
+        <div class="plan-price-block active" id="planPriceBlock" data-day="1">
             <div class="plan-price">
                 <span class="plan-price-label">За весь день</span>
                 <span class="plan-price-old">2250₽</span>
@@ -3338,6 +3344,40 @@
                         }
                     ]
                 }
+            ],
+            // Сб 17.01
+            [
+                { 
+                    meal: 'Завтрак', 
+                    image: 'zavtrak.jpg', 
+                    name: 'ПП Твистер', 
+                    calories: '', 
+                    description: 'ПП Твистер - вкусное и полезное блюдо для начала дня. Нежная куриная грудка с овощами в тонком лаваше создают идеальный баланс вкуса и пользы.',
+                    ingredients: [
+                        {
+                            title: 'Состав',
+                            items: [
+                                'Куриная грудка',
+                                'Тонкий лаваш',
+                                'Помидоры',
+                                'Листья салата',
+                                'Сыр легкий',
+                                'Натуральный йогурт (Соус)'
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    meal: 'Первый перекус', 
+                    image: 'perekus1.png', 
+                    name: 'Яблоко', 
+                    calories: '', 
+                    description: 'Питательный перекус для поддержания энергии между основными приемами пищи.',
+                    ingredients: [],
+                    alternateImage: 'perekus2.png',
+                    alternateName: 'Орешки Кешью 30гр',
+                    alternateMeal: 'Второй перекус'
+                }
             ]
         ];
         
@@ -3716,8 +3756,8 @@
         // Привязываем обработчики к существующим карточкам
         attachCardClickHandlers();
         
-        // Инициализируем продукты для первого дня (понедельник) при загрузке
-        updateProducts(0);
+        // Инициализируем продукты для первого дня (вторник) при загрузке
+        updateProducts(1);
         
         // Предотвращаем автоматическую прокрутку вниз при загрузке страницы
         window.addEventListener('load', () => {
@@ -3748,7 +3788,8 @@
             { old: '1820₽', new: '1300₽' }, // Вт 13.01
             { old: '2150₽', new: '1290₽' }, // Ср 14.01
             null, // Чт 15.01 - нет цены
-            null  // Пт 16.01 - нет цены
+            null, // Пт 16.01 - нет цены
+            null  // Сб 17.01 - нет цены
         ];
         
         // Функция для обновления цен
@@ -3806,7 +3847,7 @@
         });
         
         // Инициализация цены для первого дня
-        updatePrice(0);
+        updatePrice(1);
 
         
         // Управление подсказкой для прокрутки вниз
