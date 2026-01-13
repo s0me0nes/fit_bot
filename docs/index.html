@@ -2435,6 +2435,7 @@
             <span class="plan-day" data-day="4">Пт 16.01</span>
             <span class="plan-day" data-day="5">Сб 17.01</span>
             <span class="plan-day" data-day="6">Вс 18.01</span>
+            <span class="plan-day" data-day="7">Пн 19.01</span>
         </div>
         <div class="plan-price-block active" id="planPriceBlock" data-day="1">
             <div class="plan-price">
@@ -3523,6 +3524,28 @@
                     alternateName: 'Овощной салат',
                     alternateMeal: 'Ужин'
                 }
+            ],
+            // Пн 19.01
+            [
+                { 
+                    meal: 'Завтрак', 
+                    image: 'zavtrak.jpg', 
+                    name: 'Овсяноблин', 
+                    calories: '', 
+                    description: 'Овсяноблин - полезное и вкусное начало дня. Нежная овсянка с яйцом, сыром и овощами создают идеальный баланс вкуса и пользы.',
+                    ingredients: [
+                        {
+                            title: 'Состав',
+                            items: [
+                                'Овсянка',
+                                'Яйцо',
+                                'Сыр легкий',
+                                'Томат',
+                                'Зелень'
+                            ]
+                        }
+                    ]
+                }
             ]
         ];
         
@@ -3935,7 +3958,8 @@
             null, // Чт 15.01 - нет цены
             null, // Пт 16.01 - нет цены
             null, // Сб 17.01 - нет цены
-            null  // Вс 18.01 - нет цены
+            null, // Вс 18.01 - нет цены
+            null  // Пн 19.01 - нет цены
         ];
         
         // Функция для обновления цен
