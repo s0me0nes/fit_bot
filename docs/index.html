@@ -2436,6 +2436,7 @@
             <span class="plan-day" data-day="5">Сб 17.01</span>
             <span class="plan-day" data-day="6">Вс 18.01</span>
             <span class="plan-day" data-day="7">Пн 19.01</span>
+            <span class="plan-day" data-day="8">Вт 20.01</span>
         </div>
         <div class="plan-price-block active" id="planPriceBlock" data-day="1">
             <div class="plan-price">
@@ -3601,6 +3602,104 @@
                         }
                     ]
                 }
+            ],
+            // Вт 20.01
+            [
+                { 
+                    meal: 'Завтрак', 
+                    image: 'zavtrak1.png', 
+                    name: 'Вареное яйцо', 
+                    calories: '', 
+                    description: 'Вареное яйцо - полезное и сытное блюдо для начала дня. Нежное яйцо с хлебцами и творожным сыром создают идеальный баланс белка и питательности.',
+                    ingredients: [
+                        {
+                            title: 'Состав',
+                            items: [
+                                'Яйцо вареное',
+                                'Сёмга молосольное',
+                                'Хлебцы 2шт',
+                                'Творожный сыр'
+                            ]
+                        }
+                    ],
+                    alternateImage: 'zavtrak2.png',
+                    alternateName: 'Хлебцы с твор.сыром и сёмгой',
+                    alternateMeal: 'Завтрак'
+                },
+                { 
+                    meal: 'Первый перекус', 
+                    image: 'perekus.png', 
+                    name: 'Голубика 100гр', 
+                    calories: '', 
+                    description: 'Питательный перекус для поддержания энергии между основными приемами пищи.',
+                    ingredients: [],
+                    alternateImage: 'perekus2.jpg',
+                    alternateName: 'Шоколадные маффина',
+                    alternateMeal: 'Второй перекус',
+                    alternateIngredients: [
+                        {
+                            title: 'Состав',
+                            items: [
+                                'Творог 100гр',
+                                'Яйцо 1шт',
+                                'Какао 20гр',
+                                'Разрыхлитель',
+                                'Ванилин',
+                                'Сах.заменитель'
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    meal: 'Обед', 
+                    image: 'ujin.png', 
+                    name: 'Летний салат', 
+                    calories: '',
+                    description: 'Летний салат - легкое и полезное блюдо. Свежие овощи с яйцами и сыром создают идеальный баланс белка и витаминов.',
+                    ingredients: [
+                        {
+                            title: 'Состав (Летний салат)',
+                            items: [
+                                'Яйца куриные 2шт',
+                                'Сыр легкий 20гр',
+                                'Кукуруза консер. без сахара 5 ст.л',
+                                'Огурцы свежие 100гр',
+                                'Петрушка',
+                                'Натуральный йогурт',
+                                'Горчица',
+                                'Оливковое масло',
+                                'Лимонный сок',
+                                'Соль, Перец'
+                            ]
+                        },
+                        {
+                            title: 'Состав (Бурый рис)',
+                            items: [
+                                'Бурый рис'
+                            ]
+                        }
+                    ],
+                    alternateImage: 'obed2.jpg',
+                    alternateName: 'Бурый рис',
+                    alternateMeal: 'Обед'
+                },
+                { 
+                    meal: 'Ужин', 
+                    image: 'ujin.png', 
+                    name: 'Конверты', 
+                    calories: '', 
+                    description: 'Конверты - сытное и полезное блюдо для ужина. Нежная куриная грудка с ветчиной и сыром создают идеальный баланс белка и вкуса.',
+                    ingredients: [
+                        {
+                            title: 'Состав',
+                            items: [
+                                'Куриная грудка',
+                                'Ветчина индейки',
+                                'Легкий сыр'
+                            ]
+                        }
+                    ]
+                }
             ]
         ];
         
@@ -3681,6 +3780,7 @@
                     const cardImage = card.querySelector('.card-image');
                     const cardName = card.querySelector('.card-name');
                     const cardMeal = card.querySelector('.card-meal');
+                    const cardIngredients = card.querySelector('.plan-card-ingredients');
                     let isAlternate = false;
                     
                     setInterval(() => {
@@ -3689,6 +3789,7 @@
                             cardImage.style.opacity = '0';
                             cardName.style.opacity = '0';
                             if (cardMeal) cardMeal.style.opacity = '0';
+                            if (cardIngredients) cardIngredients.style.opacity = '0';
                             setTimeout(() => {
                                 cardImage.src = `images/${dayFolder}/${product.alternateImage}`;
                                 cardImage.alt = product.alternateName;
@@ -3696,14 +3797,22 @@
                                 if (cardMeal && product.alternateMeal) {
                                     cardMeal.textContent = product.alternateMeal;
                                 }
+                                // Обновляем состав, если есть alternateIngredients
+                                if (cardIngredients && product.alternateIngredients) {
+                                    const alternateIngredientsHTML = generateIngredientsHTML(product.alternateIngredients);
+                                    cardIngredients.innerHTML = alternateIngredientsHTML;
+                                    card.setAttribute('data-ingredients', JSON.stringify(product.alternateIngredients));
+                                }
                                 cardImage.style.opacity = '1';
                                 cardName.style.opacity = '1';
                                 if (cardMeal) cardMeal.style.opacity = '1';
+                                if (cardIngredients) cardIngredients.style.opacity = '1';
                             }, 300);
                         } else {
                             cardImage.style.opacity = '0';
                             cardName.style.opacity = '0';
                             if (cardMeal) cardMeal.style.opacity = '0';
+                            if (cardIngredients) cardIngredients.style.opacity = '0';
                             setTimeout(() => {
                                 cardImage.src = `images/${dayFolder}/${product.image}`;
                                 cardImage.alt = product.name;
@@ -3711,9 +3820,16 @@
                                 if (cardMeal) {
                                     cardMeal.textContent = product.meal;
                                 }
+                                // Возвращаем исходный состав
+                                if (cardIngredients && product.ingredients) {
+                                    const originalIngredientsHTML = generateIngredientsHTML(product.ingredients);
+                                    cardIngredients.innerHTML = originalIngredientsHTML;
+                                    card.setAttribute('data-ingredients', JSON.stringify(product.ingredients));
+                                }
                                 cardImage.style.opacity = '1';
                                 cardName.style.opacity = '1';
                                 if (cardMeal) cardMeal.style.opacity = '1';
+                                if (cardIngredients) cardIngredients.style.opacity = '1';
                             }, 300);
                         }
                     }, 2000);
@@ -4014,7 +4130,8 @@
             null, // Пт 16.01 - нет цены
             null, // Сб 17.01 - нет цены
             null, // Вс 18.01 - нет цены
-            null  // Пн 19.01 - нет цены
+            null, // Пн 19.01 - нет цены
+            null  // Вт 20.01 - нет цены
         ];
         
         // Функция для обновления цен
