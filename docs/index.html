@@ -3858,7 +3858,18 @@
         function updateProducts(dayIndex) {
             const products = dayProducts[dayIndex];
             planCards.innerHTML = '';
-            const dayFolder = `Day${dayIndex + 1}`;
+            // Маппинг индексов дней на папки после удаления 13.01 и 14.01
+            // dayIndex 0 (12.01) → Day1, dayIndex 1+ (15.01+) → Day(dayIndex + 3)
+            const dayFolderMap = {
+                0: 'Day1',   // 12.01
+                1: 'Day4',   // 15.01
+                2: 'Day5',   // 16.01
+                3: 'Day6',   // 17.01
+                4: 'Day7',   // 18.01
+                5: 'Day8',   // 19.01
+                6: 'Day9'    // 20.01
+            };
+            const dayFolder = dayFolderMap[dayIndex] || `Day${dayIndex + 1}`;
             
             products.forEach((product, index) => {
                 const card = document.createElement('div');
