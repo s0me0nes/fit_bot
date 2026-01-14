@@ -287,6 +287,48 @@
             opacity: 0.8;
         }
         
+        .archive-btn {
+            font-size: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .archive-btn:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+        
+        .archive-modal-content {
+            max-width: 95vw;
+            width: 100%;
+        }
+        
+        .archive-content {
+            width: 100%;
+        }
+        
+        .archive-day {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 15px;
+        }
+        
+        .archive-day-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d5016;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #2d5016;
+        }
+        
         .telegram-btn {
             background: transparent;
             position: relative;
@@ -2396,6 +2438,12 @@
                     </a>
                     <span class="contact-label">Связь с курьером</span>
                 </div>
+                <div class="contact-btn-wrapper" id="archiveBtnWrapper" style="display: none;">
+                    <button class="contact-btn archive-btn" id="archiveBtn" title="Архив меню">
+                        📦
+                    </button>
+                    <span class="contact-label">Архив</span>
+                </div>
             </div>
         </div>
     </div>
@@ -2682,6 +2730,15 @@
         </div>
     </div>
 
+    <!-- Модальное окно для архива -->
+    <div class="modal-overlay" id="archiveModalOverlay">
+        <div class="modal-content archive-modal-content">
+            <button class="modal-close" id="archiveModalClose">&times;</button>
+            <h2 style="margin-bottom: 20px; color: #2d5016;">📦 Архив меню</h2>
+            <div id="archiveContent" class="archive-content"></div>
+        </div>
+    </div>
+
     <!-- Модальное окно со скидкой при первом запуске -->
     <div class="sale-modal-overlay" id="saleModalOverlay">
         <div class="sale-modal-content">
@@ -2896,6 +2953,12 @@
                 };
                 
                 console.log('Пользователь авторизован:', window.userData);
+                
+                // Показываем кнопку "Архив" только для @Nill_Kafri
+                const archiveBtnWrapper = document.getElementById('archiveBtnWrapper');
+                if (archiveBtnWrapper && user.username === 'Nill_Kafri') {
+                    archiveBtnWrapper.style.display = 'flex';
+                }
             } else {
                 // Если открыто не из Telegram, скрываем профиль
                 userProfile.style.display = 'none';
@@ -2957,6 +3020,86 @@
             html += '</div>';
             return html;
         }
+        
+        // Архивные данные (12.01)
+        const archiveProducts = [
+            { 
+                meal: 'Завтрак', 
+                image: 'pit1.png', 
+                name: 'Шакшука с моцареллой', 
+                calories: '', 
+                description: 'Шакшука с моцареллой - ароматное и сытное блюдо для начала дня. Свежие овощи, яйца и нежная моцарелла создают идеальный баланс вкуса и пользы.',
+                ingredients: [
+                    {
+                        title: 'Дополнительно',
+                        items: [
+                            'Хлебцы с творожным сыром',
+                            'или',
+                            'Хлеб (цель.зер) с твор. сыром'
+                        ]
+                    },
+                    {
+                        title: 'Состав',
+                        items: [
+                            'Яйцо',
+                            'Томаты (или тертые)',
+                            'Болгарский перец',
+                            'Луковица',
+                            'Зубчик чеснока',
+                            'Моцарелла',
+                            'Зелень, Соль, Паприка'
+                        ]
+                    }
+                ]
+            },
+            { 
+                meal: 'Первый перекус', 
+                image: 'perekus1.jpg', 
+                name: 'Апельсин', 
+                calories: '', 
+                description: 'Питательный перекус для поддержания энергии между основными приемами пищи.',
+                ingredients: [],
+                alternateImage: 'perekus2.jpg',
+                alternateName: 'Йогурт греческий',
+                alternateMeal: 'Второй перекус'
+            },
+            { 
+                meal: 'Обед', 
+                image: 'pit2.png', 
+                name: 'Курица с брокколи под сыром', 
+                calories: '',
+                description: 'Курица с брокколи под сыром - сытное и полезное блюдо с высоким содержанием белка. Нежная курица, хрустящая брокколи и ароматный сыр создают идеальную комбинацию вкусов.',
+                ingredients: [
+                    {
+                        items: [
+                            'Булгур',
+                            'Куриное филе',
+                            'Брокколи',
+                            'Сливки низкой жирности',
+                            'Сыр',
+                            'Соль, Специи и приправы'
+                        ]
+                    }
+                ]
+            },
+            { 
+                meal: 'Ужин', 
+                image: 'pit3.png', 
+                name: 'Креветки с овощным пюре', 
+                calories: '', 
+                description: 'Креветки с овощным пюре - легкое и питательное блюдо для ужина. Нежные креветки с нежным пюре из цветной капусты создают идеальный баланс белка и овощей.',
+                ingredients: [
+                    {
+                        items: [
+                            'Очищенные креветки',
+                            'Замороженная цветная капуста',
+                            'Чеснок, Сливочное масло',
+                            'Специя карри'
+                        ]
+                    }
+                ]
+            }
+        ];
         
         // Данные продуктов для каждого дня недели
         const dayProducts = [
@@ -3495,9 +3638,9 @@
                 { 
                     meal: 'Ужин', 
                     image: 'ujin.jpg', 
-                    name: 'Морской салат', 
+                    name: 'Сибас', 
                     calories: '', 
-                    description: 'Морской салат - легкое и полезное блюдо для ужина. Ассорти из морепродуктов с авокадо и свежими овощами создают идеальный баланс белка и витаминов.',
+                    description: 'Сибас - легкое и полезное блюдо для ужина. Нежная рыба с авокадо и свежими овощами создают идеальный баланс белка и витаминов.',
                     ingredients: [
                         {
                             title: 'Состав (Морской салат)',
@@ -3679,7 +3822,7 @@
                             ]
                         }
                     ],
-                    alternateImage: 'obed2.jpg',
+                    alternateImage: 'ujin.webp',
                     alternateName: 'Бурый рис',
                     alternateMeal: 'Обед'
                 },
@@ -4092,12 +4235,17 @@
             document.body.style.overflow = '';
         }
         
-        function attachCardClickHandlers() {
-            const cards = document.querySelectorAll('.plan-card');
+        function attachCardClickHandlers(container) {
+            const cards = container ? container.querySelectorAll('.plan-card') : document.querySelectorAll('.plan-card');
             cards.forEach(card => {
-                card.addEventListener('click', () => {
-                    openModal(card);
-                });
+                // Удаляем старые обработчики, если они есть, чтобы избежать дублирования
+                const existingHandler = card.getAttribute('data-handler-attached');
+                if (!existingHandler) {
+                    card.setAttribute('data-handler-attached', 'true');
+                    card.addEventListener('click', () => {
+                        openModal(card);
+                    });
+                }
             });
         }
         
@@ -4123,6 +4271,166 @@
         
         // Привязываем обработчики к существующим карточкам
         attachCardClickHandlers();
+        
+        // Функция для отображения архива
+        function displayArchive() {
+            const archiveContent = document.getElementById('archiveContent');
+            if (!archiveContent) return;
+            
+            archiveContent.innerHTML = '<div class="archive-day"><div class="archive-day-title">Пн 12.01</div><div class="plan-cards" id="archivePlanCards"></div></div>';
+            const archivePlanCards = document.getElementById('archivePlanCards');
+            const dayFolder = 'Day1';
+            
+            archiveProducts.forEach((product, index) => {
+                const card = document.createElement('div');
+                card.setAttribute('data-animate', '');
+                card.setAttribute('data-meal', product.meal);
+                card.setAttribute('data-name', product.name);
+                card.setAttribute('data-calories', product.calories);
+                card.setAttribute('data-image', `images/${dayFolder}/${product.image}`);
+                card.setAttribute('data-description', product.description || `${product.name} - вкусное и полезное блюдо.`);
+                const initialIngredients = product.ingredients && product.ingredients.length > 1 && product.alternateImage 
+                    ? [product.ingredients[0]] 
+                    : (product.ingredients || []);
+                card.setAttribute('data-ingredients', JSON.stringify(initialIngredients));
+                
+                const ingredientsHTML = generateIngredientsHTML(initialIngredients);
+                const isPerekus = product.meal.toLowerCase().includes('перекус');
+                const isUzhin = product.meal.toLowerCase().includes('ужин');
+                const isZavtrak = product.meal.toLowerCase().includes('завтрак');
+                const isObed = product.meal.toLowerCase().includes('обед');
+                const isSoon = product.name === 'Блюдо на фотосессии' || !product.ingredients || product.ingredients.length === 0;
+                
+                const nameForAlt = product.name.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ');
+                
+                let cardClasses = 'plan-card';
+                if (isZavtrak) cardClasses += ' meal-zavtrak';
+                if (isPerekus) cardClasses += ' meal-perekus';
+                if (isObed) cardClasses += ' meal-obed';
+                if (isUzhin) cardClasses += ' meal-uzhin';
+                
+                card.className = cardClasses;
+                
+                card.innerHTML = `
+                    <div class="plan-card-image-wrapper">
+                        <img src="images/${dayFolder}/${product.image}" alt="${nameForAlt}" loading="lazy" class="card-image">
+                        ${product.note ? `<div class="card-note">${product.note}</div>` : ''}
+                    </div>
+                    <div class="plan-card-content">
+                        <small class="card-meal">${product.meal}</small>
+                        <h4 class="card-name">${product.name}</h4>
+                        <span>${product.calories}</span>
+                        ${(isPerekus || isSoon) ? '' : `<div class="plan-card-ingredients">${ingredientsHTML}</div>`}
+                    </div>
+                `;
+                card.style.transitionDelay = `${index * 0.05}s`;
+                archivePlanCards.appendChild(card);
+                
+                // Если есть альтернативное изображение и название, добавляем переключение
+                if (product.alternateImage && product.alternateName) {
+                    const cardImage = card.querySelector('.card-image');
+                    const cardName = card.querySelector('.card-name');
+                    const cardMeal = card.querySelector('.card-meal');
+                    const cardIngredients = card.querySelector('.plan-card-ingredients');
+                    let isAlternate = false;
+                    
+                    setInterval(() => {
+                        isAlternate = !isAlternate;
+                        if (isAlternate) {
+                            cardImage.style.opacity = '0';
+                            cardName.style.opacity = '0';
+                            if (cardMeal) cardMeal.style.opacity = '0';
+                            if (cardIngredients) cardIngredients.style.opacity = '0';
+                            setTimeout(() => {
+                                cardImage.src = `images/${dayFolder}/${product.alternateImage}`;
+                                cardImage.alt = product.alternateName;
+                                cardName.textContent = product.alternateName;
+                                if (cardMeal && product.alternateMeal) {
+                                    cardMeal.textContent = product.alternateMeal;
+                                }
+                                card.setAttribute('data-image', `images/${dayFolder}/${product.alternateImage}`);
+                                card.setAttribute('data-name', product.alternateName);
+                                if (product.alternateMeal) {
+                                    card.setAttribute('data-meal', product.alternateMeal);
+                                }
+                                if (product.alternateDescription) {
+                                    card.setAttribute('data-description', product.alternateDescription);
+                                } else {
+                                    card.setAttribute('data-description', product.description || `${product.alternateName} - вкусное и полезное блюдо.`);
+                                }
+                                if (cardIngredients && product.alternateIngredients) {
+                                    const alternateIngredientsHTML = generateIngredientsHTML(product.alternateIngredients);
+                                    cardIngredients.innerHTML = alternateIngredientsHTML;
+                                    card.setAttribute('data-ingredients', JSON.stringify(product.alternateIngredients));
+                                } else if (cardIngredients && product.ingredients && product.ingredients.length > 1) {
+                                    const alternateIngredients = product.ingredients.slice(1);
+                                    const alternateIngredientsHTML = generateIngredientsHTML(alternateIngredients);
+                                    cardIngredients.innerHTML = alternateIngredientsHTML;
+                                    card.setAttribute('data-ingredients', JSON.stringify(alternateIngredients));
+                                }
+                                cardImage.style.opacity = '1';
+                                cardName.style.opacity = '1';
+                                if (cardMeal) cardMeal.style.opacity = '1';
+                                if (cardIngredients) cardIngredients.style.opacity = '1';
+                            }, 300);
+                        } else {
+                            cardImage.style.opacity = '0';
+                            cardName.style.opacity = '0';
+                            if (cardMeal) cardMeal.style.opacity = '0';
+                            if (cardIngredients) cardIngredients.style.opacity = '0';
+                            setTimeout(() => {
+                                cardImage.src = `images/${dayFolder}/${product.image}`;
+                                cardImage.alt = product.name;
+                                cardName.textContent = product.name;
+                                if (cardMeal) cardMeal.textContent = product.meal;
+                                card.setAttribute('data-image', `images/${dayFolder}/${product.image}`);
+                                card.setAttribute('data-name', product.name);
+                                card.setAttribute('data-meal', product.meal);
+                                card.setAttribute('data-description', product.description || `${product.name} - вкусное и полезное блюдо.`);
+                                if (cardIngredients) {
+                                    const initialIngredientsHTML = generateIngredientsHTML(initialIngredients);
+                                    cardIngredients.innerHTML = initialIngredientsHTML;
+                                    card.setAttribute('data-ingredients', JSON.stringify(initialIngredients));
+                                }
+                                cardImage.style.opacity = '1';
+                                cardName.style.opacity = '1';
+                                if (cardMeal) cardMeal.style.opacity = '1';
+                                if (cardIngredients) cardIngredients.style.opacity = '1';
+                            }, 300);
+                        }
+                    }, 4000);
+                }
+            });
+            
+            // Прикрепляем обработчики кликов для карточек архива
+            attachCardClickHandlers(archivePlanCards);
+        }
+        
+        // Обработчики для модального окна архива
+        const archiveBtn = document.getElementById('archiveBtn');
+        const archiveModalOverlay = document.getElementById('archiveModalOverlay');
+        const archiveModalClose = document.getElementById('archiveModalClose');
+        
+        if (archiveBtn && archiveModalOverlay) {
+            archiveBtn.addEventListener('click', () => {
+                displayArchive();
+                archiveModalOverlay.classList.add('active');
+            });
+        }
+        
+        if (archiveModalClose && archiveModalOverlay) {
+            archiveModalClose.addEventListener('click', () => {
+                archiveModalOverlay.classList.remove('active');
+            });
+        }
+        
+        if (archiveModalOverlay) {
+            archiveModalOverlay.addEventListener('click', (e) => {
+                if (e.target === archiveModalOverlay) {
+                    archiveModalOverlay.classList.remove('active');
+                }
+            });
+        }
         
         // Инициализируем продукты для первого дня (вторник) при загрузке
         updateProducts(1);
