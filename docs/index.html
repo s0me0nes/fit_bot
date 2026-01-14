@@ -3035,78 +3035,260 @@
         
         // Архивные данные (12.01)
         const archiveProducts = [
-            { 
-                meal: 'Завтрак', 
-                image: 'pit1.png', 
-                name: 'Шакшука с моцареллой', 
-                calories: '', 
-                description: 'Шакшука с моцареллой - ароматное и сытное блюдо для начала дня. Свежие овощи, яйца и нежная моцарелла создают идеальный баланс вкуса и пользы.',
-                ingredients: [
-                    {
-                        title: 'Дополнительно',
-                        items: [
-                            'Хлебцы с творожным сыром',
-                            'или',
-                            'Хлеб (цель.зер) с твор. сыром'
+            // Пн 12.01
+            {
+                date: 'Пн 12.01',
+                dayFolder: 'Day1',
+                meals: [
+                    { 
+                        meal: 'Завтрак', 
+                        image: 'pit1.png', 
+                        name: 'Шакшука с моцареллой', 
+                        calories: '', 
+                        description: 'Шакшука с моцареллой - ароматное и сытное блюдо для начала дня. Свежие овощи, яйца и нежная моцарелла создают идеальный баланс вкуса и пользы.',
+                        ingredients: [
+                            {
+                                title: 'Дополнительно',
+                                items: [
+                                    'Хлебцы с творожным сыром',
+                                    'или',
+                                    'Хлеб (цель.зер) с твор. сыром'
+                                ]
+                            },
+                            {
+                                title: 'Состав',
+                                items: [
+                                    'Яйцо',
+                                    'Томаты (или тертые)',
+                                    'Болгарский перец',
+                                    'Луковица',
+                                    'Зубчик чеснока',
+                                    'Моцарелла',
+                                    'Зелень, Соль, Паприка'
+                                ]
+                            }
                         ]
                     },
-                    {
-                        title: 'Состав',
-                        items: [
-                            'Яйцо',
-                            'Томаты (или тертые)',
-                            'Болгарский перец',
-                            'Луковица',
-                            'Зубчик чеснока',
-                            'Моцарелла',
-                            'Зелень, Соль, Паприка'
+                    { 
+                        meal: 'Первый перекус', 
+                        image: 'perekus1.jpg', 
+                        name: 'Апельсин', 
+                        calories: '', 
+                        description: 'Питательный перекус для поддержания энергии между основными приемами пищи.',
+                        ingredients: [],
+                        alternateImage: 'perekus2.jpg',
+                        alternateName: 'Йогурт греческий',
+                        alternateMeal: 'Второй перекус'
+                    },
+                    { 
+                        meal: 'Обед', 
+                        image: 'pit2.png', 
+                        name: 'Курица с брокколи под сыром', 
+                        calories: '',
+                        description: 'Курица с брокколи под сыром - сытное и полезное блюдо с высоким содержанием белка. Нежная курица, хрустящая брокколи и ароматный сыр создают идеальную комбинацию вкусов.',
+                        ingredients: [
+                            {
+                                items: [
+                                    'Булгур',
+                                    'Куриное филе',
+                                    'Брокколи',
+                                    'Сливки низкой жирности',
+                                    'Сыр',
+                                    'Соль, Специи и приправы'
+                                ]
+                            }
+                        ]
+                    },
+                    { 
+                        meal: 'Ужин', 
+                        image: 'pit3.png', 
+                        name: 'Креветки с овощным пюре', 
+                        calories: '', 
+                        description: 'Креветки с овощным пюре - легкое и питательное блюдо для ужина. Нежные креветки с нежным пюре из цветной капусты создают идеальный баланс белка и овощей.',
+                        ingredients: [
+                            {
+                                items: [
+                                    'Очищенные креветки',
+                                    'Замороженная цветная капуста',
+                                    'Чеснок, Сливочное масло',
+                                    'Специя карри'
+                                ]
+                            }
                         ]
                     }
                 ]
             },
-            { 
-                meal: 'Первый перекус', 
-                image: 'perekus1.jpg', 
-                name: 'Апельсин', 
-                calories: '', 
-                description: 'Питательный перекус для поддержания энергии между основными приемами пищи.',
-                ingredients: [],
-                alternateImage: 'perekus2.jpg',
-                alternateName: 'Йогурт греческий',
-                alternateMeal: 'Второй перекус'
-            },
-            { 
-                meal: 'Обед', 
-                image: 'pit2.png', 
-                name: 'Курица с брокколи под сыром', 
-                calories: '',
-                description: 'Курица с брокколи под сыром - сытное и полезное блюдо с высоким содержанием белка. Нежная курица, хрустящая брокколи и ароматный сыр создают идеальную комбинацию вкусов.',
-                ingredients: [
-                    {
-                        items: [
-                            'Булгур',
-                            'Куриное филе',
-                            'Брокколи',
-                            'Сливки низкой жирности',
-                            'Сыр',
-                            'Соль, Специи и приправы'
+            // Вт 13.01
+            {
+                date: 'Вт 13.01',
+                dayFolder: 'Day2',
+                meals: [
+                    { 
+                        meal: 'Завтрак', 
+                        image: 'pit4.png', 
+                        name: 'Овсяноблин с йогуртом', 
+                        calories: '', 
+                        description: 'Овсяноблин с йогуртом - полезное и вкусное начало дня. Нежная овсянка с йогуртом и начинкой из ягод и творога.',
+                        ingredients: [
+                            {
+                                items: [
+                                    'Овсянка',
+                                    'Йогурт (2-5%)',
+                                    'Какао',
+                                    'Яйцо',
+                                    'Сахарозаменитель, ванилин'
+                                ]
+                            },
+                            {
+                                title: 'Начинка',
+                                items: [
+                                    'Замороженная или свежая ягода',
+                                    'Мягкий творог',
+                                    'Сахарозаменитель'
+                                ]
+                            }
+                        ]
+                    },
+                    { 
+                        meal: 'Первый перекус', 
+                        image: '2perekus1.png', 
+                        name: 'Миндаль', 
+                        calories: '', 
+                        description: 'Питательный перекус для поддержания энергии между основными приемами пищи.',
+                        ingredients: [],
+                        alternateImage: '2perekus2.png',
+                        alternateName: '2 Яйца + Огурец',
+                        alternateMeal: 'Второй перекус'
+                    },
+                    { 
+                        meal: 'Обед', 
+                        image: 'pit5.png', 
+                        name: 'Тефтели из говядины с булгуром', 
+                        calories: '',
+                        description: 'Тефтели из говядины с булгуром - сытное и ароматное блюдо с нежными мясными тефтелями и питательным булгуром.',
+                        ingredients: [
+                            {
+                                items: [
+                                    'Говяжий фарш',
+                                    'Лук, Морковь',
+                                    'Яйца куриные',
+                                    'Булгур',
+                                    'Чеснок, Лавровый лист',
+                                    'Томатная паста, Хмели-сунели',
+                                    'Молотый черный перец',
+                                    'Зелень, Соль'
+                                ]
+                            }
+                        ]
+                    },
+                    { 
+                        meal: 'Ужин', 
+                        image: 'pit6.png', 
+                        name: 'Теплый салат с куриной печенью', 
+                        calories: '', 
+                        description: 'Теплый салат с куриной печенью - сытное и полезное блюдо для ужина. Нежная куриная печень с грибами и свежими овощами создают идеальный баланс вкуса и питательности.',
+                        ingredients: [
+                            {
+                                items: [
+                                    'Куриная печень',
+                                    'Шампиньоны',
+                                    'Чеснок, Луковица',
+                                    'Сливки',
+                                    'Горчица',
+                                    'Томаты черри',
+                                    'Салатный микс'
+                                ]
+                            }
                         ]
                     }
                 ]
             },
-            { 
-                meal: 'Ужин', 
-                image: 'pit3.png', 
-                name: 'Креветки с овощным пюре', 
-                calories: '', 
-                description: 'Креветки с овощным пюре - легкое и питательное блюдо для ужина. Нежные креветки с нежным пюре из цветной капусты создают идеальный баланс белка и овощей.',
-                ingredients: [
-                    {
-                        items: [
-                            'Очищенные креветки',
-                            'Замороженная цветная капуста',
-                            'Чеснок, Сливочное масло',
-                            'Специя карри'
+            // Ср 14.01
+            {
+                date: 'Ср 14.01',
+                dayFolder: 'Day3',
+                meals: [
+                    { 
+                        meal: 'Завтрак', 
+                        image: 'pit7.jpg', 
+                        name: 'Булгур с сыром фета и яйцом пашот', 
+                        calories: '', 
+                        description: 'Булгур с сыром фета и яйцом пашот - сытный и полезный завтрак с нежным яйцом пашот и ароматным сыром фета.',
+                        ingredients: [
+                            {
+                                items: [
+                                    'Булгур',
+                                    'Свежевыжатый лимонный сок',
+                                    'Помидорки черри разрезанные пополам',
+                                    'Сыр фета',
+                                    'Яйцо',
+                                    'Оливковое масло, Соль',
+                                    'Мелко порубленный укроп',
+                                    '2 пера зелёного лука',
+                                    'Оливки тонко нарезанные'
+                                ]
+                            }
+                        ]
+                    },
+                    { 
+                        meal: 'Первый перекус', 
+                        image: '3perekus1.jpg', 
+                        name: 'ПП Пирожное', 
+                        calories: '', 
+                        description: 'ПП Пирожное - полезный и вкусный перекус с творогом, ягодами и какао.',
+                        ingredients: [
+                            {
+                                items: [
+                                    'Рисовые хлебцы',
+                                    'Ягоды',
+                                    'Творог мягкий',
+                                    'Какао'
+                                ]
+                            }
+                        ],
+                        alternateImage: '3perekus2.png',
+                        alternateName: 'Сухофрукт чернослив',
+                        alternateMeal: 'Второй перекус'
+                    },
+                    { 
+                        meal: 'Обед', 
+                        image: 'pit6.png', 
+                        name: 'Теплый салат с куриной печенью <span style="color: #22c55e; font-weight: 600;">+ киноа</span>', 
+                        calories: '',
+                        description: 'Теплый салат с куриной печенью и киноа - сытное и полезное блюдо. Нежная куриная печень с грибами, свежими овощами и питательной киноа создают идеальный баланс вкуса и питательности.',
+                        ingredients: [
+                            {
+                                items: [
+                                    'Куриная печень',
+                                    'Шампиньоны',
+                                    'Чеснок, Луковица',
+                                    'Сливки',
+                                    'Горчица',
+                                    'Томаты черри',
+                                    'Салатный микс',
+                                    'Киноа'
+                                ]
+                            }
+                        ]
+                    },
+                    { 
+                        meal: 'Ужин', 
+                        image: 'pit8.jpg', 
+                        name: 'Лодочки из кабачков', 
+                        calories: '', 
+                        description: 'Лодочки из кабачков - сытное и полезное блюдо для ужина. Нежные кабачки с мясным фаршем и сыром создают идеальный баланс вкуса и питательности.',
+                        ingredients: [
+                            {
+                                items: [
+                                    'Фарш мясной',
+                                    'Кабачки',
+                                    'Сыр твердый',
+                                    'Помидоры',
+                                    'Сметана, Соль',
+                                    'Черный молотый перец',
+                                    'Масло растительное'
+                                ]
+                            }
                         ]
                     }
                 ]
@@ -4292,17 +4474,26 @@
                 return;
             }
             
-            archiveContent.innerHTML = '<div class="archive-day"><div class="archive-day-title">Пн 12.01</div><div class="plan-cards" id="archivePlanCards"></div></div>';
-            const archivePlanCards = document.getElementById('archivePlanCards');
-            if (!archivePlanCards) {
-                console.error('archivePlanCards не найден');
-                return;
-            }
-            const dayFolder = 'Day1';
+            archiveContent.innerHTML = ''; // Очищаем содержимое перед заполнением
             
-            console.log('Создание карточек для архива, количество блюд:', archiveProducts.length);
+            console.log('Создание карточек для архива, количество дней:', archiveProducts.length);
             
-            archiveProducts.forEach((product, index) => {
+            archiveProducts.forEach((dayData, dayIndex) => {
+                const dayElement = document.createElement('div');
+                dayElement.classList.add('archive-day');
+                dayElement.innerHTML = `<div class="archive-day-title">${dayData.date}</div><div class="plan-cards" id="archivePlanCards-${dayIndex}"></div>`;
+                archiveContent.appendChild(dayElement);
+                
+                const archivePlanCards = document.getElementById(`archivePlanCards-${dayIndex}`);
+                if (!archivePlanCards) {
+                    console.error(`archivePlanCards-${dayIndex} не найден`);
+                    return;
+                }
+                const dayFolder = dayData.dayFolder;
+                
+                console.log(`Создание карточек для ${dayData.date}, количество блюд:`, dayData.meals.length);
+                
+                dayData.meals.forEach((product, index) => {
                 const card = document.createElement('div');
                 card.setAttribute('data-animate', '');
                 card.setAttribute('data-meal', product.meal);
@@ -4426,15 +4617,23 @@
                         }
                     }, 4000);
                 }
+                });
+                
+                console.log(`Карточки созданы для ${dayData.date}, количество дочерних элементов:`, archivePlanCards.children.length);
+                
+                // Прикрепляем обработчики кликов для карточек архива
+                if (archivePlanCards) {
+                    observeAnimatedElements(archivePlanCards);
+                    attachCardClickHandlers(archivePlanCards);
+                    console.log(`Обработчики событий прикреплены для ${dayData.date}`);
+                }
             });
             
-            console.log('Карточки созданы, количество дочерних элементов:', archivePlanCards.children.length);
-            
-            // Прикрепляем обработчики кликов для карточек архива
-            if (archivePlanCards) {
-                observeAnimatedElements(archivePlanCards);
-                attachCardClickHandlers(archivePlanCards);
-                console.log('Обработчики событий прикреплены');
+            // Открываем модальное окно
+            const archiveModalOverlay = document.getElementById('archiveModalOverlay');
+            if (archiveModalOverlay) {
+                archiveModalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
             }
         }
         
@@ -4443,10 +4642,9 @@
         const archiveModalOverlay = document.getElementById('archiveModalOverlay');
         const archiveModalClose = document.getElementById('archiveModalClose');
         
-        if (archiveBtn && archiveModalOverlay) {
+        if (archiveBtn) {
             archiveBtn.addEventListener('click', () => {
                 displayArchive();
-                archiveModalOverlay.classList.add('active');
             });
         }
         
