@@ -4254,9 +4254,9 @@
                 const existingHandler = card.getAttribute('data-handler-attached');
                 if (!existingHandler) {
                     card.setAttribute('data-handler-attached', 'true');
-                    card.addEventListener('click', () => {
-                        openModal(card);
-                    });
+                card.addEventListener('click', () => {
+                    openModal(card);
+                });
                 }
             });
         }
@@ -4287,11 +4287,20 @@
         // Функция для отображения архива
         function displayArchive() {
             const archiveContent = document.getElementById('archiveContent');
-            if (!archiveContent) return;
+            if (!archiveContent) {
+                console.error('archiveContent не найден');
+                return;
+            }
             
             archiveContent.innerHTML = '<div class="archive-day"><div class="archive-day-title">Пн 12.01</div><div class="plan-cards" id="archivePlanCards"></div></div>';
             const archivePlanCards = document.getElementById('archivePlanCards');
+            if (!archivePlanCards) {
+                console.error('archivePlanCards не найден');
+                return;
+            }
             const dayFolder = 'Day1';
+            
+            console.log('Создание карточек для архива, количество блюд:', archiveProducts.length);
             
             archiveProducts.forEach((product, index) => {
                 const card = document.createElement('div');
@@ -4336,7 +4345,12 @@
                     </div>
                 `;
                 card.style.transitionDelay = `${index * 0.05}s`;
-                archivePlanCards.appendChild(card);
+                if (archivePlanCards) {
+                    archivePlanCards.appendChild(card);
+                    console.log(`Карточка ${index + 1} добавлена:`, product.name);
+                } else {
+                    console.error('archivePlanCards не найден при добавлении карточки', index);
+                }
                 
                 // Если есть альтернативное изображение и название, добавляем переключение
                 if (product.alternateImage && product.alternateName) {
@@ -4414,8 +4428,14 @@
                 }
             });
             
+            console.log('Карточки созданы, количество дочерних элементов:', archivePlanCards.children.length);
+            
             // Прикрепляем обработчики кликов для карточек архива
-            attachCardClickHandlers(archivePlanCards);
+            if (archivePlanCards) {
+                observeAnimatedElements(archivePlanCards);
+                attachCardClickHandlers(archivePlanCards);
+                console.log('Обработчики событий прикреплены');
+            }
         }
         
         // Обработчики для модального окна архива
