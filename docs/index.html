@@ -2953,11 +2953,23 @@
                 };
                 
                 console.log('Пользователь авторизован:', window.userData);
+                console.log('Username:', user.username);
                 
                 // Показываем кнопку "Архив" только для @Nill_Kafri
                 const archiveBtnWrapper = document.getElementById('archiveBtnWrapper');
-                if (archiveBtnWrapper && user.username === 'Nill_Kafri') {
-                    archiveBtnWrapper.style.display = 'flex';
+                if (archiveBtnWrapper) {
+                    // Проверяем username (может быть с @ или без)
+                    const username = user.username || '';
+                    const normalizedUsername = username.replace('@', '').toLowerCase();
+                    console.log('Проверка username для архива:', normalizedUsername);
+                    
+                    if (normalizedUsername === 'nill_kafri') {
+                        archiveBtnWrapper.style.display = 'flex';
+                        console.log('Кнопка Архив показана');
+                    } else {
+                        archiveBtnWrapper.style.display = 'none';
+                        console.log('Кнопка Архив скрыта, username не совпадает');
+                    }
                 }
             } else {
                 // Если открыто не из Telegram, скрываем профиль
@@ -4443,6 +4455,37 @@
                 document.documentElement.scrollTop = 0;
                 document.body.scrollTop = 0;
             }
+            
+            // Дополнительная проверка кнопки Архив после загрузки
+            setTimeout(() => {
+                const archiveBtnWrapper = document.getElementById('archiveBtnWrapper');
+                if (archiveBtnWrapper) {
+                    // Проверяем через window.userData
+                    if (window.userData && window.userData.username) {
+                        const username = window.userData.username || '';
+                        const normalizedUsername = username.replace('@', '').toLowerCase();
+                        console.log('Проверка username после загрузки:', normalizedUsername);
+                        if (normalizedUsername === 'nill_kafri') {
+                            archiveBtnWrapper.style.display = 'flex';
+                            console.log('✅ Кнопка Архив показана после загрузки страницы');
+                        }
+                    }
+                    // Также проверяем через Telegram WebApp напрямую
+                    if (window.Telegram && window.Telegram.WebApp) {
+                        const tg = window.Telegram.WebApp;
+                        const user = tg.initDataUnsafe?.user;
+                        if (user && user.username) {
+                            const username = user.username || '';
+                            const normalizedUsername = username.replace('@', '').toLowerCase();
+                            console.log('Проверка username через Telegram WebApp:', normalizedUsername);
+                            if (normalizedUsername === 'nill_kafri') {
+                                archiveBtnWrapper.style.display = 'flex';
+                                console.log('✅ Кнопка Архив показана через Telegram WebApp');
+                            }
+                        }
+                    }
+                }
+            }, 500);
         }, { once: true });
         
         // Также предотвращаем прокрутку при изменении DOM
