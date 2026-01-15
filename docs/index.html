@@ -4486,8 +4486,20 @@
             archiveProducts.forEach((dayData, dayIndex) => {
                 const dayElement = document.createElement('div');
                 dayElement.classList.add('archive-day');
-                dayElement.innerHTML = `<div class="archive-day-title">${dayData.date}</div><div class="plan-cards" id="archivePlanCards-${dayIndex}"></div>`;
+                const dayTitle = document.createElement('div');
+                dayTitle.classList.add('archive-day-title');
+                dayTitle.textContent = dayData.date;
+                dayElement.appendChild(dayTitle);
+                const planCardsContainer = document.createElement('div');
+                planCardsContainer.classList.add('plan-cards');
+                planCardsContainer.id = `archivePlanCards-${dayIndex}`;
+                dayElement.appendChild(planCardsContainer);
                 archiveContent.appendChild(dayElement);
+                
+                // Обработчик клика на заголовок дня для разворачивания/сворачивания
+                dayTitle.addEventListener('click', function() {
+                    dayElement.classList.toggle('expanded');
+                });
                 
                 const archivePlanCards = document.getElementById(`archivePlanCards-${dayIndex}`);
                 if (!archivePlanCards) {
