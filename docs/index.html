@@ -3207,7 +3207,7 @@
             // Пн 12.01
             {
                 date: 'Пн 12.01',
-                dayFolder: 'Day1',
+                dayFolder: 'day1_',
                 meals: [
                 { 
                     meal: 'Завтрак', 
@@ -3290,7 +3290,7 @@
             // Вт 13.01
             {
                 date: 'Вт 13.01',
-                dayFolder: 'Day2',
+                dayFolder: 'day2_',
                 meals: [
                 { 
                     meal: 'Завтрак', 
@@ -3373,7 +3373,7 @@
             // Ср 14.01
             {
                 date: 'Ср 14.01',
-                dayFolder: 'Day3',
+                dayFolder: 'day3_',
                 meals: [
                 { 
                     meal: 'Завтрак', 
@@ -3419,7 +3419,7 @@
                     meal: 'Обед', 
                     image: 'pit7.jpg', 
                     name: 'Курица с брокколи под сыром', 
-                    calories: '',
+                    calories: '', 
                     description: 'Курица с брокколи под сыром - сытное и полезное блюдо с высоким содержанием белка. Нежная курица, хрустящая брокколи и ароматный сыр создают идеальную комбинацию вкусов.',
                     ingredients: [
                         {
@@ -4061,17 +4061,17 @@
             planCards.innerHTML = '';
             // Маппинг индексов дней на папки
             const dayFolderMap = {
-                0: 'Day1',   // 12.01
-                1: 'Day2',   // 13.01
-                2: 'Day3',   // 14.01
-                3: 'Day4',   // 15.01
-                4: 'Day5',   // 16.01
-                5: 'Day6',   // 17.01
-                6: 'Day7',   // 18.01
-                7: 'Day8',   // 19.01
-                8: 'Day9'    // 20.01
+                0: 'day1_',   // 12.01
+                1: 'day2_',   // 13.01
+                2: 'day3_',   // 14.01
+                3: 'day4_',   // 15.01
+                4: 'day5_',   // 16.01
+                5: 'day6_',   // 17.01
+                6: 'day7_',   // 18.01
+                7: 'day8_',   // 19.01
+                8: 'day9_'    // 20.01
             };
-            const dayFolder = dayFolderMap[dayIndex] || `Day${dayIndex + 1}`;
+            const dayFolder = dayFolderMap[dayIndex] || `day${dayIndex + 1}_`;
             
             products.forEach((product, index) => {
                 const card = document.createElement('div');
@@ -4079,7 +4079,7 @@
                 card.setAttribute('data-meal', product.meal);
                 card.setAttribute('data-name', product.name);
                 card.setAttribute('data-calories', product.calories);
-                card.setAttribute('data-image', `images/${dayFolder}/${product.image}`);
+                card.setAttribute('data-image', `images/foods/${dayFolder}${product.image}`);
                 card.setAttribute('data-description', product.description || `${product.name} - вкусное и полезное блюдо.`);
                 // Если есть несколько составов, используем первый для основного блюда
                 const initialIngredients = product.ingredients && product.ingredients.length > 1 && product.alternateImage 
@@ -4108,7 +4108,7 @@
                 
                 card.innerHTML = `
                     <div class="plan-card-image-wrapper">
-                        <img src="images/${dayFolder}/${product.image}" alt="${nameForAlt}" loading="lazy" class="card-image">
+                        <img src="images/foods/${dayFolder}${product.image}" alt="${nameForAlt}" loading="lazy" class="card-image">
                         ${product.note ? `<div class="card-note">${product.note}</div>` : ''}
                     </div>
                     <div class="plan-card-content">
@@ -4172,14 +4172,14 @@
                             if (cardMeal) cardMeal.style.opacity = '0';
                             if (cardIngredients) cardIngredients.style.opacity = '0';
                             setTimeout(() => {
-                                cardImage.src = `images/${dayFolder}/${product.alternateImage}`;
+                                cardImage.src = `images/foods/${dayFolder}${product.alternateImage}`;
                                 cardImage.alt = product.alternateName;
                                 cardName.textContent = product.alternateName;
                                 if (cardMeal && product.alternateMeal) {
                                     cardMeal.textContent = product.alternateMeal;
                                 }
                                 // Обновляем атрибуты карточки для модального окна
-                                card.setAttribute('data-image', `images/${dayFolder}/${product.alternateImage}`);
+                                card.setAttribute('data-image', `images/foods/${dayFolder}${product.alternateImage}`);
                                 card.setAttribute('data-name', product.alternateName);
                                 if (product.alternateMeal) {
                                     card.setAttribute('data-meal', product.alternateMeal);
@@ -4213,14 +4213,14 @@
                             if (cardMeal) cardMeal.style.opacity = '0';
                             if (cardIngredients) cardIngredients.style.opacity = '0';
                             setTimeout(() => {
-                                cardImage.src = `images/${dayFolder}/${product.image}`;
+                                cardImage.src = `images/foods/${dayFolder}${product.image}`;
                                 cardImage.alt = product.name;
                                 cardName.textContent = product.name;
                                 if (cardMeal) {
                                     cardMeal.textContent = product.meal;
                                 }
                                 // Возвращаем исходные атрибуты карточки
-                                card.setAttribute('data-image', `images/${dayFolder}/${product.image}`);
+                                card.setAttribute('data-image', `images/foods/${dayFolder}${product.image}`);
                                 card.setAttribute('data-name', product.name);
                                 card.setAttribute('data-meal', product.meal);
                                 card.setAttribute('data-description', product.description || `${product.name} - вкусное и полезное блюдо.`);
@@ -4562,7 +4562,7 @@
                 card.setAttribute('data-meal', product.meal);
                 card.setAttribute('data-name', product.name);
                 card.setAttribute('data-calories', product.calories);
-                card.setAttribute('data-image', `images/${dayFolder}/${product.image}`);
+                card.setAttribute('data-image', `images/foods/${dayFolder}${product.image}`);
                 card.setAttribute('data-description', product.description || `${product.name} - вкусное и полезное блюдо.`);
                 const initialIngredients = product.ingredients && product.ingredients.length > 1 && product.alternateImage 
                     ? [product.ingredients[0]] 
@@ -4588,7 +4588,7 @@
                 
                 card.innerHTML = `
                     <div class="plan-card-image-wrapper">
-                        <img src="images/${dayFolder}/${product.image}" alt="${nameForAlt}" loading="lazy" class="card-image">
+                        <img src="images/foods/${dayFolder}${product.image}" alt="${nameForAlt}" loading="lazy" class="card-image">
                         ${product.note ? `<div class="card-note">${product.note}</div>` : ''}
                     </div>
                     <div class="plan-card-content">
@@ -4657,13 +4657,13 @@
                             if (cardMeal) cardMeal.style.opacity = '0';
                             if (cardIngredients) cardIngredients.style.opacity = '0';
                             setTimeout(() => {
-                                cardImage.src = `images/${dayFolder}/${product.alternateImage}`;
+                                cardImage.src = `images/foods/${dayFolder}${product.alternateImage}`;
                                 cardImage.alt = product.alternateName;
                                 cardName.textContent = product.alternateName;
                                 if (cardMeal && product.alternateMeal) {
                                     cardMeal.textContent = product.alternateMeal;
                                 }
-                                card.setAttribute('data-image', `images/${dayFolder}/${product.alternateImage}`);
+                                card.setAttribute('data-image', `images/foods/${dayFolder}${product.alternateImage}`);
                                 card.setAttribute('data-name', product.alternateName);
                                 if (product.alternateMeal) {
                                     card.setAttribute('data-meal', product.alternateMeal);
@@ -4694,11 +4694,11 @@
                             if (cardMeal) cardMeal.style.opacity = '0';
                             if (cardIngredients) cardIngredients.style.opacity = '0';
                             setTimeout(() => {
-                                cardImage.src = `images/${dayFolder}/${product.image}`;
+                                cardImage.src = `images/foods/${dayFolder}${product.image}`;
                                 cardImage.alt = product.name;
                                 cardName.textContent = product.name;
                                 if (cardMeal) cardMeal.textContent = product.meal;
-                                card.setAttribute('data-image', `images/${dayFolder}/${product.image}`);
+                                card.setAttribute('data-image', `images/foods/${dayFolder}${product.image}`);
                                 card.setAttribute('data-name', product.name);
                                 card.setAttribute('data-meal', product.meal);
                                 card.setAttribute('data-description', product.description || `${product.name} - вкусное и полезное блюдо.`);
