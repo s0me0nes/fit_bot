@@ -4121,6 +4121,28 @@
                 card.style.transitionDelay = `${index * 0.05}s`;
                 planCards.appendChild(card);
                 
+                // Добавляем обработку ошибок загрузки изображения
+                const cardImage = card.querySelector('.card-image');
+                if (cardImage) {
+                    // Функция для обработки ошибок загрузки изображения
+                    const handleImageError = function(img, fallbackSrc = 'images/soon.jpg') {
+                        img.onerror = null; // Предотвращаем бесконечный цикл
+                        if (img.src !== fallbackSrc && !img.src.includes('soon.jpg')) {
+                            img.src = fallbackSrc;
+                            img.alt = 'Изображение загружается...';
+                        }
+                    };
+                    
+                    cardImage.onerror = function() {
+                        handleImageError(this);
+                    };
+                    
+                    // Проверяем, загрузилось ли изображение
+                    if (cardImage.complete && cardImage.naturalHeight === 0) {
+                        handleImageError(cardImage);
+                    }
+                }
+                
                 // Если есть альтернативное изображение и название, добавляем переключение
                 if (product.alternateImage && product.alternateName) {
                     const cardImage = card.querySelector('.card-image');
@@ -4128,6 +4150,19 @@
                     const cardMeal = card.querySelector('.card-meal');
                     const cardIngredients = card.querySelector('.plan-card-ingredients');
                     let isAlternate = false;
+                    
+                    // Добавляем обработку ошибок для альтернативных изображений
+                    if (cardImage) {
+                        const originalOnError = cardImage.onerror;
+                        cardImage.onerror = function() {
+                            if (originalOnError) originalOnError.call(this);
+                            this.onerror = null;
+                            if (this.src !== 'images/soon.jpg' && !this.src.includes('soon.jpg')) {
+                                this.src = 'images/soon.jpg';
+                                this.alt = 'Изображение загружается...';
+                            }
+                        };
+                    }
                     
                     setInterval(() => {
                         isAlternate = !isAlternate;
@@ -4560,6 +4595,28 @@
                     console.error('archivePlanCards не найден при добавлении карточки', index);
                 }
                 
+                // Добавляем обработку ошибок загрузки изображения
+                const cardImage = card.querySelector('.card-image');
+                if (cardImage) {
+                    // Функция для обработки ошибок загрузки изображения
+                    const handleImageError = function(img, fallbackSrc = 'images/soon.jpg') {
+                        img.onerror = null; // Предотвращаем бесконечный цикл
+                        if (img.src !== fallbackSrc && !img.src.includes('soon.jpg')) {
+                            img.src = fallbackSrc;
+                            img.alt = 'Изображение загружается...';
+                        }
+                    };
+                    
+                    cardImage.onerror = function() {
+                        handleImageError(this);
+                    };
+                    
+                    // Проверяем, загрузилось ли изображение
+                    if (cardImage.complete && cardImage.naturalHeight === 0) {
+                        handleImageError(cardImage);
+                    }
+                }
+                
                 // Если есть альтернативное изображение и название, добавляем переключение
                 if (product.alternateImage && product.alternateName) {
                     const cardImage = card.querySelector('.card-image');
@@ -4567,6 +4624,19 @@
                     const cardMeal = card.querySelector('.card-meal');
                     const cardIngredients = card.querySelector('.plan-card-ingredients');
                     let isAlternate = false;
+                    
+                    // Добавляем обработку ошибок для альтернативных изображений
+                    if (cardImage) {
+                        const originalOnError = cardImage.onerror;
+                        cardImage.onerror = function() {
+                            if (originalOnError) originalOnError.call(this);
+                            this.onerror = null;
+                            if (this.src !== 'images/soon.jpg' && !this.src.includes('soon.jpg')) {
+                                this.src = 'images/soon.jpg';
+                                this.alt = 'Изображение загружается...';
+                            }
+                        };
+                    }
                     
                     setInterval(() => {
                         isAlternate = !isAlternate;
