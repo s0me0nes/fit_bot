@@ -4410,6 +4410,17 @@
         const modalDescription = document.getElementById('modalDescription');
         const modalIngredients = document.getElementById('modalIngredients');
         
+        // Добавляем обработку ошибок для модального изображения
+        if (modalImage) {
+            modalImage.onerror = function() {
+                this.onerror = null; // Предотвращаем бесконечный цикл
+                if (this.src !== 'images/soon.jpg' && !this.src.includes('soon.jpg')) {
+                    this.src = 'images/soon.jpg';
+                    this.alt = 'Изображение загружается...';
+                }
+            };
+        }
+        
         function generateModalIngredientsHTML(ingredients) {
             if (!ingredients || ingredients.length === 0) {
                 return '';
